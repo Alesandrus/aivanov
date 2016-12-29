@@ -18,7 +18,7 @@ public class CalculateTest {
 	 * Test add.
 	 */
 	@Test
-	public void whenAddOneToOneThenTwo() {
+	public void whenExecuteMainThenPrintToConsole() {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(out));
 		Calculate.main(null);
