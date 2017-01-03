@@ -8,9 +8,8 @@ package ru.job4j;
  */
 
 public class Calculate {
-	
 	/**
-	 * Вывод строки "Hello World" в консоль
+	 * Вывод строки "Hello World" в консоль.
 	 * @param args - args
 	 */
 	public static void main(String[] args) {
