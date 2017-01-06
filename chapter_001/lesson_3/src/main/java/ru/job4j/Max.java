@@ -3,7 +3,7 @@ package ru.job4j;
 /**
  * Class for return maximum.
  * @author Alexander Ivanov
- * @since 05.01.2016
+ * @since 06.01.2016
  * @version 1.0
  */
 

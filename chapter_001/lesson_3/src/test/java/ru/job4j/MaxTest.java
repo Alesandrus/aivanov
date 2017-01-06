@@ -26,7 +26,7 @@ public class MaxTest {
 	}
 
 	/**
-	 * Test max. First > second.
+	 * Test max. First < second.
 	 */
 	@Test
 	public void whenFirstLessThanSecond() {
