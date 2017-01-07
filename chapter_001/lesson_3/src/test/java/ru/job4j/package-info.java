@@ -1,5 +1,5 @@
 /**
- * Triangle Area.
+ * Triangle Area, Point, maximum of two and three numbers.
  *
  * @author Alexander Ivanov
  * @since 05.01.2016
