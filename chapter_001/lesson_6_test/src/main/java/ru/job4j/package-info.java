@@ -1,5 +1,5 @@
 /**
- * DeleteCopy, RotateMatrix, SortArray, Turn.
+ * SubOrigin.
  *
  * @author Alexander Ivanov
  * @since 08.01.2016
