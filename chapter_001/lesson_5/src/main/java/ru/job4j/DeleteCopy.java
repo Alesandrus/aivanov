@@ -15,26 +15,19 @@ public class DeleteCopy {
 	 * @param array - array of strings.
 	 * @return array - array without copy of strings.
 	 */
+
 	public String[] deleteCopy(String[] array) {
 		for (int i = 0; i < array.length - 1; i++) {
 			for (int j = i + 1; j < array.length; j++) {
 				if (array[i] != null && array[i].equals(array[j])) {
 				array[j] = null;
+				} else if (array[i] == null && array[j] != null) {
+					array[i] = array[j];
+					array[j] = null;
 				}
 			}
 		}
-		//shift null-String to the right part of array
-		for (int i = 0; i < array.length; i++) {
-			if (array[i] == null && i != array.length - 1) {
-				for (int j = i + 1; j < array.length; j++) {
-					if (array[j] != null) {
-						array[i] = array[j];
-						array[j] = null;
-						break;
-					}
-				}
-			}
-		}
+
 		//count new array length
 		int lengthCopyArray = 0;
 		for (String s : array) {
