@@ -1,5 +1,5 @@
 /**
- * SubOrigin.
+ * SubOrigin, MergeSortArrays.
  *
  * @author Alexander Ivanov
  * @since 08.01.2016
