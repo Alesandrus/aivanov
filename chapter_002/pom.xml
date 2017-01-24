@@ -3,7 +3,7 @@
  
 	<groupId>ru.job4j</groupId>
 	<artifactId>chapter_002</artifactId>
-	<packaging>pom</packaging>
+	<packaging>jar</packaging>
 	<version>2.0</version>
 	
 	
