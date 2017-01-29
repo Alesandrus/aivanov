@@ -1,7 +1,5 @@
 package ru.job4j.professions;
 
-import java.util.ArrayList;
-
 /**
  * Class Teacher.
  * @author Alexander Ivanov
