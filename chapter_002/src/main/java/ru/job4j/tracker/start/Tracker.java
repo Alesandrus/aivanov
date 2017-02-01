@@ -41,9 +41,7 @@ public class Tracker {
 		item.setId(generateId());
 		if (position < items.length) {
 			this.items[position++] = item;
-		} /*else {
-			System.out.println("В данный момент добавить задание невозможно");
-		}*/
+		}
 		return item;
 	}
 
@@ -131,6 +129,22 @@ public class Tracker {
 	 * @param comment - adding comment.
 	 */
 	public void addComment(Item item, String comment) {
+		ArrayList<String> comments;
+		for (int i = 0; i < items.length; i++) {
+			if (items[i] != null && items[i].getId().equals(item.getId())) {
+				comments = items[i].getComments();
+				comments.add(comment);
+				break;
+			}
+		}
+	}
+
+	/**
+	 * show comments of item.
+	 * @param item - item for showing comments.
+	 * @return list of comments.
+	 */
+	public ArrayList<String> showComments(Item item) {
 		ArrayList<String> comments = new ArrayList<>();
 		for (int i = 0; i < items.length; i++) {
 			if (items[i] != null && items[i].getId().equals(item.getId())) {
@@ -138,6 +152,22 @@ public class Tracker {
 				break;
 			}
 		}
-		comments.add(comment);
+		return comments;
+	}
+
+	/**
+	 * checking tracker for containing item Id.
+	 * @param item - item for check.
+	 * @return boolean - true if tracker contain item.
+	 */
+	public boolean hasId(Item item) {
+		boolean trackerHasId = false;
+		for (int i = 0; i < items.length; i++) {
+			if (items[i] != null && items[i].getId().equals(item.getId())) {
+				trackerHasId = true;
+				break;
+			}
+		}
+		return trackerHasId;
 	}
 }

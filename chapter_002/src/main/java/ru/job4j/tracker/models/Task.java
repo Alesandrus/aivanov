@@ -18,6 +18,13 @@ public class Task extends Item {
 	}
 
 	/**
+	 * Default Constructor Task.
+	 */
+	public Task() {
+		super();
+	}
+
+	/**
 	 * calculate price.
 	 * @return 100%.
 	 */

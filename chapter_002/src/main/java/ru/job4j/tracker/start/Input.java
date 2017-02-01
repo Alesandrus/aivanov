@@ -1,0 +1,18 @@
+package ru.job4j.tracker.start;
+
+/**
+ * Interface Input.
+ * @author Alexander Ivanov
+ * @since 29.01.2016
+ * @version 1.0
+ */
+
+public interface Input {
+
+	/**
+	 * Abstract method for asking question.
+	 * @param question asking user for input.
+	 * @return String.
+	 */
+	String ask(String question);
+}
