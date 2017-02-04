@@ -121,7 +121,7 @@ public class StartUITest {
 				+ "5. Find task by filter." + nLine + "6. Add comment to task." + nLine + "7. Show all comments of task."
 				+ nLine + "8. Exit." + nLine;
 		String listOfTasks = "Task#1" + nLine + "Task#2" + nLine + "Task#3" + nLine;
-		assertThat(output.toString(), is( menu + "The List of tasks: " + nLine + listOfTasks + menu + "Good bye" + nLine));
+		assertThat(output.toString(), is(menu + "The List of tasks: " + nLine + listOfTasks + menu + "Good bye" + nLine));
 	}
 
 	/**
@@ -150,7 +150,7 @@ public class StartUITest {
 		String chooseFilter = "Choose filter" + nLine + "1. Find by name." + nLine + "2. Find by ID."
 				+ nLine + "3. Return to main menu." + nLine;
 		String yourTaskId = "Your task was found. Task id is: " + id + nLine;
-		assertThat(output.toString(), is( menu + chooseFilter + yourTaskId + menu + "Good bye" + nLine));
+		assertThat(output.toString(), is(menu + chooseFilter + yourTaskId + menu + "Good bye" + nLine));
 	}
 
 	/**
@@ -179,7 +179,7 @@ public class StartUITest {
 		String chooseFilter = "Choose filter" + nLine + "1. Find by name." + nLine + "2. Find by ID."
 				+ nLine + "3. Return to main menu." + nLine;
 		String yourTaskId = "Your task was found." + nLine;
-		assertThat(output.toString(), is( menu + chooseFilter + yourTaskId + menu + "Good bye" + nLine));
+		assertThat(output.toString(), is(menu + chooseFilter + yourTaskId + menu + "Good bye" + nLine));
 	}
 
 	/**
@@ -229,7 +229,7 @@ public class StartUITest {
 				+ "5. Find task by filter." + nLine + "6. Add comment to task." + nLine + "7. Show all comments of task."
 				+ nLine + "8. Exit." + nLine;
 		String comment = "Comment #1 - " + "Long Text" + nLine + "Comment #2 - " + "Short Text" + nLine;
-		assertThat(output.toString(), is( menu + comment + menu + "Good bye" + nLine));
+		assertThat(output.toString(), is(menu + comment + menu + "Good bye" + nLine));
 	}
 
 	/**
@@ -247,6 +247,6 @@ public class StartUITest {
 				+ nLine + "2. Edit task." + nLine + "3. Delete task." + nLine + "4. Show all task." + nLine
 				+ "5. Find task by filter." + nLine + "6. Add comment to task." + nLine + "7. Show all comments of task."
 				+ nLine + "8. Exit." + nLine;
-		assertThat(output.toString(), is( menu + "Good bye" + nLine));
+		assertThat(output.toString(), is(menu + "Good bye" + nLine));
 	}
 }

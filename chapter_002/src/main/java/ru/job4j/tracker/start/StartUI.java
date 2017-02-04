@@ -27,7 +27,7 @@ public class StartUI {
 	}
 
 	/**
-	 * Constructor Item with name and description.
+	 * Constructor with tracker.
 	 * @param tracker - tracker for edit.
 	 */
 	public StartUI(Tracker tracker) {
@@ -36,6 +36,7 @@ public class StartUI {
 
 	/**
 	 * initialize input.
+	 * @param enter for init.
 	 */
 	public void init(Enter enter) {
 		int choice;
