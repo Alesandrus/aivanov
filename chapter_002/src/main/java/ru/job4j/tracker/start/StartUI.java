@@ -15,24 +15,31 @@ import java.util.ArrayList;
 public class StartUI {
 
 	/**
-	 * input.
+	 * tracker of tasks.
 	 */
-	private Input input;
+	private Tracker tracker;
 
 	/**
-	 * Constructor StartUI.
-	 * @param input implemenation's of Input.
+	 * Default Constructor Item.
 	 */
-	public StartUI(Input input) {
-		this.input = input;
+	public StartUI() {
+		tracker = new Tracker();
+	}
+
+	/**
+	 * Constructor Item with name and description.
+	 * @param tracker - tracker for edit.
+	 */
+	public StartUI(Tracker tracker) {
+		this.tracker = tracker;
 	}
 
 	/**
 	 * initialize input.
 	 */
-	public void init() {
+	public void init(Enter enter) {
 		int choice;
-		Tracker tracker = new Tracker();
+
 		Item item;
 		String name;
 		String desc;
@@ -51,13 +58,13 @@ public class StartUI {
 			System.out.println("6. Add comment to task.");
 			System.out.println("7. Show all comments of task.");
 			System.out.println("8. Exit.");
-			name = input.ask("Enter number of action: \n");
+			name = enter.execute("Enter number of action: \n");
 
 			choice = Integer.parseInt(name);
 			switch (choice) {
 				case 1:
-					name = input.ask("Enter name of task - ");
-					desc = input.ask("Enter description of task - ");
+					name = enter.execute("Enter name of task - ");
+					desc = enter.execute("Enter description of task - ");
 					item = new Task(name, desc);
 					tracker.add(item);
 					countAddedTask++;
@@ -68,12 +75,12 @@ public class StartUI {
 					}
 					break;
 				case 2:
-					id = input.ask("Enter id of edit task - ");
+					id = enter.execute("Enter id of edit task - ");
 					item = new Task();
 					item.setId(id);
 					if (tracker.hasId(item)) {
-						name = input.ask("Change name of task - ");
-						desc = input.ask("Change description of task to edit - ");
+						name = enter.execute("Change name of task - ");
+						desc = enter.execute("Change description of task to edit - ");
 						item = new Task(name, desc);
 						item.setId(id);
 						tracker.update(item);
@@ -82,7 +89,7 @@ public class StartUI {
 					}
 					break;
 				case 3:
-					id = input.ask("Enter id of edit task - ");
+					id = enter.execute("Enter id of edit task - ");
 					item = new Task();
 					item.setId(id);
 					if (tracker.hasId(item)) {
@@ -109,9 +116,9 @@ public class StartUI {
 						System.out.println("1. Find by name.");
 						System.out.println("2. Find by ID.");
 						System.out.println("3. Return to main menu.");
-						choiceFilter = Integer.parseInt(input.ask("Enter number of action: \n"));
+						choiceFilter = Integer.parseInt(enter.execute("Enter number of action: \n"));
 						if (choiceFilter == 1) {
-							name = input.ask("Enter the name of task - ");
+							name = enter.execute("Enter the name of task - ");
 							item = tracker.findByName(name);
 							if (item != null) {
 								System.out.println("Your task was found. Task id is: " + item.getId());
@@ -120,7 +127,7 @@ public class StartUI {
 							}
 							rightChoice = true;
 						} else if (choiceFilter == 2) {
-							id = input.ask("Enter the ID of task - ");
+							id = enter.execute("Enter the ID of task - ");
 							item = tracker.findById(id);
 							if (item != null) {
 								System.out.println("Your task was found.");
@@ -136,18 +143,18 @@ public class StartUI {
 					}
 					break;
 				case 6:
-					id = input.ask("Enter id of task to comment - ");
+					id = enter.execute("Enter id of task to comment - ");
 					item = new Task();
 					item.setId(id);
 					if (tracker.hasId(item)) {
-						comment = input.ask("Enter your comment - ");
+						comment = enter.execute("Enter your comment - ");
 						tracker.addComment(item, comment);
 					} else {
 						System.out.println("!!!There is not task with this ID!!!");
 					}
 					break;
 				case 7:
-					id = input.ask("Enter id of task to show all comments - ");
+					id = enter.execute("Enter id of task to show all comments - ");
 					item = new Task();
 					item.setId(id);
 					if (tracker.hasId(item)) {
@@ -163,6 +170,9 @@ public class StartUI {
 						System.out.println("!!!There is not task with this ID!!!");
 					}
 					break;
+				case 8:
+					System.out.println("Good bye");
+					break;
 				default:
 					System.out.println("You entered wrong number");
 			}
@@ -170,12 +180,20 @@ public class StartUI {
 	}
 
 	/**
+	 * getter for tracker.
+	 * @return tracker.
+	 */
+	public Tracker getTracker() {
+		return tracker;
+	}
+
+	/**
 	 * PSVM.
 	 * @param args - args.
 	 */
 	public static void main(String[] args) {
-		Input input = new ConsoleInput();
 		System.out.println("Welcome to tracker!");
-		new StartUI(input).init();
+		Enter enter = new Enter(new ConsoleInput());
+		new StartUI().init(enter);
 	}
 }
