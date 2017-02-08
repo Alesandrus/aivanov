@@ -7,7 +7,7 @@ import ru.job4j.tracker.models.Item;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
-
+import com.google.common.base.Joiner;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -115,13 +115,13 @@ public class StartUITest {
 		Enter enter = new Enter(input);
 		StartUI start = new StartUI(tracker);
 		start.init(enter);
-		String nLine = System.getProperty("line.separator");
-		String menu = "Choose action from 1 to 8" + nLine + "1. Add new task."
-				+ nLine + "2. Edit task." + nLine + "3. Delete task." + nLine + "4. Show all task." + nLine
-				+ "5. Find task by filter." + nLine + "6. Add comment to task." + nLine + "7. Show all comments of task."
-				+ nLine + "8. Exit." + nLine;
-		String listOfTasks = "Task#1" + nLine + "Task#2" + nLine + "Task#3" + nLine;
-		assertThat(output.toString(), is(menu + "The List of tasks: " + nLine + listOfTasks + menu + "Good bye" + nLine));
+		Joiner joiner = Joiner.on(System.getProperty("line.separator"));
+		String menu = joiner.join("Choose action from 1 to 8", "1. Add new task.",
+				"2. Edit task.", "3. Delete task.", "4. Show all task.",
+				"5. Find task by filter.", "6. Add comment to task.", "7. Show all comments of task.",
+				"8. Exit.");
+		String listOfTasks = joiner.join("Task#1", "Task#2", "Task#3");
+		assertThat(output.toString(), is(joiner.join(menu, "The List of tasks: ", listOfTasks, menu, "Good bye", "")));
 	}
 
 	/**
@@ -142,15 +142,15 @@ public class StartUITest {
 		StartUI start = new StartUI(tracker);
 		start.init(enter);
 		String id = secondItem.getId();
-		String nLine = System.getProperty("line.separator");
-		String menu = "Choose action from 1 to 8" + nLine + "1. Add new task."
-				+ nLine + "2. Edit task." + nLine + "3. Delete task." + nLine + "4. Show all task." + nLine
-				+ "5. Find task by filter." + nLine + "6. Add comment to task." + nLine + "7. Show all comments of task."
-				+ nLine + "8. Exit." + nLine;
-		String chooseFilter = "Choose filter" + nLine + "1. Find by name." + nLine + "2. Find by ID."
-				+ nLine + "3. Return to main menu." + nLine;
-		String yourTaskId = "Your task was found. Task id is: " + id + nLine;
-		assertThat(output.toString(), is(menu + chooseFilter + yourTaskId + menu + "Good bye" + nLine));
+		Joiner joiner = Joiner.on(System.getProperty("line.separator"));
+		String menu = joiner.join("Choose action from 1 to 8", "1. Add new task.",
+				"2. Edit task.", "3. Delete task.", "4. Show all task.",
+				"5. Find task by filter.", "6. Add comment to task.", "7. Show all comments of task.",
+				"8. Exit.");
+		String chooseFilter = joiner.join("Choose filter", "1. Find by name.", "2. Find by ID.",
+				"3. Return to main menu.");
+		String yourTaskId = "Your task was found. Task id is: " + id;
+		assertThat(output.toString(), is(joiner.join(menu, chooseFilter, yourTaskId, menu, "Good bye", "")));
 	}
 
 	/**
@@ -171,15 +171,15 @@ public class StartUITest {
 		Enter enter = new Enter(input);
 		StartUI start = new StartUI(tracker);
 		start.init(enter);
-		String nLine = System.getProperty("line.separator");
-		String menu = "Choose action from 1 to 8" + nLine + "1. Add new task."
-				+ nLine + "2. Edit task." + nLine + "3. Delete task." + nLine + "4. Show all task." + nLine
-				+ "5. Find task by filter." + nLine + "6. Add comment to task." + nLine + "7. Show all comments of task."
-				+ nLine + "8. Exit." + nLine;
-		String chooseFilter = "Choose filter" + nLine + "1. Find by name." + nLine + "2. Find by ID."
-				+ nLine + "3. Return to main menu." + nLine;
-		String yourTaskId = "Your task was found." + nLine;
-		assertThat(output.toString(), is(menu + chooseFilter + yourTaskId + menu + "Good bye" + nLine));
+		Joiner joiner = Joiner.on(System.getProperty("line.separator"));
+		String menu = joiner.join("Choose action from 1 to 8", "1. Add new task.",
+				"2. Edit task.", "3. Delete task.", "4. Show all task.",
+				"5. Find task by filter.", "6. Add comment to task.", "7. Show all comments of task.",
+				"8. Exit.");
+		String chooseFilter = joiner.join("Choose filter", "1. Find by name.", "2. Find by ID.",
+				"3. Return to main menu.");
+		String yourTaskId = "Your task was found.";
+		assertThat(output.toString(), is(joiner.join(menu, chooseFilter, yourTaskId, menu, "Good bye", "")));
 	}
 
 	/**
@@ -223,13 +223,13 @@ public class StartUITest {
 		Enter enter = new Enter(input);
 		StartUI start = new StartUI(tracker);
 		start.init(enter);
-		String nLine = System.getProperty("line.separator");
-		String menu = "Choose action from 1 to 8" + nLine + "1. Add new task."
-				+ nLine + "2. Edit task." + nLine + "3. Delete task." + nLine + "4. Show all task." + nLine
-				+ "5. Find task by filter." + nLine + "6. Add comment to task." + nLine + "7. Show all comments of task."
-				+ nLine + "8. Exit." + nLine;
-		String comment = "Comment #1 - " + "Long Text" + nLine + "Comment #2 - " + "Short Text" + nLine;
-		assertThat(output.toString(), is(menu + comment + menu + "Good bye" + nLine));
+		Joiner joiner = Joiner.on(System.getProperty("line.separator"));
+		String menu = joiner.join("Choose action from 1 to 8", "1. Add new task.",
+				"2. Edit task.", "3. Delete task.", "4. Show all task.",
+				"5. Find task by filter.", "6. Add comment to task.", "7. Show all comments of task.",
+				"8. Exit.");
+		String comment = joiner.join("Comment #1 - " + "Long Text", "Comment #2 - " + "Short Text");
+		assertThat(output.toString(), is(joiner.join(menu, comment, menu, "Good bye", "")));
 	}
 
 	/**
@@ -242,11 +242,11 @@ public class StartUITest {
 		Enter enter = new Enter(input);
 		StartUI start = new StartUI();
 		start.init(enter);
-		String nLine = System.getProperty("line.separator");
-		String menu = "Choose action from 1 to 8" + nLine + "1. Add new task."
-				+ nLine + "2. Edit task." + nLine + "3. Delete task." + nLine + "4. Show all task." + nLine
-				+ "5. Find task by filter." + nLine + "6. Add comment to task." + nLine + "7. Show all comments of task."
-				+ nLine + "8. Exit." + nLine;
-		assertThat(output.toString(), is(menu + "Good bye" + nLine));
+		Joiner joiner = Joiner.on(System.getProperty("line.separator"));
+		String menu = joiner.join("Choose action from 1 to 8", "1. Add new task.",
+				"2. Edit task.", "3. Delete task.", "4. Show all task.",
+				"5. Find task by filter.", "6. Add comment to task.", "7. Show all comments of task.",
+				"8. Exit.");
+		assertThat(output.toString(), is(joiner.join(menu, "Good bye", "")));
 	}
 }
