@@ -16,7 +16,7 @@ public class Tracker {
 	/**
 	 * tracker's length.
 	 */
-	private final int arrLength = 10;
+	private final int arrLength = 3;
 	/**
 	 * item.
 	 */

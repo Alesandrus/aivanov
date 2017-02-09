@@ -12,13 +12,13 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Class StartUITest.
+ * Class StartUIwithSwitchTest.
  *
  * @author Alexander Ivanov
  * @since 04.02.2017
  * @version 1.0
  */
-public class StartUITest {
+public class StartUIwithSwitchTest {
 
 	/**
 	 * output for test.
@@ -49,7 +49,7 @@ public class StartUITest {
 		String[] actionTask = new String[] {"1", "Task#1", "Long description", "8"};
 		Input input = new StubInput(actionTask);
 		Enter enter = new Enter(input);
-		StartUI start = new StartUI();
+		StartUIwithSwitch start = new StartUIwithSwitch();
 		start.init(enter);
 		Tracker tracker = start.getTracker();
 		Item[] items = tracker.getAll();
@@ -72,7 +72,7 @@ public class StartUITest {
 		String[] actionTask = new String[] {"2", id, "Task#777", "Short description", "8"};
 		Input input = new StubInput(actionTask);
 		Enter enter = new Enter(input);
-		StartUI start = new StartUI(tracker);
+		StartUIwithSwitch start = new StartUIwithSwitch(tracker);
 		start.init(enter);
 		Item[] items = tracker.getAll();
 		String nameForTest = items[0].getName();
@@ -94,7 +94,7 @@ public class StartUITest {
 		String[] actionTask = new String[] {"3", id, "8"};
 		Input input = new StubInput(actionTask);
 		Enter enter = new Enter(input);
-		StartUI start = new StartUI(tracker);
+		StartUIwithSwitch start = new StartUIwithSwitch(tracker);
 		start.init(enter);
 		Item[] items = tracker.getAll();
 		Item checkItem = null;
@@ -113,7 +113,7 @@ public class StartUITest {
 		String[] actionTask = new String[] {"4", "8"};
 		Input input = new StubInput(actionTask);
 		Enter enter = new Enter(input);
-		StartUI start = new StartUI(tracker);
+		StartUIwithSwitch start = new StartUIwithSwitch(tracker);
 		start.init(enter);
 		Joiner joiner = Joiner.on(System.getProperty("line.separator"));
 		String menu = joiner.join("Choose action from 1 to 8", "1. Add new task.",
@@ -139,7 +139,7 @@ public class StartUITest {
 		String[] actionTask = new String[] {"5", "1", "Task#2", "8"};
 		Input input = new StubInput(actionTask);
 		Enter enter = new Enter(input);
-		StartUI start = new StartUI(tracker);
+		StartUIwithSwitch start = new StartUIwithSwitch(tracker);
 		start.init(enter);
 		String id = secondItem.getId();
 		Joiner joiner = Joiner.on(System.getProperty("line.separator"));
@@ -169,7 +169,7 @@ public class StartUITest {
 		String[] actionTask = new String[] {"5", "2", id, "8"};
 		Input input = new StubInput(actionTask);
 		Enter enter = new Enter(input);
-		StartUI start = new StartUI(tracker);
+		StartUIwithSwitch start = new StartUIwithSwitch(tracker);
 		start.init(enter);
 		Joiner joiner = Joiner.on(System.getProperty("line.separator"));
 		String menu = joiner.join("Choose action from 1 to 8", "1. Add new task.",
@@ -196,7 +196,7 @@ public class StartUITest {
 		String[] actionTask = new String[] {"6", id, "Add comment", "8"};
 		Input input = new StubInput(actionTask);
 		Enter enter = new Enter(input);
-		StartUI start = new StartUI(tracker);
+		StartUIwithSwitch start = new StartUIwithSwitch(tracker);
 		start.init(enter);
 		Item[] items = tracker.getAll();
 		ArrayList<String> comments = items[0].getComments();
@@ -221,7 +221,7 @@ public class StartUITest {
 		String[] actionTask = new String[] {"7", id, "8"};
 		Input input = new StubInput(actionTask);
 		Enter enter = new Enter(input);
-		StartUI start = new StartUI(tracker);
+		StartUIwithSwitch start = new StartUIwithSwitch(tracker);
 		start.init(enter);
 		Joiner joiner = Joiner.on(System.getProperty("line.separator"));
 		String menu = joiner.join("Choose action from 1 to 8", "1. Add new task.",
@@ -240,7 +240,7 @@ public class StartUITest {
 		String[] actionTask = new String[] {"8"};
 		Input input = new StubInput(actionTask);
 		Enter enter = new Enter(input);
-		StartUI start = new StartUI();
+		StartUIwithSwitch start = new StartUIwithSwitch();
 		start.init(enter);
 		Joiner joiner = Joiner.on(System.getProperty("line.separator"));
 		String menu = joiner.join("Choose action from 1 to 8", "1. Add new task.",
