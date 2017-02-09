@@ -105,7 +105,7 @@ public class StartUIwithSwitch {
 					Item[] items = tracker.getAll();
 					for (int i = 0; i < items.length; i++) {
 						if (items[i] != null) {
-							System.out.println("Task - " + items[i].getName() + "with id - " + items[i].getId());
+							System.out.println("Task - " + items[i].getName() + " with id - " + items[i].getId());
 						}
 					}
 					break;

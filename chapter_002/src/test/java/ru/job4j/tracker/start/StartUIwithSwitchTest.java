@@ -120,7 +120,8 @@ public class StartUIwithSwitchTest {
 				"2. Edit task.", "3. Delete task.", "4. Show all task.",
 				"5. Find task by filter.", "6. Add comment to task.", "7. Show all comments of task.",
 				"8. Exit.");
-		String listOfTasks = joiner.join("Task#1", "Task#2", "Task#3");
+		String listOfTasks = joiner.join("Task - Task#1 with id - " + tracker.getAll()[0].getId(),
+				"Task - Task#2 with id - " + tracker.getAll()[1].getId(), "Task - Task#3 with id - " + tracker.getAll()[2].getId());
 		assertThat(output.toString(), is(joiner.join(menu, "The List of tasks: ", listOfTasks, menu, "Good bye", "")));
 	}
 

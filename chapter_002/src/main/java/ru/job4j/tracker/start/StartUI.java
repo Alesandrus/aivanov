@@ -8,8 +8,15 @@ package ru.job4j.tracker.start;
  */
 
 public class StartUI {
+    /**
+     * variable of input.
+     */
     private Input input;
 
+    /**
+     * constructor for MenuTracker.
+     * @param input for enter information.
+     */
     public StartUI(Input input) {
         this.input = input;
     }
