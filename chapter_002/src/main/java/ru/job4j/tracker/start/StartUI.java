@@ -35,6 +35,25 @@ public class StartUI {
     public void init() {
         MenuTracker menu = new MenuTracker(this.input, tracker);
         menu.fillActions();
+        UserAction exitAction = new BaseAction("Exit.") {
+            /**
+             * key for choose.
+             * @return int key.
+             */
+            public int key() {
+                return 8;
+            }
+
+            /**
+             * method for execute showing comments.
+             * @param input for enter information.
+             * @param tracker for tasks.
+             */
+            public void execute(Input input, Tracker tracker) {
+                System.out.println("Good bye");
+            }
+        };
+        menu.addAction(exitAction);
         range = menu.getRangeActions();
         int choice;
         System.out.println("Welcome to tracker!");

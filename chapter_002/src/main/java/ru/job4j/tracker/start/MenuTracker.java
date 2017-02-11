@@ -33,6 +33,11 @@ public class MenuTracker {
     private int countAddedTask = 0;
 
     /**
+     * action position.
+     */
+    private int position = 0;
+
+    /**
      * constructor for MenuTracker.
      * @param input for enter information.
      * @param tracker of tasks.
@@ -46,15 +51,22 @@ public class MenuTracker {
      * fill menu of actions.
      */
     public void fillActions() {
-        this.actions[0] = this.new AddItem();
-        this.actions[1] = new MenuTracker.EditItem();
-        this.actions[2] = new DeleteItem();
-        this.actions[3] = new ShowItems();
-        this.actions[4] = new FindItemByName();
-        this.actions[5] = new FindItemById();
-        this.actions[6] = new AddComment();
-        this.actions[7] = new ShowComments();
-        this.actions[8] = new Exit();
+        this.actions[position++] = this.new AddItem("Add the new item.");
+        this.actions[position++] = new MenuTracker.EditItem("Edit the item.");
+        this.actions[position++] = new DeleteItem("Delete the item.");
+        this.actions[position++] = new ShowItems("Show all items.");
+        this.actions[position++] = new FindItemByName("Find task by name.");
+        this.actions[position++] = new FindItemById("Find task by ID.");
+        this.actions[position++] = new AddComment("Add comment to task.");
+        this.actions[position++] = new ShowComments("Show all comments of task.");
+    }
+
+    /**
+     * method for getting array of actions.
+     * @param action to add.
+     */
+    public void addAction(UserAction action) {
+        this.actions[position++] = action;
     }
 
     /**
@@ -92,7 +104,15 @@ public class MenuTracker {
     /**
      * Inner class to add task.
      */
-    private class AddItem implements UserAction {
+    private class AddItem extends BaseAction {
+
+        /**
+         * constructor for AddItem.
+         * @param name of object's.
+         */
+        AddItem(String name) {
+            super(name);
+        }
         /**
          * key for choose.
          * @return int key.
@@ -118,20 +138,20 @@ public class MenuTracker {
                 System.out.println("Sorry you can't add task. List of task is full.");
             }
         }
-
-        /**
-         * method for print information about action.
-         * @return String information.
-         */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Add the new item.");
-        }
     }
 
     /**
      * Inner static class to edit task.
      */
-    private static class EditItem implements UserAction {
+    private static class EditItem extends BaseAction {
+
+        /**
+         * constructor for EditItem.
+         * @param name of object's.
+         */
+        EditItem(String name) {
+            super(name);
+        }
         /**
          * key for choose.
          * @return int key.
@@ -159,20 +179,20 @@ public class MenuTracker {
                 System.out.println("!!!There is not task with this ID!!!");
             }
         }
-
-        /**
-         * method for print information about action.
-         * @return String information.
-         */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Edit the item.");
-        }
     }
 
     /**
      * Inner class to show all tasks.
      */
-    private class ShowItems implements UserAction {
+    private class ShowItems extends BaseAction {
+
+        /**
+         * constructor for ShowItems.
+         * @param name of object's.
+         */
+        ShowItems(String name) {
+            super(name);
+        }
         /**
          * key for choose.
          * @return int key.
@@ -195,20 +215,20 @@ public class MenuTracker {
                 }
             }
         }
-
-        /**
-         * method for print information about action.
-         * @return String information.
-         */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Show all items.");
-        }
     }
 
     /**
      * Inner class to find tasks by name.
      */
-    private class FindItemByName implements UserAction {
+    private class FindItemByName extends BaseAction {
+        /**
+         * constructor for FindItemByName.
+         * @param name of object's.
+         */
+        FindItemByName(String name) {
+            super(name);
+        }
+
         /**
          * key for choose.
          * @return int key.
@@ -231,19 +251,20 @@ public class MenuTracker {
                 System.out.println("!!!There is not task with this name!!!");
             }
         }
-        /**
-         * method for print information about action.
-         * @return String information.
-         */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Find task by name.");
-        }
     }
 
     /**
      * Inner class to find tasks by ID.
      */
-    private class FindItemById implements UserAction {
+    private class FindItemById extends BaseAction {
+        /**
+         * constructor for FindItemById.
+         * @param name of object's.
+         */
+        FindItemById(String name) {
+            super(name);
+        }
+
         /**
          * key for choose.
          * @return int key.
@@ -266,20 +287,20 @@ public class MenuTracker {
                 System.out.println("!!!There is not task with this ID!!!");
             }
         }
-
-        /**
-         * method for print information about action.
-         * @return String information.
-         */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Find task by ID.");
-        }
     }
 
     /**
      * Inner class to add comment to task.
      */
-    private class AddComment implements UserAction {
+    private class AddComment extends BaseAction {
+        /**
+         * constructor for AddComment.
+         * @param name of object's.
+         */
+        AddComment(String name) {
+            super(name);
+        }
+
         /**
          * key for choose.
          * @return int key.
@@ -304,20 +325,20 @@ public class MenuTracker {
                 System.out.println("!!!There is not task with this ID!!!");
             }
         }
-
-        /**
-         * method for print information about action.
-         * @return String information.
-         */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Add comment to task.");
-        }
     }
 
     /**
      * Inner class to show comments of task.
      */
-    private class ShowComments implements UserAction {
+    private class ShowComments extends BaseAction {
+        /**
+         * constructor for ShowComments.
+         * @param name of object's.
+         */
+        ShowComments(String name) {
+            super(name);
+        }
+
         /**
          * key for choose.
          * @return int key.
@@ -348,51 +369,21 @@ public class MenuTracker {
                 System.out.println("!!!There is not task with this ID!!!");
             }
         }
-
-        /**
-         * method for print information about action.
-         * @return String information.
-         */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Show all comments of task.");
-        }
-    }
-
-    /**
-     * Inner class to exit.
-     */
-    private class Exit implements UserAction {
-        /**
-         * key for choose.
-         * @return int key.
-         */
-        public int key() {
-            return 8;
-        }
-
-        /**
-         * method for execute showing comments.
-         * @param input for enter information.
-         * @param tracker for tasks.
-         */
-        public void execute(Input input, Tracker tracker) {
-            System.out.println("Good bye");
-        }
-
-        /**
-         * method for print information about action.
-         * @return String information.
-         */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Exit.");
-        }
     }
 }
 
 /**
  * Outer class to delete task.
  */
-class DeleteItem implements UserAction {
+class DeleteItem extends BaseAction {
+    /**
+     * constructor for DeleteItem.
+     * @param name of object's.
+     */
+    DeleteItem(String name) {
+        super(name);
+    }
+
     /**
      * key for choose.
      * @return int key.
@@ -416,13 +407,5 @@ class DeleteItem implements UserAction {
         } else {
             System.out.println("!!!There is not task with this ID!!!");
         }
-    }
-
-    /**
-     * method for print information about action.
-     * @return String information.
-     */
-    public String info() {
-        return String.format("%s. %s", this.key(), "Delete the item.");
     }
 }
