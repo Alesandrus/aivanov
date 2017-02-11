@@ -1,13 +1,18 @@
 package ru.job4j.tracker.start;
 
 /**
- * Class StartUIwithSwitch.
+ * Class StartUI.
  * @author Alexander Ivanov
  * @since 26.01.2016
  * @version 1.0
  */
 
 public class StartUI {
+    /**
+     * range of actions.
+     */
+    private int[] range;
+
     /**
      * variable of input.
      */
@@ -30,16 +35,22 @@ public class StartUI {
     public void init() {
         MenuTracker menu = new MenuTracker(this.input, tracker);
         menu.fillActions();
+        range = menu.getRangeActions();
         int choice;
         System.out.println("Welcome to tracker!");
-        do {
-            menu.show();
-            choice = Integer.parseInt(input.ask("Enter number of action: \n"));
-            if (choice != 8) {
+        if (input instanceof ConsoleInput) {
+            do {
+                menu.show();
+                choice = input.ask("Enter number of action: \n", range);
                 menu.select(choice);
-            }
-        } while (choice != 8);
-        System.out.println("Good bye");
+            } while (choice != 8);
+        } else if (input instanceof StubInput) {
+            do {
+                menu.show();
+                choice = Integer.parseInt(input.ask("Enter number of action: \n"));
+                menu.select(choice);
+            } while (choice != 8);
+        }
     }
 
     /**
@@ -47,7 +58,7 @@ public class StartUI {
      * @param args - args.
      */
     public static void main(String[] args) {
-        Input input = new ConsoleInput();
+        Input input = new ValidateInput();
         new StartUI(input).init();
     }
 

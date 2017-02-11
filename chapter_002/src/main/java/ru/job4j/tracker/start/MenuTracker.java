@@ -25,7 +25,7 @@ public class MenuTracker {
     /**
      * menu of actions.
      */
-    private UserAction[] actions = new UserAction[8];
+    private UserAction[] actions = new UserAction[9];
 
     /**
      * count for checking task to tracker.
@@ -54,6 +54,19 @@ public class MenuTracker {
         this.actions[5] = new FindItemById();
         this.actions[6] = new AddComment();
         this.actions[7] = new ShowComments();
+        this.actions[8] = new Exit();
+    }
+
+    /**
+     * method for getting array of actions.
+     * @return actions - int[].
+     */
+    public int[] getRangeActions() {
+        int[] rangeActions = new int[actions.length];
+        for (int i = 0; i < rangeActions.length; i++) {
+            rangeActions[i] = actions[i].key();
+        }
+        return rangeActions;
     }
 
     /**
@@ -74,7 +87,6 @@ public class MenuTracker {
                 System.out.println(action.info());
             }
         }
-        System.out.println("8. Exit.");
     }
 
     /**
@@ -343,6 +355,36 @@ public class MenuTracker {
          */
         public String info() {
             return String.format("%s. %s", this.key(), "Show all comments of task.");
+        }
+    }
+
+    /**
+     * Inner class to exit.
+     */
+    private class Exit implements UserAction {
+        /**
+         * key for choose.
+         * @return int key.
+         */
+        public int key() {
+            return 8;
+        }
+
+        /**
+         * method for execute showing comments.
+         * @param input for enter information.
+         * @param tracker for tasks.
+         */
+        public void execute(Input input, Tracker tracker) {
+            System.out.println("Good bye");
+        }
+
+        /**
+         * method for print information about action.
+         * @return String information.
+         */
+        public String info() {
+            return String.format("%s. %s", this.key(), "Exit.");
         }
     }
 }

@@ -15,4 +15,12 @@ public interface Input {
 	 * @return String.
 	 */
 	String ask(String question);
+
+	/**
+	 * Abstract method for asking number of action's.
+	 * @param question asking user for input.
+	 * @param range of numbers.
+	 * @return String.
+	 */
+	int ask(String question, int[] range);
 }
