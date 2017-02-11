@@ -14,6 +14,10 @@ public class StartUI {
     private Input input;
 
     /**
+     * task tracker.
+     */
+    private Tracker tracker = new Tracker();
+    /**
      * constructor for MenuTracker.
      * @param input for enter information.
      */
@@ -24,10 +28,10 @@ public class StartUI {
      * initialize input.
      */
     public void init() {
-        Tracker tracker = new Tracker();
         MenuTracker menu = new MenuTracker(this.input, tracker);
         menu.fillActions();
         int choice;
+        System.out.println("Welcome to tracker!");
         do {
             menu.show();
             choice = Integer.parseInt(input.ask("Enter number of action: \n"));
@@ -35,7 +39,7 @@ public class StartUI {
                 menu.select(choice);
             }
         } while (choice != 8);
-
+        System.out.println("Good bye");
     }
 
     /**
@@ -43,8 +47,23 @@ public class StartUI {
      * @param args - args.
      */
     public static void main(String[] args) {
-        System.out.println("Welcome to tracker!");
         Input input = new ConsoleInput();
         new StartUI(input).init();
+    }
+
+    /**
+     * method for getting tracker.
+     * @return tracker.
+     */
+    public Tracker getTracker() {
+        return tracker;
+    }
+
+    /**
+     * method for setting tracker.
+     * @param  tracker for setting.
+     */
+    public void setTracker(Tracker tracker) {
+        this.tracker = tracker;
     }
 }
