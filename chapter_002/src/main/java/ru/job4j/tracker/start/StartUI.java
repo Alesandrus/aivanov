@@ -57,19 +57,11 @@ public class StartUI {
         range = menu.getRangeActions();
         int choice;
         System.out.println("Welcome to tracker!");
-        if (input instanceof ConsoleInput) {
             do {
                 menu.show();
                 choice = input.ask("Enter number of action: \n", range);
                 menu.select(choice);
             } while (choice != 8);
-        } else if (input instanceof StubInput) {
-            do {
-                menu.show();
-                choice = Integer.parseInt(input.ask("Enter number of action: \n"));
-                menu.select(choice);
-            } while (choice != 8);
-        }
     }
 
     /**
