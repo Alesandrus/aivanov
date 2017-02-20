@@ -70,8 +70,7 @@ public class Board {
         if (!figureInCell) {
             throw new FigureNotFoundException("In the source cell is no figure");
         }
-        FigureAction action = new FigureAction(figures[pos]);
-        Cell[] freeWay = action.moveFig(dist);
+        Cell[] freeWay = figures[pos].way(dist);
         boolean wayIsFree = true;
         for (Figure fig : figures) {
             for (Cell cell : freeWay) {
