@@ -17,7 +17,7 @@ import java.io.IOException;
  */
 public class DropAbuse {
     /**
-     * Check stream's bytes are even or odd.
+     * Read text with abuse words from stream and wright text without them to outputStream.
      * @param in - InputStream.
      * @param out - Outputstream.
      * @param abuse words.
