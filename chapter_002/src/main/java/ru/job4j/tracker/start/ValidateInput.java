@@ -1,5 +1,7 @@
 package ru.job4j.tracker.start;
 
+import java.util.ArrayList;
+
 /**
  * Class ValidateInput.
  * @author Alexander Ivanov
@@ -10,7 +12,7 @@ package ru.job4j.tracker.start;
 public class ValidateInput extends ConsoleInput {
 
     @Override
-    public int ask(String question, int[] range) {
+    public int ask(String question, ArrayList<Integer> range) {
         boolean invalid = true;
         int value = -1;
         do {

@@ -1,5 +1,7 @@
 package ru.job4j.tracker.start;
 
+import java.util.ArrayList;
+
 /**
  * Class StartUI.
  * @author Alexander Ivanov
@@ -11,7 +13,7 @@ public class StartUI {
     /**
      * range of actions.
      */
-    private int[] range;
+    private ArrayList<Integer> range;
 
     /**
      * variable of input.

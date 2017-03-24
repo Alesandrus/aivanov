@@ -52,9 +52,9 @@ public class StartUIwithSwitchTest {
 		StartUIwithSwitch start = new StartUIwithSwitch();
 		start.init(enter);
 		Tracker tracker = start.getTracker();
-		Item[] items = tracker.getAll();
-		String name = items[0].getName();
-		String desc = items[0].getDescription();
+		ArrayList<Item> items = tracker.getAll();
+		String name = items.get(0).getName();
+		String desc = items.get(0).getDescription();
 		assertThat(name + desc, is("Task#1Long description"));
 	}
 
@@ -74,9 +74,9 @@ public class StartUIwithSwitchTest {
 		Enter enter = new Enter(input);
 		StartUIwithSwitch start = new StartUIwithSwitch(tracker);
 		start.init(enter);
-		Item[] items = tracker.getAll();
-		String nameForTest = items[0].getName();
-		String descForTest = items[0].getDescription();
+		ArrayList<Item> items = tracker.getAll();
+		String nameForTest = items.get(0).getName();
+		String descForTest = items.get(0).getDescription();
 		assertThat(nameForTest + descForTest, is("Task#777Short description"));
 	}
 
@@ -96,9 +96,9 @@ public class StartUIwithSwitchTest {
 		Enter enter = new Enter(input);
 		StartUIwithSwitch start = new StartUIwithSwitch(tracker);
 		start.init(enter);
-		Item[] items = tracker.getAll();
+		ArrayList<Item> items = tracker.getAll();
 		Item checkItem = null;
-		assertThat(items[0], is(checkItem));
+		assertThat(items.get(0), is(checkItem));
 	}
 
 	/**
@@ -120,8 +120,8 @@ public class StartUIwithSwitchTest {
 				"2. Edit task.", "3. Delete task.", "4. Show all task.",
 				"5. Find task by filter.", "6. Add comment to task.", "7. Show all comments of task.",
 				"8. Exit.");
-		String listOfTasks = joiner.join("Task - Task#1 with id - " + tracker.getAll()[0].getId(),
-				"Task - Task#2 with id - " + tracker.getAll()[1].getId(), "Task - Task#3 with id - " + tracker.getAll()[2].getId());
+		String listOfTasks = joiner.join("Task - Task#1 with id - " + tracker.getAll().get(0).getId(),
+				"Task - Task#2 with id - " + tracker.getAll().get(1).getId(), "Task - Task#3 with id - " + tracker.getAll().get(2).getId());
 		assertThat(output.toString(), is(joiner.join(menu, "The List of tasks: ", listOfTasks, menu, "Good bye", "")));
 	}
 
@@ -199,8 +199,8 @@ public class StartUIwithSwitchTest {
 		Enter enter = new Enter(input);
 		StartUIwithSwitch start = new StartUIwithSwitch(tracker);
 		start.init(enter);
-		Item[] items = tracker.getAll();
-		ArrayList<String> comments = items[0].getComments();
+		ArrayList<Item> items = tracker.getAll();
+		ArrayList<String> comments = items.get(0).getComments();
 		String comment = comments.get(0);
 		assertThat(comment, is("Add comment"));
 	}

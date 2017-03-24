@@ -51,9 +51,9 @@ public class StartUITest {
         StartUI start = new StartUI(input);
         start.init();
         Tracker tracker = start.getTracker();
-        Item[] items = tracker.getAll();
-        String name = items[0].getName();
-        String desc = items[0].getDescription();
+        ArrayList<Item> items = tracker.getAll();
+        String name = items.get(0).getName();
+        String desc = items.get(0).getDescription();
         assertThat(name + desc, is("Task#1Long description"));
     }
 
@@ -73,9 +73,9 @@ public class StartUITest {
         StartUI start = new StartUI(input);
         start.setTracker(tracker);
         start.init();
-        Item[] items = tracker.getAll();
-        String nameForTest = items[0].getName();
-        String descForTest = items[0].getDescription();
+        ArrayList<Item> items = tracker.getAll();
+        String nameForTest = items.get(0).getName();
+        String descForTest = items.get(0).getDescription();
         assertThat(nameForTest + descForTest, is("Task#777Short description"));
     }
 
@@ -95,9 +95,9 @@ public class StartUITest {
         StartUI start = new StartUI(input);
         start.setTracker(tracker);
         start.init();
-        Item[] items = tracker.getAll();
+        ArrayList<Item> items = tracker.getAll();
         Item checkItem = null;
-        assertThat(items[0], is(checkItem));
+        assertThat(items.get(0), is(checkItem));
     }
 
     /**
@@ -119,8 +119,8 @@ public class StartUITest {
                 "1. Edit the item.", "2. Delete the item.", "3. Show all items.",
                 "4. Find task by name.", "5. Find task by ID.", "6. Add comment to task.",
                 "7. Show all comments of task.", "8. Exit.");
-        String listOfTasks = joiner.join("Task - Task#1 with ID - " + tracker.getAll()[0].getId(),
-                "Task - Task#2 with ID - " + tracker.getAll()[1].getId(), "Task - Task#3 with ID - " + tracker.getAll()[2].getId());
+        String listOfTasks = joiner.join("Task - Task#1 with ID - " + tracker.getAll().get(0).getId(),
+                "Task - Task#2 with ID - " + tracker.getAll().get(1).getId(), "Task - Task#3 with ID - " + tracker.getAll().get(2).getId());
         assertThat(output.toString(), is(joiner.join("Welcome to tracker!", menu, "The List of tasks: ", listOfTasks, menu, "Good bye", "")));
     }
 
@@ -194,8 +194,8 @@ public class StartUITest {
         StartUI start = new StartUI(input);
         start.setTracker(tracker);
         start.init();
-        Item[] items = tracker.getAll();
-        ArrayList<String> comments = items[0].getComments();
+        ArrayList<Item> items = tracker.getAll();
+        ArrayList<String> comments = items.get(0).getComments();
         String comment = comments.get(0);
         assertThat(comment, is("Add comment"));
     }
