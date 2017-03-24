@@ -25,40 +25,17 @@ public class DropAbuse {
     void dropAbuses(InputStream in, OutputStream out, String[] abuse) {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(in));
              BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out))) {
-            boolean abuseInStream = false;
-            int c;
+            String string = null;
             while (reader.ready()) {
-                reader.mark(100);
-                for (int i = 0; i < abuse.length; i++) {
-                    char[] abuseToArray = abuse[i].toCharArray();
-                    int wordLength = 0;
-                        for (int j = 0; j < abuseToArray.length; j++) {
-                            if (reader.ready()) {
-                                c = reader.read();
-                                String letterFromStream = String.valueOf((char) c).toUpperCase();
-                                String letterFromAbuseWord = String.valueOf(abuseToArray[j]).toUpperCase();
-                                if (!letterFromStream.equals(letterFromAbuseWord)) {
-                                    abuseInStream = false;
-                                    j = abuseToArray.length;
-                                } else {
-                                    abuseInStream = true;
-                                    wordLength++;
-                                }
-                            } else {
-                                j = abuseToArray.length;
-                            }
-                        }
-
-                    if (abuseInStream && wordLength == abuseToArray.length) {
-                        reader.reset();
-                        reader.skip(abuseToArray.length);
-                        i = abuse.length;
-                    } else {
-                        reader.reset();
+                string = reader.readLine();
+                for (String str : abuse) {
+                    if (string.contains(str)) {
+                        string = string.replaceAll(str, "");
                     }
                 }
-                if (!abuseInStream) {
-                    writer.write(reader.read());
+                writer.write(string);
+                if (reader.ready()) {
+                    writer.write(System.getProperty("line.separator"));
                 }
             }
         } catch (IOException e) {

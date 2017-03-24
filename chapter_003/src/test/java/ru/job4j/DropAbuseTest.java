@@ -21,11 +21,11 @@ public class DropAbuseTest {
     @Test
     public void whenStreamHasAbuseWords() {
         Joiner joiner = Joiner.on(System.getProperty("line.separator"));
-        final String sourceText = joiner.join("Fly, ball little Letter bird, fly!",
-                "Fly into tWordhe blue sky!", "One, twwordo, three, Дорога", "You are ball free!");
+        final String sourceText = joiner.join("Fly, ball little letter bird, fly!",
+                "Fly into twordhe blue sky!", "One, twwordo, three, дорога", "You are ball free!");
         byte[] bytesIn = sourceText.getBytes();
         byte[] bytesOut;
-        String[] abuse = new String[]{"Ball", "Letter", "word", "дорога"};
+        String[] abuse = new String[]{"ball", "letter", "word", "дорога"};
         try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytesIn);
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
             DropAbuse dropAbuse = new DropAbuse();
