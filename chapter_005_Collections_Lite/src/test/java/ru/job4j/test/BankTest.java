@@ -248,4 +248,28 @@ public class BankTest {
         String checkException = "NoSuchUserException was caught";
         assertThat(resultException, is(checkException));
     }
+
+    /**
+     * Test getting client from bank.
+     */
+    @Test
+    public void whenBankHasClient() {
+        User firstUser = new User("John", 100555);
+        Bank bank = new Bank();
+        bank.addUser(firstUser);
+        Account account = new Account(1001);
+        account.setValue(500);
+        User client = null;
+        List<Account> accountListFirstUser = null;
+        List<Account> accountListClient = null;
+        try {
+            client = bank.getUser("John", 100555);
+            bank.addAccountToUser(firstUser, account);
+            accountListFirstUser = bank.getUserAccounts(firstUser);
+            accountListClient = bank.getUserAccounts(client);
+        } catch (NoSuchUserException e) {
+            e.printStackTrace();
+        }
+        assertThat(accountListFirstUser, is(accountListClient));
+    }
 }

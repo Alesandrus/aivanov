@@ -1,5 +1,7 @@
 package ru.job4j.test;
 
+import java.util.Objects;
+
 /**
  * Class User.
  *
@@ -42,5 +44,32 @@ public class User {
      */
     public int getPassport() {
         return passport;
+    }
+
+    /**
+     * Comparing user's.
+     * @param o other user.
+     * @return true if name and passport are same.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        User user = (User) o;
+        return passport == user.passport &&
+                Objects.equals(name, user.name);
+    }
+
+    /**
+     * Generates a hash code.
+     * @return hash code.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, passport);
     }
 }

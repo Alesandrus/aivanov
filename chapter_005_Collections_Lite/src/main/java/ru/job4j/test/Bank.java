@@ -153,6 +153,21 @@ public class Bank {
     Map<User, List<Account>> getMap() {
         return new HashMap<User, List<Account>>(this.map);
     }
+
+    User getUser(String name, int  passport) throws NoSuchUserException {
+        User user = new User(name, passport);
+        if (map.containsKey(user)) {
+            for (User client : map.keySet()) {
+                if (client.equals(user)) {
+                    user = client;
+                    break;
+                }
+            }
+        } else {
+            throw new NoSuchUserException();
+        }
+        return user;
+    }
 }
 /**
  * Outer Exception-class. Throws if bank has no given client.
