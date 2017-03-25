@@ -60,8 +60,8 @@ public class User {
             return false;
         }
         User user = (User) o;
-        return passport == user.passport &&
-                Objects.equals(name, user.name);
+        return passport == user.passport
+                && Objects.equals(name, user.name);
     }
 
     /**

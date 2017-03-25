@@ -154,6 +154,13 @@ public class Bank {
         return new HashMap<User, List<Account>>(this.map);
     }
 
+    /**
+     * Getting reference to user.
+     * @param name of client.
+     * @param passport of client.
+     * @return reference to client.
+     * @throws NoSuchUserException if bank hasn't that client.
+     */
     User getUser(String name, int  passport) throws NoSuchUserException {
         User user = new User(name, passport);
         if (map.containsKey(user)) {
