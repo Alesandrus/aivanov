@@ -11,20 +11,42 @@ import java.util.NoSuchElementException;
  * @version 1.0
  */
 public class IteratorTwoDimensoinalArray<E> implements Iterator<E> {
-
+    /**
+     * Two dimensional array.
+     */
     private final E[][] array;
+
+    /**
+     * Cursor for passage subarray elements.
+     */
     private int cursorX = 0;
+
+    /**
+     * Cursor for passage arrays.
+     */
     private int cursorY = 0;
 
+    /**
+     * Constructor for Iterator.
+     * @param array for constructing Iterator.
+     */
     public IteratorTwoDimensoinalArray(final E[][] array) {
         this.array = array;
     }
 
+    /**
+     * Check next element.
+     * @return true if iterator has next element.
+     */
     @Override
     public boolean hasNext() {
         return cursorY < array.length;
     }
 
+    /**
+     * Return next element.
+     * @return next element.
+     */
     @Override
     public E next() {
         E element;
@@ -38,18 +60,5 @@ public class IteratorTwoDimensoinalArray<E> implements Iterator<E> {
             cursorY++;
         }
         return element;
-    }
-    //delete main
-    public static void main(String[] args) {
-        String[][] arr = {
-            {"1", "2", "5"},
-            {"3", "4"}};
-
-        IteratorTwoDimensoinalArray<String> it = new IteratorTwoDimensoinalArray<>(arr);
-        System.out.println(it.hasNext());
-        while(it.hasNext()) {
-            System.out.println(it.next());
-        }
-        System.out.println(it.hasNext());
     }
 }

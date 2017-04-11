@@ -8,6 +8,11 @@ package ru.job4j.iterator;
  * @version 1.0
  */
 public class SimpleN {
+    /**
+     * Static method for check number for simplicity.
+     * @param n - number for check.
+     * @return true if number is simple.
+     */
     public static boolean checkSimple(int n) {
         if (n == 0 || n == 1) {
             return false;
@@ -20,9 +25,5 @@ public class SimpleN {
             }
         }
         return isSimple;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(checkSimple(3));
     }
 }

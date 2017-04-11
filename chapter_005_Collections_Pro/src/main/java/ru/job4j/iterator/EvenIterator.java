@@ -11,14 +11,28 @@ import java.util.Iterator;
  */
 public class EvenIterator implements Iterator<Integer> {
 
+    /**
+     * Array of ints.
+     */
     private final int[] array;
+
+    /**
+     * Cursor for passing array.
+     */
     private int cursor = 0;
 
-
+    /**
+     * Constructor for iterator.
+     * @param array for passing.
+     */
     public EvenIterator(int[] array) {
         this.array = array;
     }
 
+    /**
+     * Check next element.
+     * @return true if iterator has next even number.
+     */
     @Override
     public boolean hasNext() {
         boolean isEven = false;
@@ -37,6 +51,10 @@ public class EvenIterator implements Iterator<Integer> {
         return isEven;
     }
 
+    /**
+     * Return next even number.
+     * @return next even number.
+     */
     @Override
     public Integer next() {
         Integer element = null;
@@ -52,15 +70,5 @@ public class EvenIterator implements Iterator<Integer> {
         }
         cursor++;
         return element;
-    }
-    //delete main
-    public static void main(String[] args) {
-        int[] arr = {4, 1, 6, 4, 5, 5, 9};
-        EvenIterator it = new EvenIterator(arr);
-        while (it.hasNext()) {
-            System.out.println(it.next());
-        }
-        System.out.println(it.hasNext());
-        it.next();
     }
 }

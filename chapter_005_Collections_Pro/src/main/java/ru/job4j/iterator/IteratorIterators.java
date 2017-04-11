@@ -1,6 +1,10 @@
 package ru.job4j.iterator;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Iterator of iterators.
@@ -11,10 +15,21 @@ import java.util.*;
  */
 public class IteratorIterators implements ConvertIterator {
 
+    /**
+     * Iterator, which contains other Iterators.
+     */
     private Iterator<Iterator<Integer>> allIterators;
 
+    /**
+     * Current iterator from alliterators.
+     */
     private  Iterator<Integer> factIterator;
 
+    /**
+     * Method for convert Iterator<Iterator<Integer>> to Iterator<Integer>
+     * @param it Iterator<Iterator<Integer>>.
+     * @return new Iterator<Integer>.
+     */
     public Iterator<Integer> convert(Iterator<Iterator<Integer>> it) {
         this.allIterators = it;
         if (it.hasNext()) {
@@ -23,11 +38,19 @@ public class IteratorIterators implements ConvertIterator {
         return this;
     }
 
+    /**
+     * Check next number.
+     * @return true if iterator has next number.
+     */
     @Override
     public boolean hasNext() {
         return factIterator.hasNext() || allIterators.hasNext();
     }
 
+    /**
+     * Return next number.
+     * @return next number.
+     */
     @Override
     public Integer next() {
         Integer element = null;
@@ -51,21 +74,5 @@ public class IteratorIterators implements ConvertIterator {
             throw new NoSuchElementException();
         }
         return element;
-    }
-
-    public static void main(String[] args) {
-        List<Integer> list1 = new ArrayList<>(Arrays.asList(1, 2, 3));
-        Iterator<Integer> it1 = list1.iterator();
-        List<Integer> list3 = new ArrayList<>(Arrays.asList(6, 8, 9));
-        Iterator<Integer> it3 = list3.iterator();
-        int[] arr = {3, 5, 7};
-        EvenIterator it2 = new EvenIterator(arr);
-        List<Iterator<Integer>> iteratorList = new ArrayList<>(Arrays.asList(it1, it2, it3));
-        Iterator<Iterator<Integer>> iterInt = iteratorList.iterator();
-        IteratorIterators iteratorIterators = new IteratorIterators();
-        Iterator<Integer> i = iteratorIterators.convert(iterInt);
-        while (i.hasNext()) {
-            System.out.println(i.next());
-        }
     }
 }

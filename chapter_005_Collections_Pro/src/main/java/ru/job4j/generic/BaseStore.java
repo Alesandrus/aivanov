@@ -11,6 +11,9 @@ import java.util.NoSuchElementException;
  */
 public abstract class BaseStore<T extends Base> implements Store<T> {
 
+    /**
+     *
+     */
     private SimpleArray<T> simpleArray = new SimpleArray<>();
 
     @Override

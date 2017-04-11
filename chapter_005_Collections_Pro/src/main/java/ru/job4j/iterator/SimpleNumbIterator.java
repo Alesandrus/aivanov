@@ -3,7 +3,7 @@ package ru.job4j.iterator;
 import java.util.Iterator;
 
 /**
- * Iterator for return simple numbers.
+ * Iterator for return prime numbers.
  *
  * @author Alexander Ivanov
  * @since 30.03.2017
@@ -11,13 +11,28 @@ import java.util.Iterator;
  */
 public class SimpleNumbIterator implements Iterator<Integer> {
 
+    /**
+     * array of ints.
+     */
     private final int[] array;
+
+    /**
+     * cursor for array passing.
+     */
     private int cursor = 0;
 
+    /**
+     * Constructor for iterator.
+     * @param array for passing.
+     */
     public SimpleNumbIterator(int[] array) {
         this.array = array;
     }
 
+    /**
+     * Check next number.
+     * @return true if iterator has next prime number.
+     */
     @Override
     public boolean hasNext() {
         boolean nextIsSimple = false;
@@ -36,6 +51,10 @@ public class SimpleNumbIterator implements Iterator<Integer> {
         return nextIsSimple;
     }
 
+    /**
+     * Return next prime number.
+     * @return next prime number.
+     */
     @Override
     public Integer next() {
         Integer element = null;
@@ -51,15 +70,5 @@ public class SimpleNumbIterator implements Iterator<Integer> {
         }
         cursor++;
         return element;
-    }
-    //delete main
-    public static void main(String[] args) {
-        int[] arr = {4, 1, 157, 6, 4, 101, 5, 5, 9};
-        SimpleNumbIterator it = new SimpleNumbIterator(arr);
-        while (it.hasNext()) {
-            System.out.println(it.next());
-        }
-        System.out.println(it.hasNext());
-        it.next();
     }
 }
