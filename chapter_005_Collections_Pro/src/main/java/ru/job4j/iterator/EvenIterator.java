@@ -52,7 +52,7 @@ public class EvenIterator implements Iterator<Integer> {
     }
 
     /**
-     * Return next even number.
+     * Get next even number.
      * @return next even number.
      */
     @Override

@@ -44,7 +44,7 @@ public class IteratorTwoDimensoinalArray<E> implements Iterator<E> {
     }
 
     /**
-     * Return next element.
+     * Get next element.
      * @return next element.
      */
     @Override

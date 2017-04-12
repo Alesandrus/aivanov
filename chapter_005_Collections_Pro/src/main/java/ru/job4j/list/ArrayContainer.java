@@ -15,20 +15,37 @@ import java.util.NoSuchElementException;
  */
 public class ArrayContainer<E> extends SimpleArray<E> implements Iterable<E> {
 
+    /**
+     * Array modifier.
+     */
     private int arrayMod = 0;
 
+    /**
+     * Add element.
+     * @param element element for adding.
+     */
     @Override
     public void add(E element) {
         super.add(element);
         arrayMod++;
     }
 
+    /**
+     * delete element.
+     * @param index of element for delete it.
+     * @return deleted element.
+     */
     @Override
     public E delete(int index) {
         arrayMod++;
         return super.delete(index);
     }
 
+    /**
+     * Check array for contain element.
+     * @param elem for check.
+     * @return true if array contains element.
+     */
     public boolean contains(E elem) {
         boolean isE = false;
         for (int i = 0; i < getSize(); i++) {
@@ -40,22 +57,44 @@ public class ArrayContainer<E> extends SimpleArray<E> implements Iterable<E> {
         return isE;
     }
 
+    /**
+     * Get iterator for passing container.
+     * @return iterator.
+     */
     @Override
     public Iterator<E> iterator() {
         return new ArrayIterator();
     }
 
+    /**
+     * Inner class implements Iterator.
+     */
     private class ArrayIterator implements Iterator<E> {
 
+        /**
+         * Cursor for passing.
+         */
         int cursor = 0;
+
+        /**
+         * Number for check modification.
+         */
         int iteratorMod = arrayMod;
 
+        /**
+         * Check next element.
+         * @return true if iterator has next number.
+         */
         @Override
         public boolean hasNext() {
             int size = getSize();
             return cursor < size;
         }
 
+        /**
+         * Get next element.
+         * @return next element.
+         */
         @Override
         public E next() {
             checkMod();
@@ -68,20 +107,13 @@ public class ArrayContainer<E> extends SimpleArray<E> implements Iterable<E> {
             return elem;
         }
 
+        /**
+         * Check modifications.
+         */
         private void checkMod() {
             if (iteratorMod != arrayMod) {
                 throw new ConcurrentModificationException();
             }
-        }
-    }
-
-    //psvm delete
-    public static void main(String[] args) {
-        ArrayContainer<Integer> container = new ArrayContainer<>();
-        container.add(1);
-        container.add(2);
-        for (Integer i : container) {
-            System.out.println(i);
         }
     }
 }

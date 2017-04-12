@@ -52,7 +52,7 @@ public class SimpleNumbIterator implements Iterator<Integer> {
     }
 
     /**
-     * Return next prime number.
+     * Get next prime number.
      * @return next prime number.
      */
     @Override

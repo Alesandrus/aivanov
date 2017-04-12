@@ -48,7 +48,7 @@ public class IteratorIterators implements ConvertIterator {
     }
 
     /**
-     * Return next number.
+     * Get next number.
      * @return next number.
      */
     @Override

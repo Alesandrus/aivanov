@@ -13,20 +13,52 @@ import java.util.NoSuchElementException;
  */
 public class LinkedContainer<E> implements SimpleContainer<E> {
 
+    /**
+     * Container size.
+     */
     private int size = 0;
 
+    /**
+     * First node.
+     */
     private Knot<E> first;
 
+    /**
+     * Second node.
+     */
     private Knot<E> last;
 
+    /**
+     * Container modifier.
+     */
     private int linkMod = 0;
 
-
+    /**
+     * Node for link.
+     * @param <E> element.
+     */
     private class Knot<E> {
+        /**
+         * Element.
+         */
         E elem;
+
+        /**
+         * Previous node.
+         */
         Knot<E> previous;
+
+        /**
+         * Next node.
+         */
         Knot<E> next;
 
+        /**
+         * Constructor for Knot.
+         * @param prevvious node.
+         * @param elem element.
+         * @param next node.
+         */
         Knot(Knot<E> prevvious, E elem, Knot<E> next) {
             this.previous = prevvious;
             this.elem = elem;
@@ -34,6 +66,10 @@ public class LinkedContainer<E> implements SimpleContainer<E> {
         }
     }
 
+    /**
+     * Add element to the end of container.
+     * @param element for adding.
+     */
     @Override
     public void add(E element) {
         final Knot<E> l = this.last;
@@ -48,6 +84,11 @@ public class LinkedContainer<E> implements SimpleContainer<E> {
         linkMod++;
     }
 
+    /**
+     * Method for get element by index.
+     * @param index of element.
+     * @return element.
+     */
     @Override
     public E get(int index) {
         if (index >= size || index < 0) {
@@ -57,10 +98,14 @@ public class LinkedContainer<E> implements SimpleContainer<E> {
         for (int i = 0; i <index; i++) {
             x = x.next;
         }
-
         return x.elem;
     }
 
+    /**
+     * Remove element by index.
+     * @param index for delete element from container.
+     * @return deleted element.
+     */
     public E remove(int index) {
         if (index >= size || index < 0) {
             throw new IndexOutOfBoundsException();
@@ -88,6 +133,11 @@ public class LinkedContainer<E> implements SimpleContainer<E> {
         return x.elem;
     }
 
+    /**
+     * Add element by index.
+     * @param index for adding.
+     * @param elem for adding.
+     */
     public void add(int index, E elem) {
         if (index > size || index < 0) {
             throw new IndexOutOfBoundsException();
@@ -116,6 +166,11 @@ public class LinkedContainer<E> implements SimpleContainer<E> {
         }
     }
 
+    /**
+     * Check container for contaning element.
+     * @param elem for check.
+     * @return true if contaner contains elem.
+     */
     public boolean contains(E elem) {
         boolean isE = false;
         for (E e : this) {
@@ -127,27 +182,62 @@ public class LinkedContainer<E> implements SimpleContainer<E> {
         return isE;
     }
 
+    /**
+     * Getter for container size.
+     * @return size.
+     */
     public int getSize() {
         return size;
     }
 
+    /**
+     * Method for getting iterator.
+     * @return iterator.
+     */
     @Override
     public Iterator<E> iterator() {
         return new Itr();
     }
 
+    /**
+     * Iterator for LinkedContainer.
+     * @param <E> element.
+     */
     private class Itr<E> implements Iterator<E> {
 
+        /**
+         * Previous node.
+         */
         private Knot<E> lastReturned;
+
+        /**
+         * Next node for passing.
+         */
         private Knot<E> next = (Knot<E>) first;
+
+        /**
+         * Cursor for passing container.
+         */
         private int index = 0;
+
+        /**
+         * Modifier for checking modifications.
+         */
         private int iteratorMod = linkMod;
 
+        /**
+         * Check next element.
+         * @return true if iterator has next number.
+         */
         @Override
         public boolean hasNext() {
             return index < size;
         }
 
+        /**
+         * Get next element.
+         * @return next element.
+         */
         @Override
         public E next() {
             checkMod();
@@ -160,24 +250,13 @@ public class LinkedContainer<E> implements SimpleContainer<E> {
             return lastReturned.elem;
         }
 
+        /**
+         * Check modifications.
+         */
         private void checkMod() {
             if (iteratorMod != linkMod) {
                 throw new ConcurrentModificationException();
             }
         }
-    }
-
-    public static void main(String[] args) {
-        LinkedContainer<String> container = new LinkedContainer<>();
-        container.add("111");
-        container.add("222");
-        container.add("333");
-        container.add(3, "444");
-        Iterator<String> iterator = container.iterator();
-        System.out.println(iterator.next());
-        System.out.println(iterator.next());
-        System.out.println(iterator.next());
-        System.out.println(iterator.next());
-        System.out.println(container.contains("444"));
     }
 }
