@@ -14,8 +14,15 @@ import java.util.Iterator;
  */
 public class SimpleArraySet<E> implements SimpleSet<E>{
 
+    /**
+     * ArrayContainer for storage elements.
+     */
     private ArrayContainer<E> container = new ArrayContainer<E>();
 
+    /**
+     * Add element to set.
+     * @param elem for adding.
+     */
     @Override
     public void add(E elem) {
         if (elem != null && !container.contains(elem)) {
@@ -23,21 +30,12 @@ public class SimpleArraySet<E> implements SimpleSet<E>{
         }
     }
 
+    /**
+     * Getting iterator.
+     * @return iterator.
+     */
     @Override
     public Iterator<E> iterator() {
         return container.iterator();
-    }
-
-    public static void main(String[] args) {
-        SimpleArraySet<Integer> set = new SimpleArraySet<>();
-        set.add(1);
-        set.add(5);
-        set.add(10);
-        set.add(1);
-        set.add(10);
-        set.add(15);
-        for (Integer i : set) {
-            System.out.println(i);
-        }
     }
 }

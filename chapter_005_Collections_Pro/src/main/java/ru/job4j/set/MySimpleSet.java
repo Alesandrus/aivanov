@@ -15,15 +15,34 @@ import java.util.NoSuchElementException;
  */
 public class MySimpleSet<E> implements SimpleSet<E> {
 
+    /**
+     * Array of LinedContainers.
+     */
     private LinkedContainer<E>[] tab;
+
+    /**
+     * Size of tab.
+     */
     private int tabSize;
+
+    /**
+     * Number of set's elements.
+     */
     private int factSize;
 
+    /**
+     * Constructor for MySimpleSet.
+     */
     public MySimpleSet() {
         tabSize = 16;
         this.tab = new LinkedContainer[tabSize];
     }
 
+    /**
+     * Add element to set.
+     * Check load factor and add element.
+     * @param e element for adding.
+     */
     @Override
     public void add(E e) {
         growTab();
@@ -38,13 +57,20 @@ public class MySimpleSet<E> implements SimpleSet<E> {
         factSize++;
     }
 
+    /**
+     * Iterator for set.
+     * @return iterator.
+     */
     @Override
     public Iterator iterator() {
         return new Itr();
     }
 
+    /**
+     * Increase capacity of tab and rehash all elements.
+     */
     private void growTab() {
-        if (factSize > 0.75 * tabSize) {
+        if (factSize >= 0.75 * tabSize) {
             LinkedContainer<E>[] copyTab = tab;
             tabSize = tabSize * 2;
             factSize = 0;
@@ -60,12 +86,30 @@ public class MySimpleSet<E> implements SimpleSet<E> {
         }
     }
 
+    /**
+     * Iterator for passing all elements of set.
+     * @param <E> type of elements.
+     */
     private class Itr<E> implements Iterator<E> {
 
+        /**
+         * Cursor for passing.
+         */
         private int indexItr = 0;
+
+        /**
+         * List of all LinkedContainer's iterators.
+         */
         private ArrayList<Iterator<E>> listItr = new ArrayList<>();
+
+        /**
+         * Current iterator.
+         */
         private Iterator<E> factIter;
 
+        /**
+         * Constructor for iterator.
+         */
         public Itr() {
             for (int i = 0; i < tabSize; i++) {
                 if (tab[i] != null) {
@@ -74,31 +118,43 @@ public class MySimpleSet<E> implements SimpleSet<E> {
                 }
             }
             if (listItr.size() > 0) {
-                factIter = listItr.get(0);
+                factIter = listItr.get(indexItr);
             }
         }
 
-
+        /**
+         * Check next element.
+         * @return true if iterator has next number.
+         */
         @Override
         public boolean hasNext() {
             boolean isNext = true;
-            if (indexItr == listItr.size()) {
+            if (indexItr == listItr.size() - 1) {
                 isNext = factIter.hasNext();
             }
             return isNext;
         }
 
+        /**
+         * Get next element.
+         * @return next element.
+         */
         @Override
         public E next() {
+
             E element = null;
             boolean isNext = false;
-            while (indexItr <= listItr.size()) {
+            while (indexItr < listItr.size()) {
                 if (factIter != null && factIter.hasNext()) {
                     element = factIter.next();
                     isNext = true;
                     break;
                 } else {
-                    factIter = listItr.get(indexItr++);
+                    if (indexItr < listItr.size() - 1) {
+                        factIter = listItr.get(++indexItr);
+                    } else {
+                        indexItr++;
+                    }
                 }
             }
             if (!isNext) {
@@ -108,29 +164,19 @@ public class MySimpleSet<E> implements SimpleSet<E> {
         }
     }
 
-    public static void main(String[] args) {
-        MySimpleSet<Integer> set = new MySimpleSet<>();
-        set.add(1);
-        set.add(2);
-        set.add(777);
-        set.add(4);
-        set.add(5);
-        set.add(77);
-        set.add(7);
-        set.add(8);
-        set.add(100);
-        set.add(100);
-        set.add(100);
-        set.add(100);
-        set.add(10);
-        set.add(11);
-        set.add(12);
-        set.add(13);
+    /**
+     * Getter for factSize.
+     * @return factSize.
+     */
+    public int getFactSize() {
+        return factSize;
+    }
 
-        for (Integer s : set) {
-            System.out.println(s);
-        }
-        System.out.println("size " + set.factSize);
-        System.out.println("len " + set.tab.length);
+    /**
+     * Getter for tabSize.
+     * @return tabSize.
+     */
+    public int getTabSize() {
+        return tabSize;
     }
 }

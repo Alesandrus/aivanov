@@ -3,7 +3,6 @@ package ru.job4j.map;
 import ru.job4j.list.ArrayContainer;
 
 import java.util.Iterator;
-import java.util.Objects;
 
 /**
  * Class MyMap.
@@ -13,16 +12,35 @@ import java.util.Objects;
  * @version 1.0
  */
 public class MyMap<K, V> implements Iterable<K>{
+    /**
+     * Array of nodes.
+     */
     private Node[] table;
 
+    /**
+     * Size of table.
+     */
     private int tabSize;
+
+    /**
+     * Number of elements that contains map.
+     */
     private int factSize;
 
+    /**
+     * Map constructor.
+     */
     public MyMap() {
         this.tabSize = 16;
         this.table = new Node[tabSize];
     }
 
+    /**
+     * Adding elements to map.
+     * @param key for adding.
+     * @param value for adding.
+     * @return previous key value.
+     */
     public V insert(K key, V value) {
         grow();
         int index = hash(key);
@@ -49,6 +67,11 @@ public class MyMap<K, V> implements Iterable<K>{
         return null;
     }
 
+    /**
+     * Getting value of key. If map hasn't key return null.
+     * @param key for getting value.
+     * @return value of key.
+     */
     public V get(K key) {
         int index = hash(key);
         if (table[index] != null) {
@@ -63,6 +86,11 @@ public class MyMap<K, V> implements Iterable<K>{
         return null;
     }
 
+    /**
+     * Deleting key from map.
+     * @param key for delete.
+     * @return true if key deleted.
+     */
     public boolean delete(K key) {
         int index = hash(key);
         if (table[index] != null) {
@@ -95,6 +123,11 @@ public class MyMap<K, V> implements Iterable<K>{
         return false;
     }
 
+    /**
+     * Check map for containing key.
+     * @param key for check.
+     * @return true if map contains key.
+     */
     public boolean containsKey(K key) {
         int index = hash(key);
         if (table[index] != null) {
@@ -109,12 +142,20 @@ public class MyMap<K, V> implements Iterable<K>{
         return false;
     }
 
+    /**
+     * Value for assignment index to element.
+     * @param key for calculate.
+     * @return int value.
+     */
     private int hash(K key) {
         return key.hashCode() % tabSize;
     }
 
+    /**
+     * Increase capacity of table and rehash all elements.
+     */
     private void grow() {
-        if (factSize > 0.75 * tabSize) {
+        if (factSize >= 0.75 * tabSize) {
             Node<K, V>[] copyTable = table;
             tabSize *= 2;
             factSize = 0;
@@ -131,16 +172,42 @@ public class MyMap<K, V> implements Iterable<K>{
         }
     }
 
+    /**
+     * Getting iterator for passing map.
+     * @return iterator.
+     */
     @Override
     public Iterator<K> iterator() {
         return new Itr();
     }
 
+    /**
+     * Class Node. Contains key and value.
+     * @param <K> - type of key.
+     * @param <V> - type of value.
+     */
     private class Node<K, V> {
+        /**
+         * Unique key.
+         */
         final K key;
+
+        /**
+         * Value of key.
+         */
         V value;
+
+        /**
+         * Reference to next element (node).
+         */
         Node next;
 
+        /**
+         * Node constructor.
+         * @param key - key for adding ti map.
+         * @param value - value of key's.
+         * @param next - newt value.
+         */
         public Node(K key, V value, Node<K, V> next) {
             this.key = key;
             this.value = value;
@@ -148,10 +215,24 @@ public class MyMap<K, V> implements Iterable<K>{
         }
     }
 
+    /**
+     * Iterator for passing all elements of set.
+     * @param <K> type of elements.
+     */
     private class Itr<K> implements Iterator<K> {
+        /**
+         * All elements container.
+         */
         private final ArrayContainer<K> keyList = new ArrayContainer<K>();
+
+        /**
+         * Container Iterator.
+         */
         private Iterator<K> iterator;
 
+        /**
+         * Iterator constructor.
+         */
         Itr() {
             for (int i = 0; i < table.length; i++) {
                 if (table[i] != null) {
@@ -165,53 +246,22 @@ public class MyMap<K, V> implements Iterable<K>{
             iterator = keyList.iterator();
         }
 
-
+        /**
+         * Check next element.
+         * @return true if iterator has next number.
+         */
         @Override
         public boolean hasNext() {
             return iterator.hasNext();
         }
 
+        /**
+         * Get next element.
+         * @return next element.
+         */
         @Override
         public K next() {
             return iterator.next();
         }
-    }
-
-    public static void main(String[] args) {
-        MyMap<Integer, String> myMap = new MyMap<>();
-        myMap.insert(3, "3");
-        myMap.insert(1, "1");
-        myMap.insert(17, "17");
-        myMap.insert(4, "4");
-        myMap.insert(34, "34");
-        myMap.insert(19, "19");
-        for (Integer i : myMap) {
-            System.out.println(myMap.get(i));
-        }
-        myMap.insert(2, "2");
-        myMap.insert(5, "5");
-        myMap.insert(6, "6");
-        myMap.insert(7, "7");
-        myMap.insert(8, "8");
-
-
-        myMap.insert(9, "9");
-
-        myMap.insert(10, "10");
-        System.out.println("fact " + myMap.factSize);
-
-        myMap.insert(11, "11");
-        System.out.println("size " + myMap.table.length);
-        System.out.println("fact " + myMap.factSize);
-        myMap.insert(12, "12");
-        myMap.insert(13, "13");
-        myMap.insert(14, "14");
-        myMap.insert(15, "15");
-        myMap.insert(16, "16");
-        System.out.println("Add some");
-        for (Integer i : myMap) {
-            System.out.println(myMap.get(i));
-        }
-        System.out.println("size" + myMap.table.length);
     }
 }

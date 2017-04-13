@@ -8,5 +8,9 @@ package ru.job4j.set;
  * @version 1.0
  */
 public interface SimpleSet<E> extends Iterable<E> {
+    /**
+     * Add element to set.
+     * @param elem for adding.
+     */
     void add(E elem);
 }
