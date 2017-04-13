@@ -13,13 +13,31 @@ import java.util.Objects;
  * @version 1.0
  */
 public class SimpleTree<E> {
+    /**
+     * Root of tree.
+     */
     private Leaf<E> root;
 
-    private static class Leaf<E> {
-        E key;
-        ArrayList<Leaf<E>> children = new ArrayList<>();
+    /**
+     * Inner static class Leaf.
+     * @param <E> type of key.
+     */
+    public static class Leaf<E> {
+        /**
+         * Key.
+         */
+        private E key;
 
-        Leaf(E key) {
+        /**
+         * ArrayList of children Leaf's.
+         */
+        private ArrayList<Leaf<E>> children = new ArrayList<>();
+
+        /**
+         * Constructor for Leaf.
+         * @param key for storage.
+         */
+        public Leaf(E key) {
             this.key = key;
         }
 
