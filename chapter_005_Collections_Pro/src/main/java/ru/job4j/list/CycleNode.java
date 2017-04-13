@@ -1,7 +1,7 @@
 package ru.job4j.list;
 
 /**
- * Class for check cycle in LinkedList.
+ * Class for check cycle.
  *
  * @author Alexander Ivanov
  * @since 02.04.2017
@@ -9,6 +9,11 @@ package ru.job4j.list;
  */
 public class CycleNode {
 
+    /**
+     * Check cycle.
+     * @param first Node.
+     * @return true if list of node has cycle.
+     */
     public boolean hasCycle(Node first) {
         Node tortoise = first;
         Node hare = first;
@@ -39,10 +44,25 @@ public class CycleNode {
     }
 }
 
+/**
+ * Node.
+ * @param <T> element.
+ */
 class Node<T> {
+    /**
+     * Value that contains Node.
+     */
     private T value;
+
+    /**
+     * Next Node.
+     */
     Node<T> next;
 
+    /**
+     * Constructor for Node.
+     * @param value for Node.
+     */
     Node (T value) {
         this.value = value;
     }
