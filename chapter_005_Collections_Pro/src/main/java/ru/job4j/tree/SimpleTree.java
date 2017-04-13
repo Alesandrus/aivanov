@@ -41,11 +41,20 @@ public class SimpleTree<E> {
             this.key = key;
         }
 
+        /**
+         * toString.
+         * @return key.toString.
+         */
         @Override
         public String toString() {
             return key.toString();
         }
 
+        /**
+         * Comparing two leafs for equals.
+         * @param o other object.
+         * @return true if leafs are same.
+         */
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -54,12 +63,22 @@ public class SimpleTree<E> {
             return Objects.equals(key, leaf.key);
         }
 
+        /**
+         * Get int hash code for leaf.
+         * @return int hash code.
+         */
         @Override
         public int hashCode() {
             return Objects.hash(key);
         }
     }
 
+    /**
+     * Add child-leaf with key to parent-leaf.
+     * @param parent leaf.
+     * @param key of adding child.
+     * @return added child-leaf.
+     */
     public Leaf<E> addChild(Leaf parent, E key) {
         Leaf<E> son = null;
         if (root == null) {
@@ -76,6 +95,10 @@ public class SimpleTree<E> {
         return son;
     }
 
+    /**
+     * Get all keys of leafs except root-leaf.
+     * @return list of keys.
+     */
     public List<E> getChildren() {
         List<E> list = new ArrayList<E>();
         if (root != null) {
@@ -84,6 +107,12 @@ public class SimpleTree<E> {
         return list;
     }
 
+    /**
+     * Get list of all children of the leaf.
+     * @param leaf parent.
+     * @param list for adding keys.
+     * @return list of keys.
+     */
     private List<E> getRecursiveListOfChildren(Leaf<E> leaf, List<E> list) {
         Leaf<E> currentRoot = leaf;
         for (int i = 0; i < currentRoot.children.size(); i++) {
@@ -95,7 +124,12 @@ public class SimpleTree<E> {
         return list;
     }
 
-    public List<E> getParentChildren(Leaf<E> leaf) {
+    /**
+     * Get all children's keys from parent.
+     * @param leaf parent.
+     * @return list of keys.
+     */
+    public List<E> getChildrenFromParent(Leaf<E> leaf) {
         Leaf<E> parent = this.findParent(leaf, root);
         List<E> list = new ArrayList<E>();
         for (int i = 0; i < parent.children.size(); i++) {
@@ -104,15 +138,21 @@ public class SimpleTree<E> {
         return list;
     }
 
+    /**
+     * Get reference for parent.
+     * @param parent for adding leaf.
+     * @param currentRoot root of tree.
+     * @return reference from
+     */
     private Leaf<E> findParent(Leaf<E> parent, Leaf<E> currentRoot) {
         if (currentRoot.equals(parent)) {
             return currentRoot;
         }
-        Leaf<E> leafForRec;
+        Leaf<E> leafForRecursion;
         Leaf<E> leafParent;
         for (int i = 0; i < currentRoot.children.size(); i++) {
-            leafForRec = currentRoot.children.get(i);
-            leafParent = findParent(parent, leafForRec);
+            leafForRecursion = currentRoot.children.get(i);
+            leafParent = findParent(parent, leafForRecursion);
             if (leafParent != null) {
                 return leafParent;
             }
@@ -131,56 +171,31 @@ public class SimpleTree<E> {
         return element != null;
     }
 
+    /**
+     * Method check tree for balance.
+     * @return true if tree is balanced.
+     */
     public boolean isBalancedTree() {
         return checkBalance(root);
     }
 
+    /**
+     * Additional recursive method for checking balance.
+     * @param leaf check children for balance.
+     * @return true if children leaf is balanced.
+     */
     private boolean checkBalance(Leaf<E> leaf) {
-        boolean res = true;
+        boolean result = true;
         if (leaf.children.size() != 2 && !leaf.children.isEmpty()) {
-            res = false;
+            result = false;
         } else {
             for (int i = 0; i < leaf.children.size(); i++) {
-                res = checkBalance(leaf.children.get(i));
-                if (!res) {
+                result = checkBalance(leaf.children.get(i));
+                if (!result) {
                     return false;
                 }
             }
         }
-        return res;
-    }
-
-    public static void main(String[] args) {
-        SimpleTree<Integer> tree = new SimpleTree<>();
-        Leaf<Integer> leafFirst = new Leaf<>(1);
-        Leaf<Integer> son1 = tree.addChild(leafFirst, 2);
-        Leaf<Integer> son2 = tree.addChild(leafFirst, 3);
-        Leaf<Integer> s2 = tree.addChild(son1, 4);
-        Leaf<Integer> s3 = tree.addChild(son1, 5);
-      //  Leaf<Integer> s4 = tree.addChild(son1, 6);
-        Leaf<Integer> s5 = tree.addChild(son2, 7);
-        Leaf<Integer> s6 = tree.addChild(son2, 8);
-        Leaf<Integer> s7 = tree.addChild(s5, 9);
-        Leaf<Integer> s8 = tree.addChild(s5, 10);
-        Leaf<Integer> s9 = tree.addChild(s5, 11);
-
-
-       /* for (int i = 0; i < son1.children.size(); i++) {
-            System.out.println(son1.children.get(i).key);
-        }
-        System.out.println(tree.findParent(new Leaf<>(7), tree.root));
-
-        for (Integer i : tree.getParentChildren(son1)) {
-            System.out.println(i);
-        }*/
-
-       for (Leaf<Integer> l : son1.children) {
-           System.out.println(l);
-       }
-
-       /*for (Integer i : tree.getChildren()) {
-           System.out.println(i);
-       }*/
-        System.out.println(tree.isBalancedTree());
+        return result;
     }
 }

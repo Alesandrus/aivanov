@@ -26,22 +26,6 @@ public class CycleNode {
         } while (!tortoise.equals(hare));
         return true;
     }
-
-//delete main
-    public static void main(String[] args) {
-        Node<Integer> first = new Node<>(1);
-        Node<Integer> two = new Node<>(2);
-        Node<Integer> third = new Node<>(3);
-        Node<Integer> four = new Node<>(4);
-
-        first.next = two;
-        two.next = third;
-        third.next = four;
-        four.next = first;
-
-        CycleNode cycleNode = new CycleNode();
-        System.out.println(cycleNode.hasCycle(first));
-    }
 }
 
 /**

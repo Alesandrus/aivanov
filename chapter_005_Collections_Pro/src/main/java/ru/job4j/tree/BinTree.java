@@ -9,8 +9,15 @@ package ru.job4j.tree;
  */
 public class BinTree<E extends Comparable> {
 
+    /**
+     * Node-root.
+     */
     private Node<E> root;
 
+    /**
+     * Put key to tree.
+     * @param key for adding to tree.
+     */
     public void put(E key) {
         Node<E> nextNode = root;
         Node<E> currentNode = null;
@@ -36,6 +43,11 @@ public class BinTree<E extends Comparable> {
         }
     }
 
+    /**
+     * Check tree for containing key.
+     * @param key for check.
+     * @return true if tree contains key.
+     */
     public boolean contains(E key) {
         Node<E> node = root;
         while (node != null) {
@@ -53,11 +65,30 @@ public class BinTree<E extends Comparable> {
         return false;
     }
 
+    /**
+     * Node for building tree.
+     * @param <E> type of key.
+     */
     private class Node<E> {
+        /**
+         * Key for storage.
+         */
         E key;
+
+        /**
+         * Reference for left node.
+         */
         Node<E> left;
+
+        /**
+         * Reference for right node.
+         */
         Node<E> right;
 
+        /**
+         * Constructor for Node.
+         * @param key for storage.
+         */
         Node(E key) {
             this.key = key;
         }
