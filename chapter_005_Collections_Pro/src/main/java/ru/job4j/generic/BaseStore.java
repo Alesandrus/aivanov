@@ -8,6 +8,7 @@ import java.util.NoSuchElementException;
  * @author Alexander Ivanov
  * @since 31.03.2017
  * @version 1.0
+ * @param <T> type of elements.
  */
 public abstract class BaseStore<T extends Base> implements Store<T> {
 

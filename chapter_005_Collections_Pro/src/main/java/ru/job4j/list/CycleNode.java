@@ -18,11 +18,11 @@ public class CycleNode {
         Node tortoise = first;
         Node hare = first;
         do {
-            if (hare == null || hare.next == null) {
+            if (hare == null || hare.getNext() == null) {
                 return false;
             }
-            tortoise = tortoise.next;
-            hare = hare.next.next;
+            tortoise = tortoise.getNext();
+            hare = hare.getNext().getNext();
         } while (!tortoise.equals(hare));
         return true;
     }
@@ -41,14 +41,30 @@ class Node<T> {
     /**
      * Next Node.
      */
-    Node<T> next;
+    private Node<T> next;
 
     /**
      * Constructor for Node.
      * @param value for Node.
      */
-    Node (T value) {
+    Node(T value) {
         this.value = value;
+    }
+
+    /**
+     * Setter for next().
+     * @param next for setting.
+     */
+    public void setNext(Node<T> next) {
+        this.next = next;
+    }
+
+    /**
+     * Getter for next.
+     * @return next.
+     */
+    public Node<T> getNext() {
+        return next;
     }
 }
 

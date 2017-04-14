@@ -20,14 +20,14 @@ public class CycleNodeTest {
     @Test
     public void whenListOfNodesHasCycleThenReturnTrue() {
         Node<Integer> firstNode = new Node<>(1);
-        Node<Integer> twoNode = new Node<>(2);
+        Node<Integer> secondNode = new Node<>(2);
         Node<Integer> thirdNode = new Node<>(3);
         Node<Integer> fourNode = new Node<>(4);
 
-        firstNode.next = twoNode;
-        twoNode.next = thirdNode;
-        thirdNode.next = fourNode;
-        fourNode.next = firstNode;
+        firstNode.setNext(secondNode);
+        secondNode.setNext(thirdNode);
+        thirdNode.setNext(fourNode);
+        fourNode.setNext(firstNode);
 
         CycleNode cycleNode = new CycleNode();
         final boolean resultCycle = cycleNode.hasCycle(firstNode);
@@ -42,13 +42,13 @@ public class CycleNodeTest {
     @Test
     public void whenListOfNodesHasNotCycleThenReturnFalse() {
         Node<Integer> firstNode = new Node<>(1);
-        Node<Integer> twoNode = new Node<>(2);
+        Node<Integer> secondNode = new Node<>(2);
         Node<Integer> thirdNode = new Node<>(3);
         Node<Integer> fourNode = new Node<>(4);
 
-        firstNode.next = twoNode;
-        twoNode.next = thirdNode;
-        thirdNode.next = fourNode;
+        firstNode.setNext(secondNode);
+        secondNode.setNext(thirdNode);
+        thirdNode.setNext(fourNode);
 
         CycleNode cycleNode = new CycleNode();
         final boolean resultCycle = cycleNode.hasCycle(firstNode);

@@ -10,6 +10,7 @@ import java.util.NoSuchElementException;
  * @author Alexander Ivanov
  * @since 02.04.2017
  * @version 1.0
+ * @param <E> type of elements.
  */
 public class QueueContainer<E> extends LinkedContainer<E> {
 

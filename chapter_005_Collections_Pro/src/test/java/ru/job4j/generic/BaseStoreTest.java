@@ -21,17 +21,17 @@ public class BaseStoreTest {
     /**
      * User #1.
      */
-    User firstUser = new User();
+    private User firstUser = new User();
 
     /**
      * User #2.
      */
-    User secondUser = new User();
+    private User secondUser = new User();
 
     /**
      * User #3.
      */
-    User thirdUser = new User();
+    private User thirdUser = new User();
 
     /**
      * Method for initialize store.

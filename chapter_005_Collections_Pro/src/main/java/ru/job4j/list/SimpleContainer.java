@@ -6,6 +6,7 @@ package ru.job4j.list;
  * @author Alexander Ivanov
  * @since 31.03.2017
  * @version 1.0
+ * @param <E> type of elements.
  */
 public interface SimpleContainer<E> extends Iterable<E> {
     /**

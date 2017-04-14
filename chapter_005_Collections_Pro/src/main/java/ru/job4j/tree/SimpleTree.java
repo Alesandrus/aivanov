@@ -11,6 +11,7 @@ import java.util.Objects;
  * @author Alexander Ivanov
  * @since 09.04.2017
  * @version 1.0
+ * @param <E> type of elements.
  */
 public class SimpleTree<E> {
     /**
@@ -57,8 +58,12 @@ public class SimpleTree<E> {
          */
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
             Leaf<?> leaf = (Leaf<?>) o;
             return Objects.equals(key, leaf.key);
         }
@@ -90,6 +95,8 @@ public class SimpleTree<E> {
             if (leaf != null) {
                 son = new Leaf(key);
                 leaf.children.add(son);
+            } else {
+                throw new NoSuchParentException();
             }
         }
         return son;
@@ -165,7 +172,7 @@ public class SimpleTree<E> {
      * @param key for searching.
      * @return true if tree contains key.
      */
-    public boolean containLeaf(E key) {
+    public boolean contains(E key) {
         Leaf<E> leaf = new Leaf<>(key);
         Leaf<E> element = findParent(leaf, root);
         return element != null;

@@ -9,6 +9,7 @@ import java.util.NoSuchElementException;
  * @author Alexander Ivanov
  * @since 29.03.2017
  * @version 1.0
+ * @param <E> type of elements.
  */
 public class IteratorTwoDimensoinalArray<E> implements Iterator<E> {
     /**

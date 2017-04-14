@@ -32,7 +32,7 @@ public class SimpleNTest {
      */
     @Test
     public void whenNumberIsNotSimpleThenReturnFalse() {
-        final int n= 16;
+        final int n = 16;
         final boolean resultSimple = SimpleN.checkSimple(n);
         final boolean checkSimple = false;
         assertThat(resultSimple, is(checkSimple));

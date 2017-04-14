@@ -1,11 +1,15 @@
 package ru.job4j.tree;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Class BinTree.
  *
  * @author Alexander Ivanov
  * @since 10.04.2017
  * @version 1.0
+ * @param <E> type of elements.
  */
 public class BinTree<E extends Comparable> {
 
@@ -16,31 +20,66 @@ public class BinTree<E extends Comparable> {
 
     /**
      * Put key to tree.
+     * Put only unique keys.
      * @param key for adding to tree.
      */
     public void put(E key) {
         Node<E> nextNode = root;
-        Node<E> currentNode = null;
+        Node<E> prevNode = null;
         while (nextNode != null) {
             int comp = key.compareTo(nextNode.key);
             if (comp < 0) {
-                currentNode = nextNode;
+                prevNode = nextNode;
                 nextNode = nextNode.left;
             } else if (comp > 0) {
-                currentNode = nextNode;
+                prevNode = nextNode;
                 nextNode = nextNode.right;
+            } else {
+                return;
             }
         }
         Node<E> newNode = new Node<>(key);
-        if (currentNode == null) {
+        if (prevNode == null) {
             root = newNode;
         } else {
-            if (key.compareTo(currentNode.key) < 0) {
-                currentNode.left = newNode;
+            if (key.compareTo(prevNode.key) < 0) {
+                prevNode.left = newNode;
             } else {
-                currentNode.right = newNode;
+                prevNode.right = newNode;
             }
         }
+    }
+
+    /**
+     * Get all keys of tree.
+     * @return list of keys.
+     */
+    public List<E> getAllKeys() {
+        List<E> list = new ArrayList<E>();
+        if (root != null) {
+            list.add(root.key);
+            getRecursiveList(root, list);
+        }
+        return list;
+    }
+
+    /**
+     * Addition recursive method for getting all keys.
+     * @param node parent.
+     * @param list for adding.
+     * @return list of keys.
+     */
+    private List<E> getRecursiveList(Node<E> node, List<E> list) {
+        Node<E> rootNode = node;
+        if (rootNode.left != null) {
+            list.add(rootNode.left.key);
+            getRecursiveList(rootNode.left, list);
+        }
+        if (rootNode.right != null) {
+            list.add(rootNode.right.key);
+            getRecursiveList(rootNode.right, list);
+        }
+        return list;
     }
 
     /**
@@ -73,17 +112,17 @@ public class BinTree<E extends Comparable> {
         /**
          * Key for storage.
          */
-        E key;
+        private E key;
 
         /**
          * Reference for left node.
          */
-        Node<E> left;
+        private Node<E> left;
 
         /**
          * Reference for right node.
          */
-        Node<E> right;
+        private Node<E> right;
 
         /**
          * Constructor for Node.
@@ -94,13 +133,21 @@ public class BinTree<E extends Comparable> {
         }
     }
 
+    /**
+     * PSVM.
+     * @param args of string.
+     */
     public static void main(String[] args) {
         BinTree<Integer> tree = new BinTree<>();
         tree.put(8);
         tree.put(4);
-        tree.put(5);
+        tree.put(7);
         tree.put(7);
         tree.put(25);
         System.out.println(tree.contains(25));
+        List<Integer> list = tree.getAllKeys();
+        for (Integer i : list) {
+            System.out.println(i);
+        }
     }
 }

@@ -9,6 +9,7 @@ import java.util.EmptyStackException;
  * @author Alexander Ivanov
  * @since 02.04.2017
  * @version 1.0
+ * @param <E> type of elements.
  */
 public class StackContainer<E> extends LinkedContainer<E> {
 

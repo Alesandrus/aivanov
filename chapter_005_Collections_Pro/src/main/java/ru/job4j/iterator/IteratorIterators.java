@@ -1,9 +1,6 @@
 package ru.job4j.iterator;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
@@ -26,7 +23,7 @@ public class IteratorIterators implements ConvertIterator {
     private  Iterator<Integer> factIterator;
 
     /**
-     * Method for convert Iterator<Iterator<Integer>> to Iterator<Integer>
+     * Method for convert Iterator<Iterator<Integer>> to Iterator<Integer>.
      * @param it Iterator<Iterator<Integer>>.
      * @return new Iterator<Integer>.
      */
@@ -55,7 +52,7 @@ public class IteratorIterators implements ConvertIterator {
     public Integer next() {
         Integer element = null;
         boolean hasNextElement = false;
-        if(factIterator.hasNext()) {
+        if (factIterator.hasNext()) {
             element = factIterator.next();
             hasNextElement = true;
         } else if (allIterators.hasNext()) {

@@ -6,6 +6,7 @@ package ru.job4j.generic;
  * @author Alexander Ivanov
  * @since 31.03.2017
  * @version 1.0
+ * @param <E> type of elements.
  */
 public class SimpleArray<E> {
 
@@ -102,30 +103,5 @@ public class SimpleArray<E> {
      */
     public int getSize() {
         return size;
-    }
-
-//delete main
-    public static void main(String[] args) {
-        SimpleArray<String> array = new SimpleArray<>();
-        array.add("1");
-        array.add("2");
-        array.add("3");
-        array.add("4");
-        array.add("5");
-        array.add("6");
-        array.delete(5);
-        System.out.println(array.getSize());
-        System.out.println(array.capacity);
-        for (int i = 0; i < array.getSize(); i++) {
-            System.out.println(array.get(i));
-        }
-        array.update(2, "Top");
-        for (int i = 0; i < array.getSize(); i++) {
-            System.out.println(array.get(i));
-        }
-        byte[] a = "Ы".getBytes();
-        for (byte r : a) {
-            System.out.println(Byte.toUnsignedInt(r));
-        }
     }
 }

@@ -12,6 +12,7 @@ import java.util.NoSuchElementException;
  * @author Alexander Ivanov
  * @since 03.04.2017
  * @version 1.0
+ * @param <E> type of elements.
  */
 public class MySimpleSet<E> implements SimpleSet<E> {
 
@@ -110,7 +111,7 @@ public class MySimpleSet<E> implements SimpleSet<E> {
         /**
          * Constructor for iterator.
          */
-        public Itr() {
+        Itr() {
             for (int i = 0; i < tabSize; i++) {
                 if (tab[i] != null) {
                     Iterator iterator = tab[i].iterator();

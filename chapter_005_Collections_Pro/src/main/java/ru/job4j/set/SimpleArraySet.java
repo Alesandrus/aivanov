@@ -11,8 +11,9 @@ import java.util.Iterator;
  * @author Alexander Ivanov
  * @since 06.04.2017
  * @version 1.0
+ * @param <E> type of elements.
  */
-public class SimpleArraySet<E> implements SimpleSet<E>{
+public class SimpleArraySet<E> implements SimpleSet<E> {
 
     /**
      * ArrayContainer for storage elements.

@@ -10,8 +10,10 @@ import java.util.Iterator;
  * @author Alexander Ivanov
  * @since 07.04.2017
  * @version 1.0
+ * @param <K> type of Keys.
+ * @param <V> type of Values.
  */
-public class MyMap<K, V> implements Iterable<K>{
+public class MyMap<K, V> implements Iterable<K> {
     /**
      * Array of nodes.
      */
@@ -190,17 +192,17 @@ public class MyMap<K, V> implements Iterable<K>{
         /**
          * Unique key.
          */
-        final K key;
+        private final K key;
 
         /**
          * Value of key.
          */
-        V value;
+        private V value;
 
         /**
          * Reference to next element (node).
          */
-        Node next;
+        private Node next;
 
         /**
          * Node constructor.
@@ -208,7 +210,7 @@ public class MyMap<K, V> implements Iterable<K>{
          * @param value - value of key's.
          * @param next - newt value.
          */
-        public Node(K key, V value, Node<K, V> next) {
+        Node(K key, V value, Node<K, V> next) {
             this.key = key;
             this.value = value;
             this.next = next;

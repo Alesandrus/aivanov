@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
  * @since 30.03.2017
  * @version 1.0
  */
-public class NoSuchSimpleElementException extends NoSuchElementException{
+public class NoSuchSimpleElementException extends NoSuchElementException {
     /**
      * Constructs a <code>NoSimpleElementException</code> with <tt>null</tt>
      * as its error message string.

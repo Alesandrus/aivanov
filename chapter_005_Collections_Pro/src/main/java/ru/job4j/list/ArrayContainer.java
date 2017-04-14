@@ -12,6 +12,7 @@ import java.util.NoSuchElementException;
  * @author Alexander Ivanov
  * @since 31.03.2017
  * @version 1.0
+ * @param <E> type of elements.
  */
 public class ArrayContainer<E> extends SimpleArray<E> implements Iterable<E> {
 
@@ -74,12 +75,12 @@ public class ArrayContainer<E> extends SimpleArray<E> implements Iterable<E> {
         /**
          * Cursor for passing.
          */
-        int cursor = 0;
+        private int cursor = 0;
 
         /**
          * Number for check modification.
          */
-        int iteratorMod = arrayMod;
+        private int iteratorMod = arrayMod;
 
         /**
          * Check next element.

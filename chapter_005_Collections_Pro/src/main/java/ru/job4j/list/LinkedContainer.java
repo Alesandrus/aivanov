@@ -10,6 +10,7 @@ import java.util.NoSuchElementException;
  * @author Alexander Ivanov
  * @since 01.04.2017
  * @version 1.0
+ * @param <E> type of elements.
  */
 public class LinkedContainer<E> implements SimpleContainer<E> {
 
@@ -41,17 +42,17 @@ public class LinkedContainer<E> implements SimpleContainer<E> {
         /**
          * Element.
          */
-        E elem;
+        private E elem;
 
         /**
          * Previous node.
          */
-        Knot<E> previous;
+        private Knot<E> previous;
 
         /**
          * Next node.
          */
-        Knot<E> next;
+        private Knot<E> next;
 
         /**
          * Constructor for Knot.
@@ -95,7 +96,7 @@ public class LinkedContainer<E> implements SimpleContainer<E> {
             throw new IndexOutOfBoundsException();
         }
         Knot<E> x = first;
-        for (int i = 0; i <index; i++) {
+        for (int i = 0; i < index; i++) {
             x = x.next;
         }
         return x.elem;

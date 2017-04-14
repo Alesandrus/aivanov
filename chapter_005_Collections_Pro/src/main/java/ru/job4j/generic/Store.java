@@ -6,6 +6,7 @@ package ru.job4j.generic;
  * @author Alexander Ivanov
  * @since 31.03.2017
  * @version 1.0
+ * @param <T> type of elements.
  */
 public interface Store<T extends Base> {
     /**
