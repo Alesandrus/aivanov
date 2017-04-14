@@ -132,22 +132,4 @@ public class BinTree<E extends Comparable> {
             this.key = key;
         }
     }
-
-    /**
-     * PSVM.
-     * @param args of string.
-     */
-    public static void main(String[] args) {
-        BinTree<Integer> tree = new BinTree<>();
-        tree.put(8);
-        tree.put(4);
-        tree.put(7);
-        tree.put(7);
-        tree.put(25);
-        System.out.println(tree.contains(25));
-        List<Integer> list = tree.getAllKeys();
-        for (Integer i : list) {
-            System.out.println(i);
-        }
-    }
 }
