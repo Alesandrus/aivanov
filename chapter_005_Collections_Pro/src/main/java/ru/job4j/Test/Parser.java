@@ -89,6 +89,7 @@ public class Parser {
             thread.start();
         }
 
+
         System.out.println(System.currentTimeMillis() - start);
         /*String[] arr = Parser.parseAdd("<AddOrder book=\"book-3\" operation=\"SELL\" price=\"100.30\" volume=\"96\" orderId=\"134\" />");
         for (String s : arr) {
