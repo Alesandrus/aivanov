@@ -13,19 +13,24 @@ import java.util.regex.Pattern;
  * @since 15.04.2017
  */
 public class Parser {
-    public static Map<Integer, Order> scan(String path) {
-        Map<Integer, Order> bookList = new HashMap<>();
+    public static Map<String, HashMap<Integer, Order>> scan(String path) {
+        Map<String, HashMap<Integer, Order>> bookList = new TreeMap<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
             String s;
             while ((s = reader.readLine()) != null) {
                 if (s.charAt(1) == 'A') {
                     String[] array = parseAdd(s);
                     int id = Integer.valueOf(array[4]);
-                    bookList.put(id, new Order(array[0], array[1], Float.valueOf(array[2]), Integer.valueOf(array[3]), Integer.valueOf(array[4])));
+                    HashMap<Integer, Order> map = bookList.get(array[0]);
+                    if (map == null) {
+                        map = new HashMap<>();
+                        bookList.put(array[0], map);
+                    }
+                    map.put(id, new Order(array[0], array[1], Float.valueOf(array[2]), Integer.valueOf(array[3]), Integer.valueOf(array[4])));
                 } else if (s.charAt(1) == 'D') {
                     String[] array = parseDelete(s);
                     int id = Integer.valueOf(array[1]);
-                    bookList.remove(id);
+                    bookList.get(array[0]).remove(id);
                 }
             }
         } catch (IOException e) {
@@ -76,7 +81,14 @@ public class Parser {
 
     public static void main(String[] args) {
         long start = System.currentTimeMillis();
-        Map<Integer, Order> books = Parser.scan("D:\\orders.xml");
+        Map<String, HashMap<Integer, Order>> books = Parser.scan("D:\\orders.xml");
+        for (Map.Entry<String, HashMap<Integer, Order>> m : books.entrySet()) {
+            String name = m.getKey();
+            OrderBook book = new OrderBook(name, m.getValue());
+            Thread thread = new Thread(book, name);
+            thread.start();
+        }
+
         System.out.println(System.currentTimeMillis() - start);
         /*String[] arr = Parser.parseAdd("<AddOrder book=\"book-3\" operation=\"SELL\" price=\"100.30\" volume=\"96\" orderId=\"134\" />");
         for (String s : arr) {
