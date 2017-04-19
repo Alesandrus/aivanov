@@ -82,9 +82,11 @@ public class Parser {
     public static void main(String[] args) {
         long start = System.currentTimeMillis();
         Map<String, HashMap<Integer, Order>> books = Parser.scan("D:\\orders.xml");
+        Map<String, OrderBook> map = new HashMap<>();
         for (Map.Entry<String, HashMap<Integer, Order>> m : books.entrySet()) {
             String name = m.getKey();
             OrderBook book = new OrderBook(name, m.getValue());
+            map.put(name, book);
             Thread thread = new Thread(book, name);
             thread.start();
         }

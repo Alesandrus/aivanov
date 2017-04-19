@@ -78,7 +78,6 @@ public class OrderBook implements Runnable {
         for (Map.Entry<Float, Integer> m : setBID.entrySet()) {
             System.out.println("price - " + m.getKey() + "  volume - " + m.getValue());
         }
-        System.out.println("Hi");
         for (Map.Entry<Float, Integer> m : setBID.entrySet()) {
             System.out.println("            price - " + m.getKey() + "  volume - " + m.getValue());
         }
