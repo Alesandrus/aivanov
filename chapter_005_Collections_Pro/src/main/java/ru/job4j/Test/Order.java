@@ -1,4 +1,4 @@
-package ru.job4j.test;
+package ru.job4j.Test;
 
 /**
  * @author Alexander Ivanov
