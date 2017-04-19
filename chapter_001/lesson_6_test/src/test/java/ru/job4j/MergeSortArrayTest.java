@@ -5,7 +5,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test class MergeSortArrays.
+ * test class MergeSortArrays.
  *
  * @author Alexander Ivanov
  * @since 16.01.2016
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertThat;
 public class MergeSortArrayTest {
 
 	/**
-	 * Test method addAndSort when length of arrayA bigger arrayB.
+	 * test method addAndSort when length of arrayA bigger arrayB.
 	 */
 	@Test
 	public void whenArrayABiggerArrayB() {
@@ -27,7 +27,7 @@ public class MergeSortArrayTest {
 	}
 
 	/**
-	 * Test method addAndSort when length of arrayB bigger arrayA.
+	 * test method addAndSort when length of arrayB bigger arrayA.
 	 */
 	@Test
 	public void whenArrayBBiggerArrayA() {
@@ -40,7 +40,7 @@ public class MergeSortArrayTest {
 	}
 
 	/**
-	 * Test method addAndSort when arrayA equal arrayB.
+	 * test method addAndSort when arrayA equal arrayB.
 	 */
 	@Test
 	public void whenArrayAEqualArrayB() {

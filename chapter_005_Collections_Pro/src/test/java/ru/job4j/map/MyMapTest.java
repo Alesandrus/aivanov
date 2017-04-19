@@ -9,7 +9,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test for MyMap.
+ * test for MyMap.
  *
  * @author Alexander Ivanov
  * @since 13.04.2017
@@ -17,7 +17,7 @@ import static org.junit.Assert.assertThat;
  */
 public class MyMapTest {
     /**
-     * Test method add() and get().
+     * test method add() and get().
      * Adding element and get it value.
      */
     @Test
@@ -30,7 +30,7 @@ public class MyMapTest {
     }
 
     /**
-     * Test map for uniqueness.
+     * test map for uniqueness.
      * If add three same keys and invoke two times next() from iterator then should return NOSuchElementException.
      */
     @Test
@@ -52,7 +52,7 @@ public class MyMapTest {
     }
 
     /**
-     * Test contain().
+     * test contain().
      */
     @Test
     public void whenAddElementAndInvokeContainsThisElementThenReturnTrue() {
@@ -65,7 +65,7 @@ public class MyMapTest {
     }
 
     /**
-     * Test delete().
+     * test delete().
      * If remove key and then invoke contains() then it should return false.
      */
     @Test
@@ -80,7 +80,7 @@ public class MyMapTest {
     }
 
     /**
-     * Test Iterator's method hasNext() when iterator hasn't elements.
+     * test Iterator's method hasNext() when iterator hasn't elements.
      */
     @Test
     public void whenAddOneElementAndInvokeTwoTimesHasNextThenSecondCaseReturnFalse() {
@@ -94,7 +94,7 @@ public class MyMapTest {
     }
 
     /**
-     * Test Iterator's method hasNext() when iterator has elements.
+     * test Iterator's method hasNext() when iterator has elements.
      */
     @Test
     public void whenAddOneElementAndInvokeHasNextThenReturnFalse() {

@@ -5,7 +5,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test of Counter class.
+ * test of Counter class.
  *
  * @author Alexander Ivanov
  * @since 07.01.2016
@@ -13,7 +13,7 @@ import static org.junit.Assert.assertThat;
  */
 public class CounterTest {
 	/**
-	 * Test calculate sum if start number is 5 and last is 16.
+	 * test calculate sum if start number is 5 and last is 16.
 	 */
 	@Test
 	public void whenStartIsFiveFinishIsSixteen() {

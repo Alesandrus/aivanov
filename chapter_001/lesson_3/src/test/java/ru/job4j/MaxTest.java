@@ -5,7 +5,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test of Max class.
+ * test of Max class.
  *
  * @author Alexander Ivanov
  * @since 06.01.2016
@@ -13,7 +13,7 @@ import static org.junit.Assert.assertThat;
  */
 public class MaxTest {
 	/**
-	 * Test max. First > second.
+	 * test max. First > second.
 	 */
 	@Test
 	public void whenFirstMoreThanSecond() {
@@ -26,7 +26,7 @@ public class MaxTest {
 	}
 
 	/**
-	 * Test max. First < second.
+	 * test max. First < second.
 	 */
 	@Test
 	public void whenFirstLessThanSecond() {

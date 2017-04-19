@@ -9,7 +9,7 @@ import static org.hamcrest.number.IsCloseTo.closeTo;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test class Item.
+ * test class Item.
  *
  * @author Alexander Ivanov
  * @since 27.01.2016
@@ -18,7 +18,7 @@ import static org.junit.Assert.assertThat;
  public class ItemTest {
 
 	 /**
-	 * Test method for checking getName().
+	 * test method for checking getName().
 	 */
 	@Test
 	public void whenItemNameIsItem() {
@@ -29,7 +29,7 @@ import static org.junit.Assert.assertThat;
 	}
 
 	/**
-	 * Test method for checking getDescription().
+	 * test method for checking getDescription().
 	 */
 	@Test
 	public void whenItemDescriptionIsDescription() {
@@ -40,7 +40,7 @@ import static org.junit.Assert.assertThat;
 	}
 
 	/**
-	 * Test method for checking getCreate().
+	 * test method for checking getCreate().
 	 */
 	@Test
 	public void whenItemCraeteIsCurrentTime() {
@@ -52,7 +52,7 @@ import static org.junit.Assert.assertThat;
 	}
 
 	/**
-	 * Test method for checking setId() and getID().
+	 * test method for checking setId() and getID().
 	 */
 	@Test
 	public void whenItemIdIsN123() {
@@ -64,17 +64,17 @@ import static org.junit.Assert.assertThat;
 	}
 
 	/**
-	 * Test method for checking getComments().
+	 * test method for checking getComments().
 	 */
 	@Test
 	public void whenGetComments() {
 		Item item = new Item("Item", "Description");
 		ArrayList<String> refComments = item.getComments();
-		refComments.add("Test");
+		refComments.add("test");
 		refComments.add("Comment");
 		ArrayList<String> resultComments = item.getComments();
 		ArrayList<String> checkComments = new ArrayList<>();
-		checkComments.add("Test");
+		checkComments.add("test");
 		checkComments.add("Comment");
 		assertThat(resultComments, is(checkComments));
 	}

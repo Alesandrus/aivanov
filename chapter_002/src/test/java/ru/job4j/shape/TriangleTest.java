@@ -5,7 +5,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test Triangle class.
+ * test Triangle class.
  *
  * @author Alexander Ivanov
  * @since 03.02.2017
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertThat;
  public class TriangleTest {
 
 	 /**
-	 * Test for checking pic().
+	 * test for checking pic().
 	 */
 	@Test
 	public void whenUsedPicThenReturnTriangleString() {

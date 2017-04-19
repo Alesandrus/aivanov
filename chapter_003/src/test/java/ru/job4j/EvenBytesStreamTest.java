@@ -7,7 +7,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test EvenBytesStream.
+ * test EvenBytesStream.
  *
  * @author Alexander Ivanov
  * @since 04.03.2017
@@ -15,7 +15,7 @@ import static org.junit.Assert.assertThat;
  */
 public class EvenBytesStreamTest {
     /**
-     * Test stream with even bytes.
+     * test stream with even bytes.
      */
     @Test
     public void whenBytesStreamIsEven() {
@@ -31,7 +31,7 @@ public class EvenBytesStreamTest {
         }
     }
     /**
-     * Test stream with odd bytes.
+     * test stream with odd bytes.
      */
     @Test
     public void whenBytesStreamIsOdd() {

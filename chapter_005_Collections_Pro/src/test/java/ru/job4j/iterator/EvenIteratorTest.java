@@ -6,7 +6,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test for EvenIteratorTest.
+ * test for EvenIteratorTest.
  *
  * @author Alexander Ivanov
  * @since 11.04.2017
@@ -15,7 +15,7 @@ import static org.junit.Assert.assertThat;
 public class EvenIteratorTest {
 
     /**
-     * Test method hasNext().
+     * test method hasNext().
      * If iterator has next even number then method should return true.
      */
     @Test
@@ -28,7 +28,7 @@ public class EvenIteratorTest {
     }
 
     /**
-     * Test method hasNext().
+     * test method hasNext().
      * If iterator hasn't next even number then method should return false.
      */
     @Test
@@ -42,7 +42,7 @@ public class EvenIteratorTest {
     }
 
     /**
-     * Test method next().
+     * test method next().
      * Check iterator for return right number.
      */
     @Test
@@ -56,7 +56,7 @@ public class EvenIteratorTest {
     }
 
     /**
-     * Test method next().
+     * test method next().
      * If iterator hasn't even numbers and invoking next() then getting NoSuchEvenElementException.
      */
     @Test

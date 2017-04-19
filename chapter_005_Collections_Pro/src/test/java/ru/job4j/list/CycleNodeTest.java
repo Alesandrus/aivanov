@@ -6,7 +6,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test for CycleNode.
+ * test for CycleNode.
  *
  * @author Alexander Ivanov
  * @since 13.04.2017
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertThat;
  */
 public class CycleNodeTest {
     /**
-     * Test method hasCycle().
+     * test method hasCycle().
      * If list of Nodes has cycle.
      */
     @Test
@@ -36,7 +36,7 @@ public class CycleNodeTest {
     }
 
     /**
-     * Test method hasCycle().
+     * test method hasCycle().
      * If list of Nodes hasn't cycle.
      */
     @Test

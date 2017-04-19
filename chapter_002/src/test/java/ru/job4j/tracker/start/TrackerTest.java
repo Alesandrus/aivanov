@@ -8,7 +8,7 @@ import ru.job4j.tracker.models.Item;
 import java.util.ArrayList;
 
 /**
- * Test class Item.
+ * test class Item.
  *
  * @author Alexander Ivanov
  * @since 28.01.2016
@@ -17,7 +17,7 @@ import java.util.ArrayList;
  public class TrackerTest {
 
 	 /**
-	 * Test method for checking add() and getAll().
+	 * test method for checking add() and getAll().
 	 */
 	@Test
 	public void whenAddItemsToTracker() {
@@ -39,7 +39,7 @@ import java.util.ArrayList;
 	}
 
     /**
-     * Test method for findById().
+     * test method for findById().
      */
     @Test
     public void whenFindId() {
@@ -53,7 +53,7 @@ import java.util.ArrayList;
     }
 
     /**
-     * Test method for update().
+     * test method for update().
      */
     @Test
     public void whenUpdateTracker() {
@@ -70,7 +70,7 @@ import java.util.ArrayList;
     }
 
     /**
-     * Test method for delete().
+     * test method for delete().
      */
     @Test
     public void whenDeleteItemFromTracker() {
@@ -88,7 +88,7 @@ import java.util.ArrayList;
     }
 
     /**
-     * Test method for findByName().
+     * test method for findByName().
      */
     @Test
     public void whenFindItemByName() {
@@ -101,7 +101,7 @@ import java.util.ArrayList;
     }
 
     /**
-     * Test method for addComment().
+     * test method for addComment().
      */
     @Test
     public void whenAddCommentToItem() {
@@ -113,9 +113,9 @@ import java.util.ArrayList;
         Item checkItem = new Item("Name_1", "Desc_1");
         checkItem.setId(id);
         ArrayList<String> checkComments = checkItem.getComments();
-        checkComments.add("Test");
+        checkComments.add("test");
         checkComments.add("Comments");
-        tracker.addComment(checkItem, "Test");
+        tracker.addComment(checkItem, "test");
         tracker.addComment(checkItem, "Comments");
         ArrayList<Item> resultItems = tracker.getAll();
         ArrayList<String> resultComments = resultItems.get(0).getComments();

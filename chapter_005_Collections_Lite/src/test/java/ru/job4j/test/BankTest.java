@@ -11,7 +11,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test for Bank.
+ * test for Bank.
  *
  * @author Alexander Ivanov
  * @since 24.03.2016
@@ -19,7 +19,7 @@ import static org.junit.Assert.assertThat;
  */
 public class BankTest {
     /**
-     * Test adding client to bank.
+     * test adding client to bank.
      */
     @Test
     public void whenAddClientToBank() {
@@ -39,7 +39,7 @@ public class BankTest {
     }
 
     /**
-     * Test deleting client from bank.
+     * test deleting client from bank.
      */
     @Test
     public void whenDeleteClientFromBank() {
@@ -63,7 +63,7 @@ public class BankTest {
     }
 
     /**
-     * Test adding account to bank client.
+     * test adding account to bank client.
      */
     @Test
     public void whenAddAccountToClient() {
@@ -88,7 +88,7 @@ public class BankTest {
     }
 
     /**
-     * Test deleting account from client's account list.
+     * test deleting account from client's account list.
      */
     @Test
     public void whenDeleteAccountFromClient() {
@@ -116,7 +116,7 @@ public class BankTest {
     }
 
     /**
-     * Test getting client's account list.
+     * test getting client's account list.
      */
     @Test
     public void whenGetListOfAccountsFromClient() {
@@ -145,7 +145,7 @@ public class BankTest {
     }
 
     /**
-     * Test transfer money.
+     * test transfer money.
      * Transfer from account to other, when balance of source account more than transfer value.
      */
     @Test
@@ -177,7 +177,7 @@ public class BankTest {
     }
 
     /**
-     * Test transfer money.
+     * test transfer money.
      * Transfer from account to other, when balance of source account less than destination.
      */
     @Test
@@ -203,7 +203,7 @@ public class BankTest {
     }
 
     /**
-     * Test transfer money.
+     * test transfer money.
      * Transfer from account to other, when no source account in client's account list.
      */
     @Test
@@ -231,7 +231,7 @@ public class BankTest {
     }
 
     /**
-     * Test throwing NoSuchUserException.
+     * test throwing NoSuchUserException.
      */
     @Test
     public void whenBankHasNoClient() {
@@ -250,7 +250,7 @@ public class BankTest {
     }
 
     /**
-     * Test getting client from bank.
+     * test getting client from bank.
      */
     @Test
     public void whenBankHasClient() {

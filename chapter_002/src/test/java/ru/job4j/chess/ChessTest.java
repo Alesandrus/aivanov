@@ -9,7 +9,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
 /**
- * Test Chess.
+ * test Chess.
  *
  * @author Alexander Ivanov
  * @since 16.02.2017
@@ -39,7 +39,7 @@ public class ChessTest {
     }
 
     /**
-     * Test for check array of figures on the board.
+     * test for check array of figures on the board.
      */
     @Test
     public void whenSetOneArrayOfFiguresThenGetIt() {
@@ -56,7 +56,7 @@ public class ChessTest {
     }
 
     /**
-     * Test for check method move if source cell hasn't figure.
+     * test for check method move if source cell hasn't figure.
      */
     @Test
     public void whenUseMoveButInCellNoFigure() {
@@ -81,7 +81,7 @@ public class ChessTest {
     }
 
     /**
-     * Test for check method move if way is occupied other figures.
+     * test for check method move if way is occupied other figures.
      */
     @Test
     public void whenUseMoveButWayIsOccupied() {
@@ -106,7 +106,7 @@ public class ChessTest {
     }
 
     /**
-     * Test for check method move if use illegal figure's way.
+     * test for check method move if use illegal figure's way.
      */
     @Test
     public void whenUseMoveButWayOfFigureIsIllegal() {
@@ -131,7 +131,7 @@ public class ChessTest {
     }
 
     /**
-     * Test for check method move if use legal figure's way.
+     * test for check method move if use legal figure's way.
      */
     @Test
     public void whenUseMoveForLegalWayThenOk() {
@@ -157,7 +157,7 @@ public class ChessTest {
     }
 
     /**
-     * Test for check cloning in method move.
+     * test for check cloning in method move.
      */
     @Test
     public void whenUseMoveForLegalWayThebGetClone() {
@@ -199,7 +199,7 @@ public class ChessTest {
     }
 
     /**
-     * Test for check Rook's way to left.
+     * test for check Rook's way to left.
      */
     @Test
     public void whenRookGoToLeft() {
@@ -221,7 +221,7 @@ public class ChessTest {
     }
 
     /**
-     * Test for check Rook's way to right.
+     * test for check Rook's way to right.
      */
     @Test
     public void whenRookGoToRight() {
@@ -244,7 +244,7 @@ public class ChessTest {
     }
 
     /**
-     * Test for check Rook's way to up.
+     * test for check Rook's way to up.
      */
     @Test
     public void whenRookGoToUp() {
@@ -267,7 +267,7 @@ public class ChessTest {
     }
 
     /**
-     * Test for check Rook's way to down.
+     * test for check Rook's way to down.
      */
     @Test
     public void whenRookGoToDown() {
@@ -290,7 +290,7 @@ public class ChessTest {
     }
 
     /**
-     * Test for check wrong Rook's way.
+     * test for check wrong Rook's way.
      */
     @Test
     public void whenRookGoToWrongWay() {
@@ -311,7 +311,7 @@ public class ChessTest {
     }
 
     /**
-     * Test for check Bishop's way to UpLeft.
+     * test for check Bishop's way to UpLeft.
      */
     @Test
     public void whenBishopGoToUpLeft() {
@@ -334,7 +334,7 @@ public class ChessTest {
     }
 
     /**
-     * Test for check Bishop's way to UpLeft.
+     * test for check Bishop's way to UpLeft.
      */
     @Test
     public void whenBishopGoToUpRight() {
@@ -357,7 +357,7 @@ public class ChessTest {
     }
 
     /**
-     * Test for check Bishop's way to UpLeft.
+     * test for check Bishop's way to UpLeft.
      */
     @Test
     public void whenBishopGoToDownLeft() {
@@ -380,7 +380,7 @@ public class ChessTest {
     }
 
     /**
-     * Test for check Bishop's way to UpLeft.
+     * test for check Bishop's way to UpLeft.
      */
     @Test
     public void whenBishopGoToDownRight() {
@@ -403,7 +403,7 @@ public class ChessTest {
     }
 
     /**
-     * Test for check wrong Bishop's way.
+     * test for check wrong Bishop's way.
      */
     @Test
     public void whenBishopGoToWrongWay() {

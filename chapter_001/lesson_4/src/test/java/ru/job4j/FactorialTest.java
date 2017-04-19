@@ -6,7 +6,7 @@ import static org.junit.Assert.assertThat;
 import java.math.BigInteger;
 
 /**
- * Test of Factorial class.
+ * test of Factorial class.
  *
  * @author Alexander Ivanov
  * @since 07.01.2016
@@ -14,7 +14,7 @@ import java.math.BigInteger;
  */
 public class FactorialTest {
 	/**
-	 * Test calculate factorial of 20.
+	 * test calculate factorial of 20.
 	 */
 	@Test
 	public void whenNumberIsTwenty() {
@@ -26,7 +26,7 @@ public class FactorialTest {
 	}
 
 	/**
-	 * Test calculate factorial of 0.
+	 * test calculate factorial of 0.
 	 */
 	@Test
 	public void whenNumberIsZero() {

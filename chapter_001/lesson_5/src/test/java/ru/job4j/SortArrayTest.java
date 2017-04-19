@@ -5,7 +5,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test class SortArray.
+ * test class SortArray.
  *
  * @author Alexander Ivanov
  * @since 08.01.2016
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertThat;
 public class SortArrayTest {
 
 	/**
-	 * Test sort array.
+	 * test sort array.
 	 */
 	@Test
 	public void whenArrayIsUnsort() {

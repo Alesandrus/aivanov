@@ -10,7 +10,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test for SimpleArray.
+ * test for SimpleArray.
  *
  * @author Alexander Ivanov
  * @version 1.0
@@ -36,7 +36,7 @@ public class SimpleArrayTest {
     }
 
     /**
-     * Test method for add(), get(), getSize().
+     * test method for add(), get(), getSize().
      * Adding 6 elements for check capacity array and getting all elements.
      */
     @Test
@@ -54,7 +54,7 @@ public class SimpleArrayTest {
     }
 
     /**
-     * Test method for delete().
+     * test method for delete().
      * Delete elements from array and getting all elements.
      */
     @Test
@@ -70,7 +70,7 @@ public class SimpleArrayTest {
     }
 
     /**
-     * Test method for update().
+     * test method for update().
      * Update elements from array and getting all elements.
      */
     @Test

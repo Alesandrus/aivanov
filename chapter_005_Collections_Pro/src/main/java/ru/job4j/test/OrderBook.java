@@ -1,4 +1,4 @@
-package ru.job4j.Test;
+package ru.job4j.test;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -50,17 +50,6 @@ public class OrderBook implements Runnable {
         return setASK;
     }
 
-    public static void main(String[] args) {
-        /*Order order = new Order("Re", "BYE", 4.6F, 35, 101);
-        Order order2 = new Order("Re", "BYE", 9.6F, 30, 102);
-        OrderBook book = new OrderBook("Re");
-        book.addToSetBID(order);
-        book.addToSetBID(order2);
-        for (Map.Entry<Float, Integer> m : book.setBID.entrySet()) {
-            System.out.println("price - " + m.getKey() + "  volume - " + m.getValue());
-        }*/
-    }
-
     @Override
     public void run() {
         for(Map.Entry<Integer, Order> m : allOrders.entrySet()) {
@@ -71,13 +60,14 @@ public class OrderBook implements Runnable {
                 addToSetBID(order);
             }
         }
-        show();
     }
 
     public void show() {
+        System.out.println("BID");
         for (Map.Entry<Float, Integer> m : setBID.entrySet()) {
             System.out.println("price - " + m.getKey() + "  volume - " + m.getValue());
         }
+        System.out.println("ASK");
         for (Map.Entry<Float, Integer> m : setBID.entrySet()) {
             System.out.println("            price - " + m.getKey() + "  volume - " + m.getValue());
         }

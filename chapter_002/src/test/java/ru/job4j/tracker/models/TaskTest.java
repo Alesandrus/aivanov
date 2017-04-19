@@ -5,7 +5,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test class Task.
+ * test class Task.
  *
  * @author Alexander Ivanov
  * @since 29.01.2016
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertThat;
  public class TaskTest {
 
 	 /**
-	 * Test method for checking calculatePrice().
+	 * test method for checking calculatePrice().
 	 */
 	@Test
 	public void whenUseMethodThenReturn100() {

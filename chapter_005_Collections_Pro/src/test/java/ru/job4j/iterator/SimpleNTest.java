@@ -6,7 +6,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test for SimpleN.
+ * test for SimpleN.
  *
  * @author Alexander Ivanov
  * @since 11.04.2017
@@ -15,7 +15,7 @@ import static org.junit.Assert.assertThat;
 public class SimpleNTest {
 
     /**
-     * Test method checkSimple(int n).
+     * test method checkSimple(int n).
      * If n is simple then return true.
      */
     @Test
@@ -27,7 +27,7 @@ public class SimpleNTest {
     }
 
     /**
-     * Test method checkSimple(int n).
+     * test method checkSimple(int n).
      * If n isn't simple then return false.
      */
     @Test

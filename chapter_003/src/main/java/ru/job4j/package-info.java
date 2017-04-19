@@ -1,5 +1,5 @@
 /**
- * Test Chapter_3.
+ * test Chapter_3.
  *
  * @author Alexander Ivanov
  * @since 04.03.2017

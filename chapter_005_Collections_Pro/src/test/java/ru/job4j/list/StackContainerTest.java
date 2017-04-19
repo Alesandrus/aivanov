@@ -6,7 +6,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test for StackContainer.
+ * test for StackContainer.
  *
  * @author Alexander Ivanov
  * @since 13.04.2017
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertThat;
  */
 public class StackContainerTest {
     /**
-     * Test method push() and pop().
+     * test method push() and pop().
      * Adding and getting elements.
      */
     @Test

@@ -1,5 +1,5 @@
 /**
- * Test SalvationIsland.
+ * test SalvationIsland.
  *
  * @author Alexander Ivanov
  * @since 22.02.2017

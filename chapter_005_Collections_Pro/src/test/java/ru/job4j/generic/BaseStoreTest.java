@@ -7,7 +7,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test for BaseStore.
+ * test for BaseStore.
  *
  * @author Alexander Ivanov
  * @since 12.04.2017
@@ -51,7 +51,7 @@ public class BaseStoreTest {
     }
 
     /**
-     * Test method add().
+     * test method add().
      * Adding element and get it.
      */
     @Test
@@ -66,7 +66,7 @@ public class BaseStoreTest {
     }
 
     /**
-     * Test method update().
+     * test method update().
      * Update element and get it.
      */
     @Test
@@ -81,7 +81,7 @@ public class BaseStoreTest {
     }
 
     /**
-     * Test method delete().
+     * test method delete().
      * Delete element and get size of BaseStore.
      */
     @Test

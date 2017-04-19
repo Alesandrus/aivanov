@@ -9,7 +9,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test for SimpleLinkedSet.
+ * test for SimpleLinkedSet.
  *
  * @author Alexander Ivanov
  * @since 13.04.2017
@@ -17,7 +17,7 @@ import static org.junit.Assert.assertThat;
  */
 public class SimpleLinkedSetTest {
     /**
-     * Test adding three same elements.
+     * test adding three same elements.
      * When invoke two times next() from iterator then should throws NoSuchElementException,
      * because Set contains only unique elements.
      */

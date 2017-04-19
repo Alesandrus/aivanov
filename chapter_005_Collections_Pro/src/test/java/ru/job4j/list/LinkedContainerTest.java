@@ -10,7 +10,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test for ArrayContainer.
+ * test for ArrayContainer.
  *
  * @author Alexander Ivanov
  * @since 12.04.2017
@@ -18,7 +18,7 @@ import static org.junit.Assert.assertThat;
  */
 public class LinkedContainerTest {
     /**
-     * Test method add() and get().
+     * test method add() and get().
      * Adding element and get it by index.
      */
     @Test
@@ -33,7 +33,7 @@ public class LinkedContainerTest {
     }
 
     /**
-     * Test method delete() and contains().
+     * test method delete() and contains().
      * Delete element from container, get it and check for contains.
      */
     @Test
@@ -51,7 +51,7 @@ public class LinkedContainerTest {
     }
 
     /**
-     * Test method add() by index and get() by index.
+     * test method add() by index and get() by index.
      * Add element by index to container and get it by index.
      */
     @Test
@@ -67,7 +67,7 @@ public class LinkedContainerTest {
     }
 
     /**
-     * Test method contains().
+     * test method contains().
      * If container has not element return false.
      */
     @Test
@@ -82,7 +82,7 @@ public class LinkedContainerTest {
     }
 
     /**
-     * Test iterator method hasNext().
+     * test iterator method hasNext().
      * If iterator has elements then return true.
      */
     @Test
@@ -99,7 +99,7 @@ public class LinkedContainerTest {
     }
 
     /**
-     * Test iterator method hasNext().
+     * test iterator method hasNext().
      * If iterator has not elements then return false.
      */
     @Test
@@ -118,7 +118,7 @@ public class LinkedContainerTest {
     }
 
     /**
-     * Test iterator method next().
+     * test iterator method next().
      * Get element from iterator.
      */
     @Test
@@ -136,7 +136,7 @@ public class LinkedContainerTest {
     }
 
     /**
-     * Test iterator method next().
+     * test iterator method next().
      * When invoke next() fo iterator that has not elements get NoSuchElementException.
      */
     @Test
@@ -160,7 +160,7 @@ public class LinkedContainerTest {
     }
 
     /**
-     * Test for getting ConcurrentModificationException.
+     * test for getting ConcurrentModificationException.
      */
     @Test
     public void whenAddElementsAndInvokeNextFromIteratorThenGetConcurrentModificationException() {

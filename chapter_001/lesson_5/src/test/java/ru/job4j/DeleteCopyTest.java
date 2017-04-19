@@ -5,7 +5,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test class DeleteCopy.
+ * test class DeleteCopy.
  *
  * @author Alexander Ivanov
  * @since 09.01.2016
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertThat;
 public class DeleteCopyTest {
 
 	/**
-	 * Test method for create array without dublicate of strings.
+	 * test method for create array without dublicate of strings.
 	 */
 	@Test
 	public void whenArrayHasDublicateOfStrings() {

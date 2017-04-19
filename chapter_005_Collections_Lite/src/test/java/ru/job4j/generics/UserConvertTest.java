@@ -11,7 +11,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test for UserConvert.
+ * test for UserConvert.
  *
  * @author Alexander Ivanov
  * @since 24.03.2016
@@ -19,7 +19,7 @@ import static org.junit.Assert.assertThat;
  */
 public class UserConvertTest {
     /**
-     * Test convert list of users to HashMap with key - user ID and value - user.
+     * test convert list of users to HashMap with key - user ID and value - user.
      */
     @Test
     public void whenConvertListOfUsersToHashMap() {

@@ -9,7 +9,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test Paint class.
+ * test Paint class.
  *
  * @author Alexander Ivanov
  * @since 03.02.2017
@@ -38,7 +38,7 @@ import static org.junit.Assert.assertThat;
 	}
 
  	/**
-	 * Test draw() for getting square.
+	 * test draw() for getting square.
 	 */
 	@Test
 	public void whenDrawParamIsSquareThenGraphicIsSquare() {
@@ -52,7 +52,7 @@ import static org.junit.Assert.assertThat;
 	}
 
 	/**
-	 * Test draw() for getting square.
+	 * test draw() for getting square.
 	 */
 	@Test
 	public void whenDrawParamIsTriangleThenGraphicIsTriangle() {

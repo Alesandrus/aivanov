@@ -9,7 +9,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test for MySimpleSet.
+ * test for MySimpleSet.
  *
  * @author Alexander Ivanov
  * @since 13.04.2017
@@ -17,7 +17,7 @@ import static org.junit.Assert.assertThat;
  */
 public class MySimpleSetTest {
     /**
-     * Test method add() and next() by Iterator.
+     * test method add() and next() by Iterator.
      * Adding element and get it.
      */
     @Test
@@ -42,7 +42,7 @@ public class MySimpleSetTest {
     }
 
     /**
-     * Test adding three same elements.
+     * test adding three same elements.
      * When invoke two times next() from iterator then should throws NoSuchElementException,
      * because Set contains only unique elements.
      */
@@ -65,7 +65,7 @@ public class MySimpleSetTest {
     }
 
     /**
-     * Test growTab().
+     * test growTab().
      * If adding 13 elements tabSize should be eaquals 32.
      */
     @Test
@@ -80,7 +80,7 @@ public class MySimpleSetTest {
     }
 
     /**
-     * Test Iterator's method hasNext() when iterator hasn't elements.
+     * test Iterator's method hasNext() when iterator hasn't elements.
      */
     @Test
     public void whenAddOneElementAndInvokeTwoTimesHasNextThenSecondCaseReturnFalse() {
@@ -94,7 +94,7 @@ public class MySimpleSetTest {
     }
 
     /**
-     * Test Iterator's method hasNext() when iterator has elements.
+     * test Iterator's method hasNext() when iterator has elements.
      */
     @Test
     public void whenAddOneElementAndInvokeHasNextThenReturnFalse() {

@@ -10,7 +10,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test for ArrayContainer.
+ * test for ArrayContainer.
  *
  * @author Alexander Ivanov
  * @since 12.04.2017
@@ -18,7 +18,7 @@ import static org.junit.Assert.assertThat;
  */
 public class ArrayContainerTest {
     /**
-     * Test method add() and contains().
+     * test method add() and contains().
      * Adding element and check container.
      */
     @Test
@@ -33,7 +33,7 @@ public class ArrayContainerTest {
     }
 
     /**
-     * Test method contains().
+     * test method contains().
      * Check container if it hasn't element.
      */
     @Test
@@ -48,7 +48,7 @@ public class ArrayContainerTest {
     }
 
     /**
-     * Test method delete().
+     * test method delete().
      * Delete element from container, get it element and check for contains.
      */
     @Test
@@ -66,7 +66,7 @@ public class ArrayContainerTest {
     }
 
     /**
-     * Test iterator method hasNext().
+     * test iterator method hasNext().
      * If iterator has elements then return true.
      */
     @Test
@@ -83,7 +83,7 @@ public class ArrayContainerTest {
     }
 
     /**
-     * Test iterator method hasNext().
+     * test iterator method hasNext().
      * If iterator has not elements then return false.
      */
     @Test
@@ -102,7 +102,7 @@ public class ArrayContainerTest {
     }
 
     /**
-     * Test iterator method next().
+     * test iterator method next().
      * Get element from iterator.
      */
     @Test
@@ -120,7 +120,7 @@ public class ArrayContainerTest {
     }
 
     /**
-     * Test iterator method next().
+     * test iterator method next().
      * When invoke next() fo iterator that has not elements get NoSuchElementException.
      */
     @Test
@@ -144,7 +144,7 @@ public class ArrayContainerTest {
     }
 
     /**
-     * Test for getting ConcurrentModificationException.
+     * test for getting ConcurrentModificationException.
      */
     @Test
     public void whenAddElementsAndInvokeNextFromIteratorThenGetConcurrentModificationException() {

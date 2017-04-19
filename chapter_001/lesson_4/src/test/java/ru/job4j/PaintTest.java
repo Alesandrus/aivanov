@@ -5,7 +5,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test of Paint class.
+ * test of Paint class.
  *
  * @author Alexander Ivanov
  * @since 07.01.2016
@@ -13,7 +13,7 @@ import static org.junit.Assert.assertThat;
  */
 public class PaintTest {
 	/**
-	 * Test return pyramid with height 4 strings.
+	 * test return pyramid with height 4 strings.
 	 */
 	@Test
 	public void whenHieghtIsFour() {

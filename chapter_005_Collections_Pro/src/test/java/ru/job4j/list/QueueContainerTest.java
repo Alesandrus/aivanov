@@ -6,7 +6,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test for QueueContainer.
+ * test for QueueContainer.
  *
  * @author Alexander Ivanov
  * @since 13.04.2017
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertThat;
  */
 public class QueueContainerTest {
     /**
-     * Test method poll().
+     * test method poll().
      * Getting element from queue.
      */
     @Test

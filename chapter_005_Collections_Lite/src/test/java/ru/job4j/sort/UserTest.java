@@ -6,7 +6,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test for User.
+ * test for User.
  *
  * @author Alexander Ivanov
  * @since 24.03.2016
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertThat;
  */
 public class UserTest {
     /**
-     * Test compareTo if one user older than second.
+     * test compareTo if one user older than second.
      */
     @Test
     public void whenFirstUserOlderThanSecond() {
@@ -26,7 +26,7 @@ public class UserTest {
     }
 
     /**
-     * Test compareTo if one user and second are same age.
+     * test compareTo if one user and second are same age.
      */
     @Test
     public void whenOneUserAndSecondAreSameAge() {
@@ -38,7 +38,7 @@ public class UserTest {
     }
 
     /**
-     * Test compareTo if one user younger than second.
+     * test compareTo if one user younger than second.
      */
     @Test
     public void whenOneUserYoungerThanSecond() {

@@ -5,7 +5,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test class RotateMatrix.
+ * test class RotateMatrix.
  *
  * @author Alexander Ivanov
  * @since 09.01.2016
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertThat;
 public class RotateMatrixTest {
 
 	/**
-	 * Test method for rotate square matrix.
+	 * test method for rotate square matrix.
 	 */
 	@Test
 	public void whenMatrixIsSquare() {
@@ -52,7 +52,7 @@ public class RotateMatrixTest {
 	}
 
 	/**
-	 * Test method for rotate not square matrix.
+	 * test method for rotate not square matrix.
 	 */
 	@Test
 	public void whenMatrixIsNotSquare() {

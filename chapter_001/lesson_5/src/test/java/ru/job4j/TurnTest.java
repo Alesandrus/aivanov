@@ -5,7 +5,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test class Turn.
+ * test class Turn.
  *
  * @author Alexander Ivanov
  * @since 08.01.2016
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertThat;
 public class TurnTest {
 
 	/**
-	 * Test array with even length.
+	 * test array with even length.
 	 */
 	@Test
 	public void whenArrayHasEvenLength() {
@@ -32,7 +32,7 @@ public class TurnTest {
 	}
 
 	/**
-	 * Test array with odd length.
+	 * test array with odd length.
 	 */
 	@Test
 	public void whenArrayHasOddLength() {

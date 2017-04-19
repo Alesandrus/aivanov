@@ -10,7 +10,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test for SimpleTree.
+ * test for SimpleTree.
  *
  * @author Alexander Ivanov
  * @since 14.04.2017
@@ -18,7 +18,7 @@ import static org.junit.Assert.assertThat;
  */
 public class SimpleTreeTest {
     /**
-     * Test addChild().
+     * test addChild().
      * Adding child if tree has not leafs.
      */
     @Test
@@ -31,7 +31,7 @@ public class SimpleTreeTest {
     }
 
     /**
-     * Test addChild().
+     * test addChild().
      * Adding child if tree has not parent of this child.
      */
     @Test
@@ -51,7 +51,7 @@ public class SimpleTreeTest {
     }
 
     /**
-     * Test getChildren().
+     * test getChildren().
      */
     @Test
     public void whenInvokeGetChildrenThenReturnListOfAllKeys() {
@@ -68,7 +68,7 @@ public class SimpleTreeTest {
     }
 
     /**
-     * Test getChildrenFromParent().
+     * test getChildrenFromParent().
      */
     @Test
     public void whenInvokeGetChildrenFromParentThenReturnListOfKeysSons() {
@@ -84,7 +84,7 @@ public class SimpleTreeTest {
     }
 
     /**
-     * Test contains().
+     * test contains().
      * If tree has not element.
      */
     @Test
@@ -101,7 +101,7 @@ public class SimpleTreeTest {
     }
 
     /**
-     * Test contains().
+     * test contains().
      * If tree has same element.
      */
     @Test
@@ -118,7 +118,7 @@ public class SimpleTreeTest {
     }
 
     /**
-     * Test isBalancedTree().
+     * test isBalancedTree().
      * If tree has balance return true.
      */
     @Test
@@ -135,7 +135,7 @@ public class SimpleTreeTest {
     }
 
     /**
-     * Test isBalancedTree().
+     * test isBalancedTree().
      * If tree has not balance return false.
      */
     @Test

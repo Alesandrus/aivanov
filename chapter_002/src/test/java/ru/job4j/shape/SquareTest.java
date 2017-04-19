@@ -5,7 +5,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test Square class.
+ * test Square class.
  *
  * @author Alexander Ivanov
  * @since 03.02.2017
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertThat;
  public class SquareTest {
 
 	 /**
-	 * Test for checking pic().
+	 * test for checking pic().
 	 */
 	@Test
 	public void whenUsedPicThenReturnSquareString() {

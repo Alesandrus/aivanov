@@ -8,7 +8,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test for ConvertList.
+ * test for ConvertList.
  *
  * @author Alexander Ivanov
  * @since 24.03.2016
@@ -16,7 +16,7 @@ import static org.junit.Assert.assertThat;
  */
 public class ConvertListTest {
     /**
-     * Test convert two-dimensional Array to ArrayList.
+     * test convert two-dimensional Array to ArrayList.
      */
     @Test
     public void whenConvertArrayToList() {
@@ -34,7 +34,7 @@ public class ConvertListTest {
     }
 
     /**
-     * Test convert ArrayList to two-dimensional Array.
+     * test convert ArrayList to two-dimensional Array.
      */
     @Test
     public void whenConvertListToArray() {
@@ -53,7 +53,7 @@ public class ConvertListTest {
     }
 
     /**
-     * Test convert list of arrays to one ArrayList.
+     * test convert list of arrays to one ArrayList.
      */
     @Test
     public void whenConvertListOfArraysToOneList() {

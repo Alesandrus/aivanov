@@ -23,7 +23,7 @@ public class CalculatorTest {
 	 private final double second = 10.0;
 
 	/**
-	 * Test addition.
+	 * test addition.
 	 */
 	@Test
 	public void whenAddOneToThenTwo() {
@@ -34,7 +34,7 @@ public class CalculatorTest {
 	}
 
 	/**
-	 * Test subtraction.
+	 * test subtraction.
 	 */
 	@Test
 	public void whenSubtractOneFromThenTwo() {
@@ -45,7 +45,7 @@ public class CalculatorTest {
 	}
 
 	/**
-	 * Test division.
+	 * test division.
 	 */
 	@Test
 	public void whenDivideOneByThenTwo() {
@@ -56,7 +56,7 @@ public class CalculatorTest {
 	}
 
 	/**
-	 * Test multiplication.
+	 * test multiplication.
 	 */
 	@Test
 	public void whenMultiplyOneByThenTwo() {
@@ -67,7 +67,7 @@ public class CalculatorTest {
 	}
 
 	/**
-	 * Test return result.
+	 * test return result.
 	 */
 	@Test
 	public void whenReturnResult() {

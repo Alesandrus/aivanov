@@ -9,7 +9,7 @@ import static org.junit.Assert.assertThat;
 
 
 /**
- * Test for IteratorTwoDimensionalArray.
+ * test for IteratorTwoDimensionalArray.
  *
  * @author Alexander Ivanov
  * @since 11.04.2017
@@ -18,7 +18,7 @@ import static org.junit.Assert.assertThat;
 public class IteratorTwoDimensoinalArrayTest {
 
     /**
-     * Test method hasNext().
+     * test method hasNext().
      * If iterator has next element then method should return true.
      */
     @Test
@@ -33,7 +33,7 @@ public class IteratorTwoDimensoinalArrayTest {
     }
 
     /**
-     * Test method hasNext().
+     * test method hasNext().
      * If iterator hasn't next element then method should return false.
      */
     @Test
@@ -51,7 +51,7 @@ public class IteratorTwoDimensoinalArrayTest {
     }
 
     /**
-     * Test method next().
+     * test method next().
      * Check iterator for return right element.
      */
     @Test
@@ -69,7 +69,7 @@ public class IteratorTwoDimensoinalArrayTest {
     }
 
     /**
-     * Test method next().
+     * test method next().
      * If iterator hasn't elements and invoking next() then getting NoSuchElementException.
      */
     @Test

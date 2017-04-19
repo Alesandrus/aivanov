@@ -42,7 +42,7 @@ public class StartUIwithSwitchTest {
 	}
 
 	/**
-	 * Test for checking add task.
+	 * test for checking add task.
 	 */
 	@Test
 	public void whenAddNewTask() {
@@ -59,7 +59,7 @@ public class StartUIwithSwitchTest {
 	}
 
 	/**
-	 * Test for editing task.
+	 * test for editing task.
 	 */
 	@Test
 	public void whenEditTask() {
@@ -81,7 +81,7 @@ public class StartUIwithSwitchTest {
 	}
 
 	/**
-	 * Test for deleting task.
+	 * test for deleting task.
 	 */
 	@Test
 	public void whenDeleteTask() {
@@ -102,7 +102,7 @@ public class StartUIwithSwitchTest {
 	}
 
 	/**
-	 * Test for showing all tasks.
+	 * test for showing all tasks.
 	 */
 	@Test
 	public void whenShowAllTasks() {
@@ -126,7 +126,7 @@ public class StartUIwithSwitchTest {
 	}
 
 	/**
-	 * Test for finding item by name.
+	 * test for finding item by name.
 	 */
 	@Test
 	public void whenFindItemByName() {
@@ -155,7 +155,7 @@ public class StartUIwithSwitchTest {
 	}
 
 	/**
-	 * Test for finding item by ID.
+	 * test for finding item by ID.
 	 */
 	@Test
 	public void whenFindItemByID() {
@@ -184,7 +184,7 @@ public class StartUIwithSwitchTest {
 	}
 
 	/**
-	 * Test for adding comment to task.
+	 * test for adding comment to task.
 	 */
 	@Test
 	public void whenAddCommentToTask() {
@@ -206,7 +206,7 @@ public class StartUIwithSwitchTest {
 	}
 
 	/**
-	 * Test for showing all comments of task.
+	 * test for showing all comments of task.
 	 */
 	@Test
 	public void whenShowAllCommentsOfTask() {
@@ -234,7 +234,7 @@ public class StartUIwithSwitchTest {
 	}
 
 	/**
-	 * Test for checking exit.
+	 * test for checking exit.
 	 */
 	@Test
 	public void whenUseExitFromProgramm() {

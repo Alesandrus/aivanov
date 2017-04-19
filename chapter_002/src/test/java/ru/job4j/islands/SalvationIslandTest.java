@@ -5,7 +5,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test SalvationIsland.
+ * test SalvationIsland.
  *
  * @author Alexander Ivanov
  * @since 22.02.2017
@@ -13,7 +13,7 @@ import static org.junit.Assert.assertThat;
  */
 public class SalvationIslandTest {
     /**
-     * Test for check the biggest island.
+     * test for check the biggest island.
      */
     @Test
     public void whenTheBiggestIslandHasSquareTen() {

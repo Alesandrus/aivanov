@@ -5,7 +5,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test of MaxFromThree class.
+ * test of MaxFromThree class.
  *
  * @author Alexander Ivanov
  * @since 06.01.2016
@@ -13,7 +13,7 @@ import static org.junit.Assert.assertThat;
  */
 public class MaxFromThreeTest {
 	/**
-	 * Test max. First > second.
+	 * test max. First > second.
 	 */
 	@Test
 	public void whenFirstMoreThanSecond() {
@@ -26,7 +26,7 @@ public class MaxFromThreeTest {
 	}
 
 	/**
-	 * Test max. First < second.
+	 * test max. First < second.
 	 */
 	@Test
 	public void whenFirstLessThanSecond() {
@@ -39,7 +39,7 @@ public class MaxFromThreeTest {
 	}
 
 	/**
-	 * Test max. First > (second && third).
+	 * test max. First > (second && third).
 	 */
 	@Test
 	public void whenFirstIsMax() {
@@ -53,7 +53,7 @@ public class MaxFromThreeTest {
 	}
 
 	/**
-	 * Test max. Second > (first && third).
+	 * test max. Second > (first && third).
 	 */
 	@Test
 	public void whenSecondIsMax() {
@@ -67,7 +67,7 @@ public class MaxFromThreeTest {
 	}
 
 	/**
-	 * Test max. Third > (first && second).
+	 * test max. Third > (first && second).
 	 */
 	@Test
 	public void whenThirdIsMax() {

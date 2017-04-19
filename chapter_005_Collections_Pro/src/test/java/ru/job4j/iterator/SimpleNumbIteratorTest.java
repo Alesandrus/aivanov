@@ -6,7 +6,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test for SimpleNumberIterator.
+ * test for SimpleNumberIterator.
  *
  * @author Alexander Ivanov
  * @version 1.0
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertThat;
  */
 public class SimpleNumbIteratorTest {
     /**
-     * Test method hasNext().
+     * test method hasNext().
      * If iterator has next prime number then method should return true.
      */
     @Test
@@ -27,7 +27,7 @@ public class SimpleNumbIteratorTest {
     }
 
     /**
-     * Test method hasNext().
+     * test method hasNext().
      * If iterator hasn't next prime number then method should return false.
      */
     @Test
@@ -41,7 +41,7 @@ public class SimpleNumbIteratorTest {
     }
 
     /**
-     * Test method next().
+     * test method next().
      * Check iterator for return right prime number.
      */
     @Test
@@ -55,7 +55,7 @@ public class SimpleNumbIteratorTest {
     }
 
     /**
-     * Test method next().
+     * test method next().
      * If iterator hasn't prime numbers and invoking next() then getting NoSuchSimpleElementException.
      */
     @Test

@@ -1,11 +1,9 @@
-package ru.job4j.Test;
+package ru.job4j.test;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author Alexander Ivanov
@@ -79,27 +77,24 @@ public class Parser {
         return array;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         long start = System.currentTimeMillis();
         Map<String, HashMap<Integer, Order>> books = Parser.scan("D:\\orders.xml");
-        Map<String, OrderBook> map = new HashMap<>();
+        Map<String, OrderBook> map = new TreeMap<>();
         for (Map.Entry<String, HashMap<Integer, Order>> m : books.entrySet()) {
             String name = m.getKey();
             OrderBook book = new OrderBook(name, m.getValue());
             map.put(name, book);
             Thread thread = new Thread(book, name);
             thread.start();
+
         }
-
-
+        //не могу понять как мне сделать так чтобы основная нить ждала пока не завершатся побочные нити
+        Thread.sleep(1000);
+        for (Map.Entry<String, OrderBook> m : map.entrySet()) {
+            System.out.println(m.getKey());
+            m.getValue().show();
+        }
         System.out.println(System.currentTimeMillis() - start);
-        /*String[] arr = Parser.parseAdd("<AddOrder book=\"book-3\" operation=\"SELL\" price=\"100.30\" volume=\"96\" orderId=\"134\" />");
-        for (String s : arr) {
-            System.out.println(s);
-        }
-        String[] arr1 = Parser.parseDelete("<DeleteOrder book=\"book-2\" orderId=\"30\" />");
-        for (String s : arr1) {
-            System.out.println(s);
-        }*/
     }
 }

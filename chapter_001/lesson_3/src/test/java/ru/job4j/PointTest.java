@@ -6,7 +6,7 @@ import static org.hamcrest.number.IsCloseTo.closeTo;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test of Point class.
+ * test of Point class.
  *
  * @author Alexander Ivanov
  * @since 06.01.2016
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertThat;
  */
 public class PointTest {
 	/**
-	 * Test distanceTo.
+	 * test distanceTo.
 	 */
 	@Test
 	public void whenCalculateDistanceFromOnePointToOther() {

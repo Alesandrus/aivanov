@@ -6,7 +6,7 @@ import static org.hamcrest.number.IsCloseTo.closeTo;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test of Triangle class.
+ * test of Triangle class.
  *
  * @author Alexander Ivanov
  * @since 06.01.2016
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertThat;
  */
 public class TriangleTest {
 	/**
-	 * Test calculate area of triangle, when triangle is existing.
+	 * test calculate area of triangle, when triangle is existing.
 	 */
 	@Test
 	public void whenCalculateAreaOfTriangle() {
@@ -29,7 +29,7 @@ public class TriangleTest {
 	}
 
 	/**
-	 * Test calculate area of triangle, when triangle isn`t existing.
+	 * test calculate area of triangle, when triangle isn`t existing.
 	 */
 	@Test
 	public void whenOneSideIsSumOtherTwo() {
@@ -44,7 +44,7 @@ public class TriangleTest {
 	}
 
 	/**
-	 * Test calculate area of triangle, when triangle isn`t existing and two points is eqals.
+	 * test calculate area of triangle, when triangle isn`t existing and two points is eqals.
 	 */
 	@Test
 	public void whenOneSideIsZero() {

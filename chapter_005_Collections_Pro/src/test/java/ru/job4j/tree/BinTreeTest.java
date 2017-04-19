@@ -10,7 +10,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test for BinTree.
+ * test for BinTree.
  *
  * @author Alexander Ivanov
  * @since 14.04.2017
@@ -18,7 +18,7 @@ import static org.junit.Assert.assertThat;
  */
 public class BinTreeTest {
     /**
-     * Test put() and getAllKeys().
+     * test put() and getAllKeys().
      * Adding to tree elements and get them.
      */
     @Test
@@ -36,7 +36,7 @@ public class BinTreeTest {
     }
 
     /**
-     * Test contains().
+     * test contains().
      * If tree has not element.
      */
     @Test
@@ -52,7 +52,7 @@ public class BinTreeTest {
     }
 
     /**
-     * Test contains().
+     * test contains().
      * If tree has same element.
      */
     @Test

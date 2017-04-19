@@ -12,7 +12,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test for IteratorIterators.
+ * test for IteratorIterators.
  *
  * @author Alexander Ivanov
  * @version 1.0
@@ -21,7 +21,7 @@ import static org.junit.Assert.assertThat;
 public class IteratorIteratorsTest {
 
     /**
-     * Test method convert(Iterator<Iterator<Integer>> it).
+     * test method convert(Iterator<Iterator<Integer>> it).
      * If invoke convret() to Iterator<Iterator<Integer>> and return Iterator<Integer> then compare elements that it
      * contains.
      */
@@ -48,7 +48,7 @@ public class IteratorIteratorsTest {
     }
 
     /**
-     * Test method hasNext().
+     * test method hasNext().
      * If iterator has next number then method should return true.
      */
     @Test
@@ -73,7 +73,7 @@ public class IteratorIteratorsTest {
     }
 
     /**
-     * Test method hasNext().
+     * test method hasNext().
      * If iterator hasn't next number then method should return false.
      */
     @Test
@@ -99,7 +99,7 @@ public class IteratorIteratorsTest {
     }
 
     /**
-     * Test method next().
+     * test method next().
      * Check iterator for return right number.
      */
     @Test
@@ -125,7 +125,7 @@ public class IteratorIteratorsTest {
     }
 
     /**
-     * Test method next().
+     * test method next().
      * If iterator hasn't numbers and invoking next() then getting NoSuchElementException.
      */
     @Test

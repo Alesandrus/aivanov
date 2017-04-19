@@ -16,7 +16,7 @@ import static org.junit.Assert.assertThat;
  */
 public class DropAbuseTest {
     /**
-     * Test stream with abuse words: Ball, Letter, Word, Дорога.
+     * test stream with abuse words: Ball, Letter, Word, Дорога.
      */
     @Test
     public void whenStreamHasAbuseWords() {

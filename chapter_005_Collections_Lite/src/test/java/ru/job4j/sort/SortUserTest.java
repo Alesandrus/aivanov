@@ -11,7 +11,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test for SortUser.
+ * test for SortUser.
  *
  * @author Alexander Ivanov
  * @since 24.03.2016
@@ -19,7 +19,7 @@ import static org.junit.Assert.assertThat;
  */
 public class SortUserTest {
     /**
-     * Test convert List of users to TreeSet and sort users by age.
+     * test convert List of users to TreeSet and sort users by age.
      */
     @Test
     public void whenListOfUsersConvertToTreeSet() {
@@ -43,7 +43,7 @@ public class SortUserTest {
     }
 
     /**
-     * Test sort List by hashCode.
+     * test sort List by hashCode.
      */
     @Test
     public void whenListOfUsersSortByUsersHashCode() {
@@ -72,7 +72,7 @@ public class SortUserTest {
     }
 
     /**
-     * Test sort List by name length.
+     * test sort List by name length.
      */
     @Test
     public void whenListOfUsersSortByNameLength() {

@@ -5,7 +5,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test class SubOrigin.
+ * test class SubOrigin.
  *
  * @author Alexander Ivanov
  * @since 10.01.2016
@@ -14,12 +14,12 @@ import static org.junit.Assert.assertThat;
 public class SubOriginTest {
 
 	/**
-	 * Test method checksub for return true.
+	 * test method checksub for return true.
 	 */
 	@Test
 	public void whenSubIsPartOfOrigin() {
 		SubOrigin suborigin = new SubOrigin();
-		String orgin = "Test string";
+		String orgin = "test string";
 		String sub = "ring";
 		boolean checkSub = true;
 		boolean resultSub = suborigin.checksub(orgin, sub);
@@ -27,12 +27,12 @@ public class SubOriginTest {
 	}
 
 	/**
-	 * Test method checksub for return false.
+	 * test method checksub for return false.
 	 */
 	@Test
 	public void whenSubIsNotPartOfOrigin() {
 		SubOrigin suborigin = new SubOrigin();
-		String orgin = "Test string";
+		String orgin = "test string";
 		String sub = "ping";
 		boolean checkSub = false;
 		boolean resultSub = suborigin.checksub(orgin, sub);
