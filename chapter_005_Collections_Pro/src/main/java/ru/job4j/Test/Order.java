@@ -1,6 +1,4 @@
-package ru.job4j.Test;
-
-import java.util.Objects;
+package ru.job4j.test;
 
 /**
  * @author Alexander Ivanov
@@ -9,7 +7,9 @@ import java.util.Objects;
  */
 public class Order {
     private String name;
-
+    /**
+     * Operation.
+     */
     private String operation;
 
     /**
