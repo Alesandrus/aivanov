@@ -85,15 +85,15 @@ public class Parser {
             String name = m.getKey();
             OrderBook book = new OrderBook(name, m.getValue());
             map.put(name, book);
-            Thread thread = new Thread(book, name);
-            thread.start();
-
+            book.addOrdersToBooks();
         }
-        //не могу понять как мне сделать так чтобы основная нить ждала пока не завершатся побочные нити
-        Thread.sleep(1000);
         for (Map.Entry<String, OrderBook> m : map.entrySet()) {
             System.out.println(m.getKey());
-            m.getValue().show();
+            m.getValue().showAndFillLists();
+        }
+        for (Map.Entry<String, OrderBook> m : map.entrySet()) {
+            m.getValue().matchBIDtoASK();
+            m.getValue().showAfterDeal();
         }
         System.out.println(System.currentTimeMillis() - start);
     }

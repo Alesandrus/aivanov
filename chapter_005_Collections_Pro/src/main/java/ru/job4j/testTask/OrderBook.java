@@ -1,26 +1,27 @@
 package ru.job4j.testTask;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * @author Alexander Ivanov
  * @version 1.0
  * @since 16.04.2017
  */
-public class OrderBook implements Runnable {
+public class OrderBook {
     String name;
     private TreeMap<Float, Integer>  setBID;
     private TreeMap<Float, Integer>  setASK;
     private HashMap<Integer, Order> allOrders;
+    private LinkedList<Pair> pairsBID;
+    private LinkedList<Pair> pairsASK;
 
     public OrderBook(String name, HashMap<Integer, Order> allOrders) {
         this.name = name;
         this.allOrders = allOrders;
         setBID = new TreeMap<>(Comparator.reverseOrder());
         setASK = new TreeMap<>();
+        pairsBID = new LinkedList<>();
+        pairsASK = new LinkedList<>();
     }
 
     private void addOrder(Order order, TreeMap<Float, Integer> treeSet) {
@@ -50,8 +51,7 @@ public class OrderBook implements Runnable {
         return setASK;
     }
 
-    @Override
-    public void run() {
+    public void addOrdersToBooks() {
         for(Map.Entry<Integer, Order> m : allOrders.entrySet()) {
             Order order = m.getValue();
             if (order.getOperation().equals("SELL")) {
@@ -62,14 +62,51 @@ public class OrderBook implements Runnable {
         }
     }
 
-    public void show() {
+    public void showAndFillLists() {
         System.out.println("BID");
         for (Map.Entry<Float, Integer> m : setBID.entrySet()) {
-            System.out.println("price - " + m.getKey() + "  volume - " + m.getValue());
+            Float price = m.getKey();
+            Integer volume = m.getValue();
+            System.out.println("price - " + price + "  volume - " + volume);
+            pairsBID.add(new Pair(price, volume));
         }
         System.out.println("ASK");
-        for (Map.Entry<Float, Integer> m : setBID.entrySet()) {
-            System.out.println("            price - " + m.getKey() + "  volume - " + m.getValue());
+        for (Map.Entry<Float, Integer> m : setASK.entrySet()) {
+            Float price = m.getKey();
+            Integer volume = m.getValue();
+            System.out.println("            price - " + price + "  volume - " + volume);
+            pairsASK.add(new Pair(price, volume));
+        }
+    }
+
+    public void matchBIDtoASK() {
+            while (pairsASK.size() > 0 && pairsBID.size() > 0
+                    && pairsBID.peek().getPrice() >= pairsASK.peek().getPrice()) {
+                int volumeBID = pairsBID.peek().getVolume();
+                int volumeASK = pairsASK.peek().getVolume();
+                if (volumeBID > volumeASK) {
+                    pairsBID.peek().setVolume(volumeBID - volumeASK);
+                    pairsASK.poll();
+                } else if (volumeBID < volumeASK) {
+                    pairsASK.peek().setVolume(volumeASK - volumeBID);
+                    pairsBID.poll();
+                } else {
+                    pairsASK.poll();
+                    pairsBID.poll();
+                }
+            }
+
+    }
+
+    public void showAfterDeal() {
+        System.out.println(name);
+        System.out.println("BID after deal");
+        for (Pair p : pairsBID) {
+            System.out.println(p.getPrice() + " - " + p.getVolume());
+        }
+        System.out.println("ASK after deal");
+        for(Pair p : pairsASK) {
+            System.out.println(p.getPrice() + " - " + p.getVolume());
         }
     }
 }
