@@ -3,7 +3,9 @@ package ru.job4j.testTask;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * @author Alexander Ivanov
@@ -24,7 +26,8 @@ public class Parser {
                         map = new HashMap<>();
                         bookList.put(array[0], map);
                     }
-                    map.put(id, new Order(array[0], array[1], Float.valueOf(array[2]), Integer.valueOf(array[3]), Integer.valueOf(array[4])));
+                    map.put(id, new Order(array[0], array[1], Float.valueOf(array[2]), Integer.valueOf(array[3]),
+                            Integer.valueOf(array[4])));
                 } else if (s.charAt(1) == 'D') {
                     String[] array = parseDelete(s);
                     int id = Integer.valueOf(array[1]);
