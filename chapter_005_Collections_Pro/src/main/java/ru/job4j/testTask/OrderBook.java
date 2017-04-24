@@ -63,18 +63,18 @@ public class OrderBook {
     }
 
     public void showAndFillLists() {
-        System.out.println("BID");
+        System.out.println("\t\t\t\tBID");
         for (Map.Entry<Float, Integer> m : setBID.entrySet()) {
             Float price = m.getKey();
             Integer volume = m.getValue();
-            System.out.println("price - " + price + "  volume - " + volume);
+            System.out.println(String.format("Volume - %7d @ Price - %6.2f", volume, price));
             pairsBID.add(new Pair(price, volume));
         }
-        System.out.println("ASK");
+        System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\tASK");
         for (Map.Entry<Float, Integer> m : setASK.entrySet()) {
             Float price = m.getKey();
             Integer volume = m.getValue();
-            System.out.println("            price - " + price + "  volume - " + volume);
+            System.out.println(String.format("\t\t\t\t\t\t\t\t\tVolume - %7d @ Price - %6.2f", volume, price));
             pairsASK.add(new Pair(price, volume));
         }
     }
@@ -99,14 +99,14 @@ public class OrderBook {
     }
 
     public void showAfterDeal() {
-        System.out.println(name);
-        System.out.println("BID after deal");
+        System.out.println(String.format("%s\t\t\t\t\t\t\t   %s", System.lineSeparator(), name.toUpperCase()));
+        System.out.println("\t\t   BID after deal");
         for (Pair p : pairsBID) {
-            System.out.println(p.getPrice() + " - " + p.getVolume());
+            System.out.println(String.format("Volume - %7d @ Price - %6.2f", p.getVolume(), p.getPrice()));
         }
-        System.out.println("ASK after deal");
+        System.out.println("\t\t\t\t\t\t\t\t\t\t\tASK after deal");
         for(Pair p : pairsASK) {
-            System.out.println(p.getPrice() + " - " + p.getVolume());
+            System.out.println(String.format("\t\t\t\t\t\t\t\t Volume - %7d @ Price - %6.2f", p.getVolume(), p.getPrice()));
         }
     }
 }

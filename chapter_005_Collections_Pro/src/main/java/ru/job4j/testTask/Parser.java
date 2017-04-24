@@ -88,13 +88,13 @@ public class Parser {
             book.addOrdersToBooks();
         }
         for (Map.Entry<String, OrderBook> m : map.entrySet()) {
-            System.out.println(m.getKey());
+            System.out.println(String.format("%s\t\t\t\t\t\t\t\t%s", System.lineSeparator(), m.getKey().toUpperCase()));
             m.getValue().showAndFillLists();
         }
         for (Map.Entry<String, OrderBook> m : map.entrySet()) {
             m.getValue().matchBIDtoASK();
             m.getValue().showAfterDeal();
         }
-        System.out.println(System.currentTimeMillis() - start);
+        System.out.println("Work time - " + (System.currentTimeMillis() - start) + " ms");
     }
 }
