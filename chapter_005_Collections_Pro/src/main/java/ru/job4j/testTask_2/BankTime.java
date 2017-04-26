@@ -45,8 +45,7 @@ public class BankTime {
     private long getRoundedClosingTimeForIterate(long minTimePeriod) {
         long diferenceCloseAndOpen = closing - opening;
         long factor = (long) Math.ceil(diferenceCloseAndOpen / minTimePeriod);
-        long roundedClosing = opening + minTimePeriod * factor;
-        return roundedClosing;
+        return opening + minTimePeriod * factor;
     }
 
     private void addToListOfMaxPeriods() {

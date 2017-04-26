@@ -8,12 +8,19 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
+ * Parser for XML-file with orders.
+ *
  * @author Alexander Ivanov
  * @version 1.0
  * @since 15.04.2017
  */
 public class Parser {
-    public static Map<String, HashMap<Integer, Order>> scan(String path) {
+    /**
+     * Scan and parse XML-file of orderBook.
+     * @param path of XML-file.
+     * @return map with name of orderBook as key and map with ID and order as value.
+     */
+    public Map<String, HashMap<Integer, Order>> scan(String path) {
         Map<String, HashMap<Integer, Order>> bookList = new TreeMap<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
             String s;
@@ -40,7 +47,12 @@ public class Parser {
         return bookList;
     }
 
-    public static String[] parseAdd(String s) {
+    /**
+     * Parse orders for add.
+     * @param s for parsing.
+     * @return array of strings.
+     */
+    public String[] parseAdd(String s) {
         char[] arr = s.toCharArray();
         String[] array = new String[5];
         boolean flag = false;
@@ -60,7 +72,12 @@ public class Parser {
         return array;
     }
 
-    public static String[] parseDelete(String s) {
+    /**
+     * Parse orders for delete.
+     * @param s for parsing.
+     * @return array of strings.
+     */
+    public String[] parseDelete(String s) {
         char[] arr = s.toCharArray();
         String[] array = new String[2];
         boolean flag = false;
@@ -80,9 +97,15 @@ public class Parser {
         return array;
     }
 
+    /**
+     * Main method.
+     * @param args from comandline.
+     * @throws InterruptedException for IO.
+     */
     public static void main(String[] args) throws InterruptedException {
         long start = System.currentTimeMillis();
-        Map<String, HashMap<Integer, Order>> books = Parser.scan("D:\\orders.xml");
+        Parser parser = new Parser();
+        Map<String, HashMap<Integer, Order>> books = parser.scan("D:\\orders.xml");
         Map<String, OrderBook> map = new TreeMap<>();
         for (Map.Entry<String, HashMap<Integer, Order>> m : books.entrySet()) {
             String name = m.getKey();
