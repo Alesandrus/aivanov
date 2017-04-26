@@ -1,25 +1,61 @@
 package ru.job4j.testTask_2;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
- * Created by Ivanov_ab on 26.04.2017.
+ * Class BankTime.
+ *
+ * @author Alexander Ivanov
+ * @version 1.0
+ * @since 26.04.2017
  */
 public class BankTime {
+    /**
+     * Time for opening bank.
+     */
     private long opening;
+
+    /**
+     * Time for closing bank.
+     */
     private long closing;
+
+    /**
+     * List of all clients by day.
+     */
     private List<Client> clientList = new ArrayList<>();
+
+    /**
+     * List of periods that contains maximum of clients.
+     */
     private List<MaxClientsPeriod> listOfMaxPeriods = new ArrayList<>();
 
+    /**
+     * Constructor for BankTime.
+     * @param opening time.
+     * @param closing time.
+     */
     public BankTime(Calendar opening, Calendar closing) {
         this.opening = opening.getTimeInMillis();
         this.closing = closing.getTimeInMillis();
     }
 
+    /**
+     * Add client to clientList.
+     * @param client with income and outcome time.
+     */
     public void addClient(Client client) {
         clientList.add(client);
     }
 
+    /**
+     * Get the minimum amount of time, when there are maximum number of customers.
+     * @return minimum time.
+     */
     public long getMinTimeBeing() {
         long minTimePeiod = closing - opening;
         for (int i = 0; i < clientList.size(); i++) {
@@ -42,12 +78,20 @@ public class BankTime {
         return minTimePeiod;
     }
 
+    /**
+     * Get time for change closing time. It's need for iterate all periods.
+     * @param minTimePeriod for iterating.
+     * @return time for change closing time.
+     */
     private long getRoundedClosingTimeForIterate(long minTimePeriod) {
         long diferenceCloseAndOpen = closing - opening;
         long factor = (long) Math.ceil(diferenceCloseAndOpen / minTimePeriod);
         return opening + minTimePeriod * factor;
     }
 
+    /**
+     * Adding to list all periods with maximum number of clients.
+     */
     private void addToListOfMaxPeriods() {
         long minTimePeriod = getMinTimeBeing();
         long roundedClosing = getRoundedClosingTimeForIterate(minTimePeriod);
@@ -70,6 +114,10 @@ public class BankTime {
         }
     }
 
+    /**
+     * Getting list of combined periods.
+     * @return list.
+     */
     private List<MaxClientsPeriod> getListOfMaxPeriods() {
         addToListOfMaxPeriods();
         List<MaxClientsPeriod> listOfPeriods = new ArrayList<>();
@@ -97,6 +145,9 @@ public class BankTime {
         return listOfPeriods;
     }
 
+    /**
+     * Show all periods with maximum number of clients.
+     */
     public void showMaxPeriods() {
         List<MaxClientsPeriod> listOfPeriods = getListOfMaxPeriods();
         System.out.println("Максимальное количество людей было");
