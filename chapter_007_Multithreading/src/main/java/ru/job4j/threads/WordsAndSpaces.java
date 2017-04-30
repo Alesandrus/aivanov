@@ -38,10 +38,10 @@ public class WordsAndSpaces {
                 String regEx = "\\w+";
                 Pattern pattern = Pattern.compile(regEx);
                 Matcher matcher = pattern.matcher(s);
-                while (!Thread.currentThread().isInterrupted() && matcher.find() && !programStop) {
+                while (!Thread.currentThread().isInterrupted() && matcher.find()) {
                     nWords++;
                     System.out.println("Counted: " + nWords + " words");
-                    if (System.currentTimeMillis() - startTime > 1000) {
+                    if (System.currentTimeMillis() - startTime > 1000 || programStop) {
                         Thread.currentThread().interrupt();
                     }
                 }
@@ -56,10 +56,10 @@ public class WordsAndSpaces {
                 String regEx = "\\s+";
                 Pattern pattern = Pattern.compile(regEx);
                 Matcher matcher = pattern.matcher(s);
-                while (!Thread.currentThread().isInterrupted() && matcher.find() && !programStop) {
+                while (!Thread.currentThread().isInterrupted() && matcher.find()) {
                     nSpaces++;
                     System.out.println("Counted: " + nSpaces + " spaces");
-                    if (System.currentTimeMillis() - startTime > 1000) {
+                    if (System.currentTimeMillis() - startTime > 1000 || programStop) {
                         Thread.currentThread().interrupt();
                     }
                 }
