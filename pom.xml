@@ -18,6 +18,7 @@
 		<module>chapter_003</module>
 		<module>chapter_005_Collections_Lite</module>
 		<module>chapter_005_Collections_Pro</module>
+		<module>chapter_007_Multithreading</module>
 	</modules>
 	
 	<dependencies>
