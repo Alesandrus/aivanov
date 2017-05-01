@@ -24,7 +24,7 @@ public class WordsAndSpaces {
     /**
      * Variable for stopping threads.
      */
-    private boolean programStop = false;
+    private volatile boolean programStop = false;
 
     /**
      * Count words and spaces in text by two threads.
@@ -38,10 +38,10 @@ public class WordsAndSpaces {
                 String regEx = "\\w+";
                 Pattern pattern = Pattern.compile(regEx);
                 Matcher matcher = pattern.matcher(s);
-                while (!Thread.currentThread().isInterrupted() && matcher.find()) {
+                while (!Thread.currentThread().isInterrupted() && matcher.find() && !programStop) {
                     nWords++;
                     System.out.println("Counted: " + nWords + " words");
-                    if (System.currentTimeMillis() - startTime > 1000 || programStop) {
+                    if (System.currentTimeMillis() - startTime > 1000) {
                         Thread.currentThread().interrupt();
                     }
                 }
@@ -56,10 +56,10 @@ public class WordsAndSpaces {
                 String regEx = "\\s+";
                 Pattern pattern = Pattern.compile(regEx);
                 Matcher matcher = pattern.matcher(s);
-                while (!Thread.currentThread().isInterrupted() && matcher.find()) {
+                while (!Thread.currentThread().isInterrupted() && matcher.find() && !programStop) {
                     nSpaces++;
                     System.out.println("Counted: " + nSpaces + " spaces");
-                    if (System.currentTimeMillis() - startTime > 1000 || programStop) {
+                    if (System.currentTimeMillis() - startTime > 1000) {
                         Thread.currentThread().interrupt();
                     }
                 }
