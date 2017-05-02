@@ -35,14 +35,24 @@ public class WordsAndSpaces {
             @Override
             public void run() {
                 long startTime = System.currentTimeMillis();
-                String regEx = "\\w+";
-                Pattern pattern = Pattern.compile(regEx);
-                Matcher matcher = pattern.matcher(s);
-                while (!Thread.currentThread().isInterrupted() && matcher.find()) {
-                    nWords++;
-                    System.out.println("Counted: " + nWords + " words");
+                char[] array = s.toCharArray();
+                boolean isWord = false;
+                for (int i = 0; i < array.length && !Thread.currentThread().isInterrupted(); i++) {
                     if (System.currentTimeMillis() - startTime > 1000 || programStop) {
                         Thread.currentThread().interrupt();
+                        break;
+                    }
+                    if (Character.isLetter(array[i])) {
+                        isWord = true;
+                    }
+                    if (!Character.isLetter(array[i]) && isWord) {
+                        nWords++;
+                        isWord = false;
+                        System.out.println("Counted: " + nWords + " words");
+                    }
+                    if (i == array.length - 1 && isWord) {
+                        nWords++;
+                        System.out.println("Counted: " + nWords + " words");
                     }
                 }
                 System.out.println("Number of words: " + nWords);
@@ -53,14 +63,15 @@ public class WordsAndSpaces {
             @Override
             public void run() {
                 long startTime = System.currentTimeMillis();
-                String regEx = "\\s+";
-                Pattern pattern = Pattern.compile(regEx);
-                Matcher matcher = pattern.matcher(s);
-                while (!Thread.currentThread().isInterrupted() && matcher.find()) {
-                    nSpaces++;
-                    System.out.println("Counted: " + nSpaces + " spaces");
+                char[] array = s.toCharArray();
+                for (int i = 0; i < array.length && !Thread.currentThread().isInterrupted(); i++) {
                     if (System.currentTimeMillis() - startTime > 1000 || programStop) {
                         Thread.currentThread().interrupt();
+                        break;
+                    }
+                    if (array[i] == 32) {
+                        nSpaces++;
+                        System.out.println("Counted: " + nSpaces + " spaces");
                     }
                 }
                 System.out.println("Number of spaces: " + nSpaces);
