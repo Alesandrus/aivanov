@@ -24,7 +24,7 @@ public class WordsAndSpaces {
     /**
      * Variable for stopping threads.
      */
-    private boolean programStop = false;
+    private volatile boolean programStop = false;
 
     /**
      * Count words and spaces in text by two threads.
