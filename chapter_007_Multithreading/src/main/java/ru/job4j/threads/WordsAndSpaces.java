@@ -1,8 +1,5 @@
 package ru.job4j.threads;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * WordsAndSpaces.
  *
