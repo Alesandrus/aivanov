@@ -1,7 +1,6 @@
 package ru.job4j.monitore_synchronizy.list;
 
 import java.util.Arrays;
-import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -13,7 +12,7 @@ import java.util.NoSuchElementException;
  * @version 1.0
  * @param <E> type of elements.
  */
-public class SynchronizedArrayContainer<E> extends SimpleArray<E> implements Iterable<E> {
+public class SynchronizedArrayContainer<E> implements Iterable<E> {
 
     /**
      * Array of objects.
@@ -148,13 +147,13 @@ public class SynchronizedArrayContainer<E> extends SimpleArray<E> implements Ite
         /**
          * Copy of arr.
          */
-        Object[] copyArray;
+        private Object[] copyArray;
 
         /**
          * Constructor for ArrayIterator.
          * Copy array for iterate.
          */
-        public ArrayIterator() {
+        ArrayIterator() {
             synchronized (SynchronizedArrayContainer.this) {
                 copyArray = Arrays.copyOf(arr, arr.length);
             }
