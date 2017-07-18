@@ -36,15 +36,13 @@ public class UserStorage {
      * @param newAmount to update.
      * @return old amount of user's money.
      */
-    public int update(int userID, int newAmount) {
+    public synchronized int update(int userID, int newAmount) {
         if (!storage.containsKey(userID)) {
             throw new NoSuchElementException("No such user");
         }
         User user = storage.get(userID);
         int oldValue = user.getAmount();
-        synchronized (user) {
-            user.setAmount(newAmount);
-        }
+        user.setAmount(newAmount);
         return oldValue;
     }
 
@@ -66,22 +64,18 @@ public class UserStorage {
      * @param amount for transfer.
      * @return true if transfer is done.
      */
-    public boolean transfer(int fromId, int toId, int amount) {
+    public synchronized boolean transfer(int fromId, int toId, int amount) {
         if (!storage.containsKey(fromId) && !storage.containsKey(toId)) {
             throw new NoSuchElementException("No user");
         }
         User userFrom = storage.get(fromId);
         User userTo = storage.get(toId);
-        synchronized (userFrom) {
-            int amountUserFrom = userFrom.getAmount();
-            if (amountUserFrom < amount) {
-                return false;
-            }
-            synchronized (userTo) {
-                update(fromId, amountUserFrom - amount);
-                update(toId, userTo.getAmount() + amount);
-            }
+        int amountUserFrom = userFrom.getAmount();
+        if (amountUserFrom < amount) {
+            return false;
         }
+        update(fromId, amountUserFrom - amount);
+        update(toId, userTo.getAmount() + amount);
         return true;
     }
 }
