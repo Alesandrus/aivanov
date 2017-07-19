@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -20,8 +21,8 @@ import java.util.concurrent.Future;
  * TextSearch.
  *
  * @author Alexander Ivanov
- * @since 15.07.2017
  * @version 1.0
+ * @since 15.07.2017
  */
 public class TextSearch {
     /**
@@ -36,8 +37,9 @@ public class TextSearch {
 
     /**
      * Search text in files.
+     *
      * @param startPath path for passing.
-     * @param text for searching.
+     * @param text      for searching.
      * @return finding path or null.
      */
     public Path searchPath(Path startPath, String text) {
@@ -47,12 +49,17 @@ public class TextSearch {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        ExecutorService executor = Executors.newFixedThreadPool(10);
+        ExecutorService executor = Executors.newCachedThreadPool();
         Path findPath = null;
+        List<Future<Path>> listOfFuture = new ArrayList<>();
         for (Path path : files) {
             Future<Path> future = executor.submit(new MyCallable(path, text));
+            listOfFuture.add(future);
+        }
+        for (Future<Path> f : listOfFuture) {
             try {
-                Path myPath = future.get();
+                Path myPath = f.get();
+
                 if (myPath != null) {
                     findPath = myPath;
                     break;
@@ -61,7 +68,7 @@ public class TextSearch {
                 e.printStackTrace();
             }
         }
-        executor.shutdown();
+        executor.shutdownNow();
         return findPath;
     }
 
@@ -71,7 +78,8 @@ public class TextSearch {
     class MyVisitor extends SimpleFileVisitor<Path> {
         /**
          * Invoke when visit file.
-         * @param file for visit.
+         *
+         * @param file  for visit.
          * @param attrs file attributes.
          * @return continue for visiting.
          * @throws IOException .
@@ -84,8 +92,9 @@ public class TextSearch {
 
         /**
          * Invoke when can't visit file.
+         *
          * @param file for visit.
-         * @param exc exception.
+         * @param exc  exception.
          * @return continue for visiting
          * @throws IOException .
          */
@@ -112,6 +121,7 @@ public class TextSearch {
 
         /**
          * Constructor.
+         *
          * @param path file for searching.
          * @param text for searching.
          */
@@ -122,6 +132,7 @@ public class TextSearch {
 
         /**
          * Searching text in file.
+         *
          * @return path of file if file contains text or null.
          */
         @Override
@@ -142,13 +153,14 @@ public class TextSearch {
 
     /**
      * Main.
+     *
      * @param args - path for passing directories and subdirectories.
      */
     public static void main(String[] args) {
         TextSearch search = new TextSearch();
         if (args.length != 1) {
             System.out.println("Enter the path of the"
-                    + " directory to start the bypass or the path to the file for searching!");
+                    + " directory into programm arguments to start the bypass or the path to the file for searching!");
         } else {
             Path startPath = Paths.get(args[0]);
             if (Files.isDirectory(startPath) || Files.isRegularFile(startPath)) {

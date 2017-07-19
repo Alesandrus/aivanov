@@ -7,35 +7,36 @@ import java.util.NoSuchElementException;
 /**
  * SynchronizedLinkedContainer.
  *
- * @author Alexander Ivanov
- * @since 01.04.2017
- * @version 1.0
  * @param <E> type of elements.
+ * @author Alexander Ivanov
+ * @version 1.0
+ * @since 01.04.2017
  */
 public class SynchronizedLinkedContainer<E> implements SimpleContainer<E> {
 
     /**
      * Container size.
      */
-    private volatile int size = 0;
+    private int size = 0;
 
     /**
      * First node.
      */
-    private volatile Knot<E> first;
+    private Knot<E> first;
 
     /**
      * Second node.
      */
-    private volatile Knot<E> last;
+    private Knot<E> last;
 
     /**
      * Container modifier.
      */
-    private volatile int linkMod = 0;
+    private int linkMod = 0;
 
     /**
      * Node for link.
+     *
      * @param <E> element.
      */
     private class Knot<E> {
@@ -56,9 +57,10 @@ public class SynchronizedLinkedContainer<E> implements SimpleContainer<E> {
 
         /**
          * Constructor for Knot.
+         *
          * @param prevvious node.
-         * @param elem element.
-         * @param next node.
+         * @param elem      element.
+         * @param next      node.
          */
         Knot(Knot<E> prevvious, E elem, Knot<E> next) {
             this.previous = prevvious;
@@ -69,6 +71,7 @@ public class SynchronizedLinkedContainer<E> implements SimpleContainer<E> {
 
     /**
      * Add element to the end of container.
+     *
      * @param element for adding.
      */
     @Override
@@ -87,6 +90,7 @@ public class SynchronizedLinkedContainer<E> implements SimpleContainer<E> {
 
     /**
      * Method for get element by index.
+     *
      * @param index of element.
      * @return element.
      */
@@ -104,6 +108,7 @@ public class SynchronizedLinkedContainer<E> implements SimpleContainer<E> {
 
     /**
      * Remove element by index.
+     *
      * @param index for delete element from container.
      * @return deleted element.
      */
@@ -136,8 +141,9 @@ public class SynchronizedLinkedContainer<E> implements SimpleContainer<E> {
 
     /**
      * Add element by index.
+     *
      * @param index for adding.
-     * @param elem for adding.
+     * @param elem  for adding.
      */
     public synchronized void add(int index, E elem) {
         if (index > size || index < 0) {
@@ -169,6 +175,7 @@ public class SynchronizedLinkedContainer<E> implements SimpleContainer<E> {
 
     /**
      * Check container for contaning element.
+     *
      * @param elem for check.
      * @return true if contaner contains elem.
      */
@@ -185,6 +192,7 @@ public class SynchronizedLinkedContainer<E> implements SimpleContainer<E> {
 
     /**
      * Getter for container size.
+     *
      * @return size.
      */
     public int getSize() {
@@ -193,6 +201,7 @@ public class SynchronizedLinkedContainer<E> implements SimpleContainer<E> {
 
     /**
      * Method for getting iterator.
+     *
      * @return iterator.
      */
     @Override
@@ -202,6 +211,7 @@ public class SynchronizedLinkedContainer<E> implements SimpleContainer<E> {
 
     /**
      * Iterator for SynchronizedLinkedContainer.
+     *
      * @param <E> element.
      */
     private class Itr<E> implements Iterator<E> {
@@ -228,6 +238,7 @@ public class SynchronizedLinkedContainer<E> implements SimpleContainer<E> {
 
         /**
          * Check next element.
+         *
          * @return true if iterator has next number.
          */
         @Override
@@ -237,6 +248,7 @@ public class SynchronizedLinkedContainer<E> implements SimpleContainer<E> {
 
         /**
          * Get next element.
+         *
          * @return next element.
          */
         @Override

@@ -7,27 +7,27 @@ import java.util.NoSuchElementException;
 /**
  * SynchronizedArrayContainer.
  *
- * @author Alexander Ivanov
- * @since 31.03.2017
- * @version 1.0
  * @param <E> type of elements.
+ * @author Alexander Ivanov
+ * @version 1.0
+ * @since 31.03.2017
  */
 public class SynchronizedArrayContainer<E> implements Iterable<E> {
 
     /**
      * Array of objects.
      */
-    private volatile Object[] arr;
+    private Object[] arr;
 
     /**
      * Number of array elements.
      */
-    private volatile int size = 0;
+    private int size = 0;
 
     /**
      * Load capacity.
      */
-    private volatile int capacity;
+    private int capacity;
 
     /**
      * Class constructor.
@@ -39,6 +39,7 @@ public class SynchronizedArrayContainer<E> implements Iterable<E> {
 
     /**
      * method for increase array's capacity.
+     *
      * @return true if array is increased.
      */
     private boolean increaseCapacity() {
@@ -55,6 +56,7 @@ public class SynchronizedArrayContainer<E> implements Iterable<E> {
 
     /**
      * Getting element from array.
+     *
      * @param index of element for getting.
      * @return element.
      */
@@ -68,7 +70,8 @@ public class SynchronizedArrayContainer<E> implements Iterable<E> {
 
     /**
      * Update reference by index to new element.
-     * @param index for updating.
+     *
+     * @param index   for updating.
      * @param element for setting.
      */
     public synchronized void update(int index, E element) {
@@ -80,6 +83,7 @@ public class SynchronizedArrayContainer<E> implements Iterable<E> {
 
     /**
      * Getter for size.
+     *
      * @return size.
      */
     public int getSize() {
@@ -88,6 +92,7 @@ public class SynchronizedArrayContainer<E> implements Iterable<E> {
 
     /**
      * Add element.
+     *
      * @param element element for adding.
      */
     public synchronized void add(E element) {
@@ -97,6 +102,7 @@ public class SynchronizedArrayContainer<E> implements Iterable<E> {
 
     /**
      * delete element.
+     *
      * @param index of element for delete it.
      * @return deleted element.
      */
@@ -113,6 +119,7 @@ public class SynchronizedArrayContainer<E> implements Iterable<E> {
 
     /**
      * Check array for contain element.
+     *
      * @param elem for check.
      * @return true if array contains element.
      */
@@ -133,6 +140,7 @@ public class SynchronizedArrayContainer<E> implements Iterable<E> {
 
     /**
      * Get iterator for passing container.
+     *
      * @return iterator.
      */
     @Override
@@ -166,6 +174,7 @@ public class SynchronizedArrayContainer<E> implements Iterable<E> {
 
         /**
          * Check next element.
+         *
          * @return true if iterator has next number.
          */
         @Override
@@ -175,6 +184,7 @@ public class SynchronizedArrayContainer<E> implements Iterable<E> {
 
         /**
          * Get next element.
+         *
          * @return next element.
          */
         @Override
