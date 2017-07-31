@@ -61,7 +61,7 @@ public class SynchronizedArrayContainer<E> implements Iterable<E> {
      * @return element.
      */
     @SuppressWarnings(value = "unchecked")
-    public E get(int index) {
+    public synchronized E get(int index) {
         if (index >= this.size || index < 0) {
             throw new IndexOutOfBoundsException();
         }
@@ -86,7 +86,7 @@ public class SynchronizedArrayContainer<E> implements Iterable<E> {
      *
      * @return size.
      */
-    public int getSize() {
+    public synchronized int getSize() {
         return size;
     }
 
@@ -123,16 +123,12 @@ public class SynchronizedArrayContainer<E> implements Iterable<E> {
      * @param elem for check.
      * @return true if array contains element.
      */
-    public boolean contains(E elem) {
-        Object[] copyArray;
-        synchronized (this) {
-            copyArray = Arrays.copyOf(arr, arr.length);
-        }
+    public synchronized boolean contains(E elem) {
         boolean isE = false;
-        for (int i = 0; i < copyArray.length; i++) {
-            if (elem.equals(copyArray[i])) {
+        for (int i = 0; i < getSize(); i++) {
+            if (elem.equals(get(i))) {
                 isE = true;
-                break;
+                i = getSize();
             }
         }
         return isE;
@@ -144,7 +140,7 @@ public class SynchronizedArrayContainer<E> implements Iterable<E> {
      * @return iterator.
      */
     @Override
-    public Iterator<E> iterator() {
+    public synchronized Iterator<E> iterator() {
         return new ArrayIterator();
     }
 
@@ -162,9 +158,7 @@ public class SynchronizedArrayContainer<E> implements Iterable<E> {
          * Copy array for iterate.
          */
         ArrayIterator() {
-            synchronized (SynchronizedArrayContainer.this) {
-                copyArray = Arrays.copyOf(arr, arr.length);
-            }
+            copyArray = Arrays.copyOf(arr, arr.length);
         }
 
         /**

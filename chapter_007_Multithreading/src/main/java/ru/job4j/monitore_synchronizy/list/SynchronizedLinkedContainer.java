@@ -195,7 +195,7 @@ public class SynchronizedLinkedContainer<E> implements SimpleContainer<E> {
      *
      * @return size.
      */
-    public int getSize() {
+    public synchronized int getSize() {
         return size;
     }
 
@@ -205,7 +205,7 @@ public class SynchronizedLinkedContainer<E> implements SimpleContainer<E> {
      * @return iterator.
      */
     @Override
-    public Iterator<E> iterator() {
+    public synchronized Iterator<E> iterator() {
         return new Itr();
     }
 
@@ -243,7 +243,9 @@ public class SynchronizedLinkedContainer<E> implements SimpleContainer<E> {
          */
         @Override
         public boolean hasNext() {
-            return index < size;
+            synchronized (SynchronizedLinkedContainer.this) {
+                return index < size;
+            }
         }
 
         /**
@@ -253,22 +255,26 @@ public class SynchronizedLinkedContainer<E> implements SimpleContainer<E> {
          */
         @Override
         public E next() {
-            checkMod();
-            if (!hasNext()) {
-                throw new NoSuchElementException();
+            synchronized (SynchronizedLinkedContainer.this) {
+                checkMod();
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                lastReturned = next;
+                next = next.next;
+                index++;
+                return lastReturned.elem;
             }
-            lastReturned = next;
-            next = next.next;
-            index++;
-            return lastReturned.elem;
         }
 
         /**
          * Check modifications.
          */
         private void checkMod() {
-            if (iteratorMod != linkMod) {
-                throw new ConcurrentModificationException();
+            synchronized (SynchronizedLinkedContainer.this) {
+                if (iteratorMod != linkMod) {
+                    throw new ConcurrentModificationException();
+                }
             }
         }
     }
