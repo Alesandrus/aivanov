@@ -18,14 +18,12 @@ public class MyLock {
     /**
      * Lock monitor.
      */
-    public void lock() {
+    public synchronized void lock() {
         try {
-            synchronized (this) {
-                while (isLock) {
-                    wait();
-                }
-                isLock = true;
+            while (isLock) {
+                wait();
             }
+            isLock = true;
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -34,19 +32,18 @@ public class MyLock {
     /**
      * Unlock monitor.
      */
-    public void unlock() {
-        synchronized (this) {
-            if (isLock) {
-                isLock = false;
-                notifyAll();
-            } else {
-                throw new IllegalMonitorStateException();
-            }
+    public synchronized void unlock() {
+        if (isLock) {
+            isLock = false;
+            notifyAll();
+        } else {
+            throw new IllegalMonitorStateException();
         }
     }
 
     /**
      * Main for showing locking and unlocking.
+     *
      * @param args from cmdLine.
      */
     public static void main(String[] args) {
