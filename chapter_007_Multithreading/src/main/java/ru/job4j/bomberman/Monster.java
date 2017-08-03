@@ -1,0 +1,45 @@
+package ru.job4j.bomberman;
+
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
+
+/**
+ * Monster.
+ *
+ * @author Alexander Ivanov
+ * @version 1.0
+ * @since 03.08.2017
+ */
+public class Monster extends Creature {
+    /**
+     * Constructor for Monster.
+     *
+     * @param board Game board.
+     */
+    public Monster(ReentrantLock[][] board, int x, int y) {
+        super(board, x, y);
+    }
+
+    @Override
+    public void run() {
+        try {
+            getPositionCell().lock();
+            while (!Thread.interrupted()) {
+                TimeUnit.SECONDS.sleep(1);
+                ThreadLocalRandom random = ThreadLocalRandom.current();
+                int move = random.nextInt(0, 4);
+                boolean isMoved = false;
+                while (!isMoved) {
+                    isMoved = chooseMove(move % 4);
+                    move++;
+                    TimeUnit.MILLISECONDS.sleep(500);
+                }
+                System.out.println("Координаты " + Thread.currentThread().getName()
+                        + ": x = " + getX() + "  y = " + getY());
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}

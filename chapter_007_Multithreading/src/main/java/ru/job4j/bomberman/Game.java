@@ -28,14 +28,20 @@ public class Game {
         }
     }
 
+    public Game(int sizeBoard, int difficulty, int monsters) {
+        this(sizeBoard);
+
+    }
+
     /**
      * Start game.
      * @param args from CMDLine.
      */
     public static void main(String[] args) {
         Game game = new Game(10);
-        Hero hero = new Hero(game.board);
-        Thread startGame = new Thread(hero);
-        startGame.start();
+        Thread monster1 = new Thread(new Monster(game.board, 5, 5), "Monster");
+        Thread hero = new Thread(new Hero(game.board), "Hero");
+        monster1.start();
+        hero.start();
     }
 }
