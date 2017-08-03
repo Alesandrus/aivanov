@@ -34,6 +34,8 @@ public abstract class Creature implements Runnable {
      * Constructor for Creature.
      *
      * @param board Game board.
+     * @param x coordinate for X-axis.
+     * @param y coordinate for Y-axis.
      */
     public Creature(ReentrantLock[][] board, int x, int y) {
         this.board = board;
@@ -149,7 +151,8 @@ public abstract class Creature implements Runnable {
                 System.out.println(Thread.currentThread().getName() + " вправо не может пройти! Граница поля");
             } else {
                 System.out.println(Thread.currentThread().getName() + " вправо не может пройти! Препятствие");
-            }        }
+            }
+        }
         return isLocked;
     }
 
@@ -194,14 +197,26 @@ public abstract class Creature implements Runnable {
         }
     }
 
+    /**
+     * Getter for creature position cell.
+     * @return positionCell.
+     */
     public ReentrantLock getPositionCell() {
         return positionCell;
     }
 
+    /**
+     * Getter for coordinate from X-axis.
+     * @return x.
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * Getter for coordinate from Y-axis.
+     * @return y.
+     */
     public int getY() {
         return y;
     }

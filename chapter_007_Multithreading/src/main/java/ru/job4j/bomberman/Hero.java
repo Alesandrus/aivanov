@@ -1,7 +1,7 @@
 package ru.job4j.bomberman;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import java.awt.GridBagLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.concurrent.TimeUnit;
@@ -19,9 +19,11 @@ public class Hero extends Creature {
      * Constructor for Hero.
      *
      * @param board Game board.
+     * @param x coordinate for X-axis.
+     * @param y coordinate for Y-axis.
      */
-    public Hero(ReentrantLock[][] board) {
-        super(board, 4, 5);
+    public Hero(ReentrantLock[][] board, int x, int y) {
+        super(board, x, y);
     }
 
     /**
@@ -30,6 +32,9 @@ public class Hero extends Creature {
      */
     private int move = 1;
 
+    /**
+     * Run hero.
+     */
     @Override
     public void run() {
         getPositionCell().lock();
@@ -44,11 +49,19 @@ public class Hero extends Creature {
         frame.setVisible(true);
 
         frame.addKeyListener(new KeyListener() {
+            /**
+             * Invoked when a key has been typed.
+             * @param e key event.
+             */
             @Override
             public void keyTyped(KeyEvent e) {
 
             }
 
+            /**
+             * Invoked when a key has been pressed.
+             * @param e key event.
+             */
             @Override
             public void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) {
@@ -71,6 +84,10 @@ public class Hero extends Creature {
                 }
             }
 
+            /**
+             * Invoked when a key has been released.
+             * @param e key event.
+             */
             @Override
             public void keyReleased(KeyEvent e) {
 

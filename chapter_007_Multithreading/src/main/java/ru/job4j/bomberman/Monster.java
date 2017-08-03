@@ -16,11 +16,16 @@ public class Monster extends Creature {
      * Constructor for Monster.
      *
      * @param board Game board.
+     * @param x coordinate for X-axis.
+     * @param y coordinate for Y-axis.
      */
     public Monster(ReentrantLock[][] board, int x, int y) {
         super(board, x, y);
     }
 
+    /**
+     * Run monster.
+     */
     @Override
     public void run() {
         try {
