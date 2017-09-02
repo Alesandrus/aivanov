@@ -35,35 +35,26 @@ public class Node {
     }
 
     /**
-     * Show all linked nodes.
-     * @param head for start showing.
+     * Getter for next.
+     * @return next node.
      */
-    public static void displayAll(Node head) {
-        while (head != null) {
-            if (head.next != null) {
-                System.out.print(head.value + " -> ");
-            } else {
-                System.out.println(head.value);
-            }
-            head = head.next;
-        }
+    public Node getNext() {
+        return next;
     }
 
     /**
-     * Reverse links for all nodes.
-     * @param head for starting reverse.
-     * @return last node and this become first node.
+     * Getter for value.
+     * @return node's value.
      */
-    public static Node reverse(Node head) {
-        Node newHead = head;
-        if (head != null) {
-            while (head.next != null) {
-                Node temp = newHead;
-                newHead = head.next;
-                head.next = head.next.next;
-                newHead.next = temp;
-            }
-        }
-        return newHead;
+    public int getValue() {
+        return value;
+    }
+
+    /**
+     * Setter for next.
+     * @param next node.
+     */
+    public void setNext(Node next) {
+        this.next = next;
     }
 }

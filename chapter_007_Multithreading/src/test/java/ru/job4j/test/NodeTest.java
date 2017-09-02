@@ -53,7 +53,7 @@ public class NodeTest {
         second.addNext(third);
         third.addNext(fourth);
 
-        Node.displayAll(first);
+        Nodes.displayAll(first);
 
         String result = "1 -> 2 -> 3 -> 4" + System.lineSeparator();
 
@@ -74,8 +74,8 @@ public class NodeTest {
         second.addNext(third);
         third.addNext(fourth);
 
-        Node last = Node.reverse(first);
-        Node.displayAll(last);
+        Node last = Nodes.reverse(first);
+        Nodes.displayAll(last);
 
         String result = "4 -> 3 -> 2 -> 1" + System.lineSeparator();
 
