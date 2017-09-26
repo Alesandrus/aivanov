@@ -19,6 +19,7 @@
         <module>chapter_005_Collections_Lite</module>
         <module>chapter_005_Collections_Pro</module>
         <module>chapter_007_Multithreading</module>
+		<module>chapter_008_SQL_JDBC</module>
     </modules>
 
     <dependencies>
@@ -53,6 +54,13 @@
             <artifactId>jcip-annotations</artifactId>
             <version>1.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.1.4</version>
+        </dependency>
+
 
     </dependencies>
 
