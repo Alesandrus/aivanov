@@ -44,7 +44,7 @@ public class Optimization {
         return DriverManager.getConnection(url, userName, password);
     }
 
-    public void insertRows(Connection connection) {
+    public void insertRowsFunc(Connection connection) {
         try {
             Statement st = connection.createStatement();
             st.executeUpdate("DROP TABLE IF EXISTS TEST");
@@ -66,7 +66,32 @@ public class Optimization {
             statement.execute();
         } catch (SQLException e) {
             for (Throwable t : e) {
-                e.printStackTrace();
+                t.printStackTrace();
+            }
+        }
+    }
+
+    public void insertRowsBatch(Connection con) {
+        try {
+            boolean autoCommit = con.getAutoCommit();
+            con.setAutoCommit(false);
+            Statement statement = con.createStatement();
+            statement.executeUpdate("DROP TABLE IF EXISTS TEST");
+            statement.executeUpdate("CREATE TABLE TEST (FIELD INT)");
+            String command = "INSERT INTO test (field) VALUES (%s)";
+            for (int i = 1; i < maxCount; i++) {
+                statement.addBatch(String.format(command, i));
+            }
+            int[] counts = statement.executeBatch();
+            if (counts.length != maxCount) {
+                con.rollback();
+            } else {
+                con.commit();
+            }
+            con.setAutoCommit(autoCommit);
+        } catch (SQLException e) {
+            for (Throwable t : e) {
+                t.printStackTrace();
             }
         }
     }
@@ -81,8 +106,9 @@ public class Optimization {
         opti.setUserName(myUser);
         opti.setPassword(myPassword);
         opti.setMaxCount(count);
-        try (Connection con = opti.getConnection()){
-            opti.insertRows(con);
+        try (Connection con = opti.getConnection()) {
+            //opti.insertRowsFunc(con);
+            opti.insertRowsBatch(con);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
