@@ -2,7 +2,7 @@ package ru.job4j.jdbc;
 
 import java.sql.*;
 
-public class Optimization {
+public class SQLTableCreator {
     private int maxCount;
     private String url;
     private String userName;
@@ -79,7 +79,7 @@ public class Optimization {
             statement.executeUpdate("DROP TABLE IF EXISTS TEST");
             statement.executeUpdate("CREATE TABLE TEST (FIELD INT)");
             String command = "INSERT INTO test (field) VALUES (%s)";
-            for (int i = 1; i < maxCount; i++) {
+            for (int i = 1; i <= maxCount; i++) {
                 statement.addBatch(String.format(command, i));
             }
             int[] counts = statement.executeBatch();
@@ -100,15 +100,19 @@ public class Optimization {
         String myURL = "localhost:5432/sqlite";
         String myUser = "postgres";
         String myPassword = "shelby";
-        int count = 1_000_000;
-        Optimization opti = new Optimization();
-        opti.setUrl(myURL);
-        opti.setUserName(myUser);
-        opti.setPassword(myPassword);
-        opti.setMaxCount(count);
-        try (Connection con = opti.getConnection()) {
-            //opti.insertRowsFunc(con);
-            opti.insertRowsBatch(con);
+        int count = 10;
+        SQLTableCreator tableCreator = new SQLTableCreator();
+        tableCreator.setUrl(myURL);
+        tableCreator.setUserName(myUser);
+        tableCreator.setPassword(myPassword);
+        tableCreator.setMaxCount(count);
+        XMLCreator xmlCreator = new XMLCreator();
+        xmlCreator.setTableName("test");
+        xmlCreator.setFieldName("field");
+        try (Connection con = tableCreator.getConnection()) {
+            //tableCreator.insertRowsFunc(con);
+            tableCreator.insertRowsBatch(con);
+            xmlCreator.createXMLwithDOM(con);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
