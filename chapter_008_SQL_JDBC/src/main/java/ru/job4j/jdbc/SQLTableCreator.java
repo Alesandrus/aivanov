@@ -100,19 +100,31 @@ public class SQLTableCreator {
         String myURL = "localhost:5432/sqlite";
         String myUser = "postgres";
         String myPassword = "shelby";
-        int count = 10;
+        int count = 1_000_000;
+
         SQLTableCreator tableCreator = new SQLTableCreator();
         tableCreator.setUrl(myURL);
         tableCreator.setUserName(myUser);
         tableCreator.setPassword(myPassword);
         tableCreator.setMaxCount(count);
+
         XMLCreator xmlCreator = new XMLCreator();
         xmlCreator.setTableName("test");
         xmlCreator.setFieldName("field");
+
+        XMLTransformer transformer = new XMLTransformer();
+        XMLSumParser sumParser = new XMLSumParser();
         try (Connection con = tableCreator.getConnection()) {
-            //tableCreator.insertRowsFunc(con);
-            tableCreator.insertRowsBatch(con);
-            xmlCreator.createXMLwithDOM(con);
+            tableCreator.insertRowsFunc(con);
+            //tableCreator.insertRowsBatch(con);
+
+            //xmlCreator.createXMLwithDOM(con);
+            //xmlCreator.createXMLwithStAX(con);
+            //xmlCreator.createXMLwithJDOM(con);
+            xmlCreator.createXMLwithDOM4J(con);
+
+            transformer.transformWithXSLT();
+            System.out.println(sumParser.sunAndParseStAX("D:\\Java\\aivanov\\chapter_008_SQL_JDBC\\src\\main\\java\\ru\\job4j\\jdbc\\2.xml"));
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
