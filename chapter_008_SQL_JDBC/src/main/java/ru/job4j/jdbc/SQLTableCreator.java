@@ -1,77 +1,87 @@
 package ru.job4j.jdbc;
 
-import java.sql.*;
+import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
+/**
+ * Class SQLTableCreator for inserting data to database.
+ * @author Alexander Ivanov
+ * @since 01.10.2017
+ * @version 1.0
+ */
 public class SQLTableCreator {
+    /**
+     * Number of rows for inserting to database.
+     */
     private int maxCount;
-    private String url;
-    private String userName;
-    private String password;
 
+    /**
+     * Database URL.
+     */
+    private String url;
+
+    /**
+     * URL getter.
+     * @return URL.
+     */
     public String getUrl() {
         return url;
     }
 
-    public void setUrl(String serverUrl) {
-        this.url = "jdbc:postgresql://" + serverUrl;
+    /**
+     * Default URL setter.
+     */
+    public void setUrl() {
+        File file = new File(".");
+        String path = file.getAbsolutePath();
+        path = path.substring(0, path.length() - 1)
+                .replaceAll("\\\\", "/");
+        this.url = "jdbc:sqlite:" + path + "chapter_008_SQL_JDBC/src/main/java/ru/job4j/jdbc/test.db";
     }
 
-    public String getUserName() {
-        return userName;
+    /**
+     * URL setter.
+     * @param url of database.
+     */
+    public void setUrl(String url) {
+        this.url = "jdbc:sqlite:" + url;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
+    /**
+     * MaxCount getter.
+     * @return maxCount.
+     */
     public int getMaxCount() {
         return maxCount;
     }
 
+    /**
+     * MaxCount setter.
+     * @param maxCount for inserting.
+     */
     public void setMaxCount(int maxCount) {
         this.maxCount = maxCount;
     }
 
+    /**
+     * Get connection to database.
+     * @return Connection.
+     * @throws ClassNotFoundException if class not loading.
+     * @throws SQLException when database has connection trouble.
+     */
     public Connection getConnection() throws ClassNotFoundException, SQLException {
-        return DriverManager.getConnection(url, userName, password);
+        Class.forName("org.sqlite.JDBC");
+        return DriverManager.getConnection(url);
     }
 
-    public void insertRowsFunc(Connection connection) {
-        try {
-            Statement st = connection.createStatement();
-            st.executeUpdate("DROP TABLE IF EXISTS TEST");
-            st.executeUpdate("CREATE TABLE TEST (FIELD INT)");
-            st.execute("CREATE OR REPLACE FUNCTION insertCount(n INTEGER) RETURNS VOID AS $$\n" +
-                    "DECLARE c INTEGER := 1;\n" +
-                    "BEGIN\n" +
-                    "  LOOP\n" +
-                    "    IF c > n THEN\n" +
-                    "      EXIT;\n" +
-                    "    END IF;\n" +
-                    "    INSERT INTO test (field) VALUES (c);\n" +
-                    "    c := c + 1;\n" +
-                    "  END LOOP;\n" +
-                    "END;\n" +
-                    "$$ LANGUAGE plpgsql;");
-            PreparedStatement statement = connection.prepareStatement("SELECT insertcount(?)");
-            statement.setInt(1, maxCount);
-            statement.execute();
-        } catch (SQLException e) {
-            for (Throwable t : e) {
-                t.printStackTrace();
-            }
-        }
-    }
-
-    public void insertRowsBatch(Connection con) {
+    /**
+     * Insert integer from 0 to maxCount to database.
+     * @param con database connection.
+     */
+    public void insertRows(Connection con) {
         try {
             boolean autoCommit = con.getAutoCommit();
             con.setAutoCommit(false);
@@ -89,44 +99,7 @@ public class SQLTableCreator {
                 con.commit();
             }
             con.setAutoCommit(autoCommit);
-        } catch (SQLException e) {
-            for (Throwable t : e) {
-                t.printStackTrace();
-            }
-        }
-    }
-
-    public static void main(String[] args) throws ClassNotFoundException {
-        String myURL = "localhost:5432/sqlite";
-        String myUser = "postgres";
-        String myPassword = "shelby";
-        int count = 1_000_000;
-
-        SQLTableCreator tableCreator = new SQLTableCreator();
-        tableCreator.setUrl(myURL);
-        tableCreator.setUserName(myUser);
-        tableCreator.setPassword(myPassword);
-        tableCreator.setMaxCount(count);
-
-        XMLCreator xmlCreator = new XMLCreator();
-        xmlCreator.setTableName("test");
-        xmlCreator.setFieldName("field");
-
-        XMLTransformer transformer = new XMLTransformer();
-        XMLSumParser sumParser = new XMLSumParser();
-        try (Connection con = tableCreator.getConnection()) {
-            tableCreator.insertRowsFunc(con);
-            //tableCreator.insertRowsBatch(con);
-
-            //xmlCreator.createXMLwithDOM(con);
-            //xmlCreator.createXMLwithStAX(con);
-            //xmlCreator.createXMLwithJDOM(con);
-            xmlCreator.createXMLwithDOM4J(con);
-
-            transformer.transformWithXSLT();
-            System.out.println(sumParser.sunAndParseStAX("D:\\Java\\aivanov\\chapter_008_SQL_JDBC\\src\\main\\java\\ru\\job4j\\jdbc\\2.xml"));
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Данные успешно добавлены в базу данных");
         } catch (SQLException e) {
             for (Throwable t : e) {
                 t.printStackTrace();

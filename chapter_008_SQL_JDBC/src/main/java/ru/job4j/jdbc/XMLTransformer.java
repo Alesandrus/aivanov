@@ -1,13 +1,26 @@
 package ru.job4j.jdbc;
 
-import javax.xml.transform.*;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.File;
 
+/**
+ * Class XMLTransformer for getting data from XML-file (1.xml) and transform it to XML-file (2.xml) by XSLT.
+ * @author Alexander Ivanov
+ * @since 01.10.2017
+ * @version 1.0
+ */
 public class XMLTransformer {
 
-    public void transformWithXSLT() {
+    /**
+     * Getting data from XML-file (1.xml) and transform it to XML-file (2.xml) by XSLT.
+     */
+    public void transform() {
         String pack = this.getClass().getPackage().getName();
         pack = pack.replaceAll("\\.", "\\\\");
         File styleSheet = new File(".\\chapter_008_SQL_JDBC\\src\\main\\java\\" + pack + "\\styles.xsl");
@@ -20,6 +33,7 @@ public class XMLTransformer {
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             try {
                 transformer.transform(new StreamSource(fileSource), new StreamResult(fileResult));
+                System.out.println("Файл 2.xml создан");
             } catch (TransformerException e) {
                 e.printStackTrace();
             }
