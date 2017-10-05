@@ -9,13 +9,15 @@ import ru.job4j.tracker.dbconnector.SQLTableCreator;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
  * Class StartUI.
+ *
  * @author Alexander Ivanov
- * @since 03.10.2017
  * @version 2.0
+ * @since 03.10.2017
  */
 public class StartUI {
     /**
@@ -30,6 +32,7 @@ public class StartUI {
 
     /**
      * constructor for MenuTracker.
+     *
      * @param input for enter information.
      */
     public StartUI(Input input) {
@@ -71,6 +74,13 @@ public class StartUI {
              * @param connection to database.
              */
             public void execute(Input input, Connection connection) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    for (Throwable t : e) {
+                        t.printStackTrace();
+                    }
+                }
                 System.out.println("Good bye");
             }
         };
@@ -78,15 +88,16 @@ public class StartUI {
         range = menu.getRangeActions();
         int choice;
         System.out.println("Welcome to tracker!");
-            do {
-                menu.show();
-                choice = input.ask("Enter number of action: \n", range);
-                menu.select(choice);
-            } while (choice != 8);
+        do {
+            menu.show();
+            choice = input.ask("Enter number of action: \n", range);
+            menu.select(choice);
+        } while (choice != 8);
     }
 
     /**
      * PSVM.
+     *
      * @param args - args.
      */
     public static void main(String[] args) {

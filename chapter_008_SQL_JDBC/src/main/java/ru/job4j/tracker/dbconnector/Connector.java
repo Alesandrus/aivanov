@@ -31,7 +31,9 @@ public class Connector {
             this.connection = DriverManager.
                     getConnection("jdbc:postgresql://localhost:5432/" + database, user, password);
         } catch (SQLException e) {
-            e.printStackTrace();
+            for (Throwable t : e) {
+                t.printStackTrace();
+            }
         }
     }
 
