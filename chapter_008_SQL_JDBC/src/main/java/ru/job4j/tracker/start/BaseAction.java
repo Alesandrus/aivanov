@@ -1,11 +1,9 @@
 package ru.job4j.tracker.start;
 
-import java.sql.Connection;
-
 /**
  * Class BaseAction.
  * @author Alexander Ivanov
- * @since 11.02.2017
+ * @since 06.10.2017
  * @version 1.0
  */
 public abstract class BaseAction implements UserAction {
@@ -32,9 +30,10 @@ public abstract class BaseAction implements UserAction {
     /**
      * method for execute action.
      * @param input for enter information.
+     * @param tracker of tasks.
      */
     @Override
-    public abstract void execute(Input input, Connection connection);
+    public abstract void execute(Input input, Tracker tracker);
 
     /**
      * method for print information.

@@ -14,11 +14,11 @@ import java.util.ArrayList;
 
 /**
  * Class StartUI.
- *
  * @author Alexander Ivanov
- * @version 2.0
- * @since 03.10.2017
+ * @since 06.10.2017
+ * @version 1.0
  */
+
 public class StartUI {
     /**
      * range of actions.
@@ -31,19 +31,21 @@ public class StartUI {
     private Input input;
 
     /**
+     * task tracker.
+     */
+    private Tracker tracker = new Tracker();
+    /**
      * constructor for MenuTracker.
-     *
      * @param input for enter information.
      */
     public StartUI(Input input) {
         this.input = input;
     }
-
     /**
      * initialize input.
      */
     public void init() {
-        String path = "chapter_008_SQL_JDBC/src/main/java/ru/job4j/tracker/dbconnector/tracker.xml";
+        String path = "chapter_008_SQL_JDBC/src/main/resources/tracker.xml";
         DocParser parser = null;
         try {
             parser = new DocParser(path);
@@ -56,8 +58,8 @@ public class StartUI {
         SQLTableCreator tableCreator = new SQLTableCreator(parser);
         tableCreator.createTables(connection);
         tableCreator.populateTables(connection);
-
-        MenuTracker menu = new MenuTracker(this.input, connection);
+        this.tracker.setConnection(connection);
+        MenuTracker menu = new MenuTracker(this.input, tracker);
         menu.fillActions();
         UserAction exitAction = new BaseAction("Exit.") {
             /**
@@ -71,37 +73,50 @@ public class StartUI {
             /**
              * method for execute showing comments.
              * @param input for enter information.
-             * @param connection to database.
+             * @param tracker for tasks.
              */
-            public void execute(Input input, Connection connection) {
+            public void execute(Input input, Tracker tracker) {
                 try {
-                    connection.close();
+                    tracker.getConnection().close();
+                    System.out.println("Good bye");
                 } catch (SQLException e) {
-                    for (Throwable t : e) {
-                        t.printStackTrace();
-                    }
+                    e.printStackTrace();
                 }
-                System.out.println("Good bye");
             }
         };
         menu.addAction(exitAction);
         range = menu.getRangeActions();
         int choice;
         System.out.println("Welcome to tracker!");
-        do {
-            menu.show();
-            choice = input.ask("Enter number of action: \n", range);
-            menu.select(choice);
-        } while (choice != 8);
+            do {
+                menu.show();
+                choice = input.ask("Enter number of action: \n", range);
+                menu.select(choice);
+            } while (choice != 8);
     }
 
     /**
      * PSVM.
-     *
      * @param args - args.
      */
     public static void main(String[] args) {
         Input input = new ValidateInput();
         new StartUI(input).init();
+    }
+
+    /**
+     * method for getting tracker.
+     * @return tracker.
+     */
+    public Tracker getTracker() {
+        return tracker;
+    }
+
+    /**
+     * method for setting tracker.
+     * @param  tracker for setting.
+     */
+    public void setTracker(Tracker tracker) {
+        this.tracker = tracker;
     }
 }

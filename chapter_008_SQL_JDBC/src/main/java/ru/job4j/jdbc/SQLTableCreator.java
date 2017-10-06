@@ -39,7 +39,7 @@ public class SQLTableCreator {
         String path = file.getAbsolutePath();
         path = path.substring(0, path.length() - 1)
                 .replaceAll("\\\\", "/");
-        this.url = "jdbc:sqlite:" + path + "chapter_008_SQL_JDBC/src/main/java/ru/job4j/jdbc/test.db";
+        this.url = "jdbc:sqlite:" + path + "/test.db";
     }
 
     /**
@@ -101,9 +101,7 @@ public class SQLTableCreator {
             con.setAutoCommit(autoCommit);
             System.out.println("Данные успешно добавлены в базу данных");
         } catch (SQLException e) {
-            for (Throwable t : e) {
-                t.printStackTrace();
-            }
+            e.printStackTrace();
         }
     }
 }

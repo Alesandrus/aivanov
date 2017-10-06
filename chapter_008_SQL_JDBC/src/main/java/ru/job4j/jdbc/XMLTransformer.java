@@ -21,11 +21,9 @@ public class XMLTransformer {
      * Getting data from XML-file (1.xml) and transform it to XML-file (2.xml) by XSLT.
      */
     public void transform() {
-        String pack = this.getClass().getPackage().getName();
-        pack = pack.replaceAll("\\.", "\\\\");
-        File styleSheet = new File(".\\chapter_008_SQL_JDBC\\src\\main\\java\\" + pack + "\\styles.xsl");
-        File fileSource = new File(".\\chapter_008_SQL_JDBC\\src\\main\\java\\" + pack + "\\1.xml");
-        File fileResult = new File(".\\chapter_008_SQL_JDBC\\src\\main\\java\\" + pack + "\\2.xml");
+        File styleSheet = new File("./styles.xsl");
+        File fileSource = new File("./1.xml");
+        File fileResult = new File("./2.xml");
         StreamSource styleSource = new StreamSource(styleSheet);
         try {
             Transformer transformer = TransformerFactory.newInstance().newTransformer(styleSource);

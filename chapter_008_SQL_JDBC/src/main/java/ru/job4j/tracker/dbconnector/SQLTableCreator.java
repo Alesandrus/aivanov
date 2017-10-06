@@ -67,9 +67,7 @@ public class SQLTableCreator {
             statement.executeUpdate(tasksCreate);
             statement.executeUpdate(commentsCreate);
         } catch (SQLException e) {
-            for (Throwable t : e) {
-                t.printStackTrace();
-            }
+            e.printStackTrace();
         }
     }
 
@@ -107,9 +105,7 @@ public class SQLTableCreator {
                 System.out.println("Database has been populated");
             }
         } catch (SQLException e) {
-            for (Throwable t : e) {
-                t.printStackTrace();
-            }
+            e.printStackTrace();
         }
     }
 
@@ -123,9 +119,7 @@ public class SQLTableCreator {
             Statement statement = connection.createStatement();
             statement.executeUpdate(command);
         } catch (SQLException e) {
-            for (Throwable t : e) {
-                t.printStackTrace();
-            }
+            e.printStackTrace();
         }
     }
 }

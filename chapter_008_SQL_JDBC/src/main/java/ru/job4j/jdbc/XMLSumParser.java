@@ -20,15 +20,10 @@ public class XMLSumParser {
      * @return sum.
      */
     public long parseAndSum() {
-        File file = new File(".");
-        String path = file.getAbsolutePath();
-        path = path.substring(0, path.length() - 1)
-                .replaceAll("\\\\", "/");
-        path = path + "chapter_008_SQL_JDBC/src/main/java/ru/job4j/jdbc/2.xml";
         XMLInputFactory inputFactory = XMLInputFactory.newInstance();
         long sum = 0;
         try {
-            XMLStreamReader parser = inputFactory.createXMLStreamReader(new FileInputStream(path));
+            XMLStreamReader parser = inputFactory.createXMLStreamReader(new FileInputStream(new File("./2.xml")));
             while (parser.hasNext()) {
                 int event = parser.next();
                 if (event == XMLStreamConstants.START_ELEMENT) {

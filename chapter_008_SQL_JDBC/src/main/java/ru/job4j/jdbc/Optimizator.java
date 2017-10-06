@@ -16,32 +16,41 @@ import java.util.Scanner;
  */
 public class Optimizator {
     /**
-     * Start application.
-     *
-     * @param args from CMD-line.
+     * Number of rows for inserting.
      */
-    public static void main(String[] args) {
-        int number;
-        String url = "";
+    private int rowNumber;
+
+    /**
+     * Database URL.
+     */
+    private String url = "";
+
+    /**
+     * Constructor for Optimizator.
+     */
+    public Optimizator() {
         try (Scanner scanner = new Scanner(System.in)) {
-            System.out.println("Укажите адрес базы данных либо оставьте адрес по умолчанию "
-                    + "для этого введите пустую строку");
-            String input = scanner.nextLine();
-            if (!url.equals(input)) {
-                url = input;
-            }
+            System.out.println("Укажите адрес базы данных SQLite либо введите пустую строку "
+                    + "(будет выбрана база по умолчанию)");
+            this.url = scanner.nextLine();
             System.out.println("Введите число записей для вставки в базу данных");
-            number = scanner.nextInt();
+            this.rowNumber = scanner.nextInt();
         }
-        long start = System.currentTimeMillis();
+    }
+
+    /**
+     * Start application.
+     * @return sum of all rows.
+     */
+    public long start() {
+        long sum = 0;
         SQLTableCreator tableCreator = new SQLTableCreator();
-        if (url.equals("")) {
+        if (this.url.equals("")) {
             tableCreator.setUrl();
         } else {
-            tableCreator.setUrl(url);
+            tableCreator.setUrl(this.url);
         }
-        tableCreator.setMaxCount(number);
-
+        tableCreator.setMaxCount(this.rowNumber);
         XMLCreator xmlCreator = new XMLCreator();
         xmlCreator.setTableName("test");
         xmlCreator.setFieldName("field");
@@ -51,17 +60,21 @@ public class Optimizator {
             tableCreator.insertRows(con);
             xmlCreator.createXML(con);
             transformer.transform();
-            long sum = sumParser.parseAndSum();
-            System.out.println("Арифметическая сумма всех записей равна - " + sum);
-        } catch (ClassNotFoundException e) {
+            sum = sumParser.parseAndSum();
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
-        } catch (SQLException e) {
-            for (Throwable t : e) {
-                t.printStackTrace();
-            }
         }
-        long finish = System.currentTimeMillis();
-        long time = (finish - start) / 1000;
-        System.out.println("Время выполнения программы - " + time + " сек");
+        return sum;
+    }
+
+    /**
+     * PSVM.
+     * @param args from CMD-Line.
+     */
+    public static void main(String[] args) {
+        Optimizator optimizator = new Optimizator();
+        long start = System.currentTimeMillis();
+        System.out.println("Арифметическая сумма всех записей равна - " + optimizator.start());
+        System.out.println("Время выполнения программы - " + (System.currentTimeMillis() - start) / 1000 + " сек");
     }
 }

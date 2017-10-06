@@ -1,18 +1,16 @@
 package ru.job4j.tracker.start;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import ru.job4j.tracker.models.Item;
+import ru.job4j.tracker.models.Task;
+
 import java.util.ArrayList;
 
 /**
  * Class MenuTracker.
  *
  * @author Alexander Ivanov
- * @version 2.0
- * @since 03.10.2017
+ * @version 1.0
+ * @since 06.10.2017
  */
 public class MenuTracker {
     /**
@@ -21,35 +19,44 @@ public class MenuTracker {
     private Input input;
 
     /**
-     * Connection to database.
+     * task tracker.
      */
-    private Connection connection;
-
-    /**
-     * constructor for MenuTracker.
-     *
-     * @param input      for enter information.
-     * @param connection to database.
-     */
-    public MenuTracker(Input input, Connection connection) {
-        this.input = input;
-        this.connection = connection;
-    }
+    private Tracker tracker;
 
     /**
      * menu of actions.
      */
     private ArrayList<UserAction> actions = new ArrayList<>();
 
+    /**
+     * count for checking task to tracker.
+     */
+    private int countAddedTask = 0;
+
+    /**
+     * action position.
+     */
+    private int position = 0;
+
+    /**
+     * constructor for MenuTracker.
+     *
+     * @param input   for enter information.
+     * @param tracker of tasks.
+     */
+    public MenuTracker(Input input, Tracker tracker) {
+        this.input = input;
+        this.tracker = tracker;
+    }
 
     /**
      * fill menu of actions.
      */
     public void fillActions() {
-        this.actions.add(this.new AddItem("Add new task."));
-        this.actions.add(new EditItem("Edit task."));
-        this.actions.add(new DeleteItem("Delete task."));
-        this.actions.add(new ShowItems("Show all tasks."));
+        this.actions.add(this.new AddItem("Add the new item."));
+        this.actions.add(new MenuTracker.EditItem("Edit the item."));
+        this.actions.add(new DeleteItem("Delete the item."));
+        this.actions.add(new ShowItems("Show all items."));
         this.actions.add(new FindItemByName("Find task by name."));
         this.actions.add(new FindItemById("Find task by ID."));
         this.actions.add(new AddComment("Add comment to task."));
@@ -84,7 +91,7 @@ public class MenuTracker {
      * @param key for select action.
      */
     public void select(int key) {
-        this.actions.get(key).execute(this.input, this.connection);
+        this.actions.get(key).execute(this.input, this.tracker);
     }
 
     /**
@@ -125,29 +132,15 @@ public class MenuTracker {
         /**
          * method for execute adding.
          *
-         * @param input      for enter information.
-         * @param connection to database.
+         * @param input   for enter information.
+         * @param tracker for tasks.
          */
-        public void execute(Input input, Connection connection) {
-            String taskName = input.ask("Please enter the task's name: ");
+        public void execute(Input input, Tracker tracker) {
+            String name = input.ask("Please enter the task's name: ");
             String desc = input.ask("Please enter the task's desc: ");
-            try {
-                PreparedStatement statement = connection.
-                        prepareStatement("INSERT INTO tasks (name, description) VALUES (?, ?)");
-                statement.setString(1, taskName);
-                statement.setString(2, desc);
-                statement.executeUpdate();
-                Statement st = connection.createStatement();
-                ResultSet rs = st.executeQuery("SELECT MAX(task_id) FROM tasks");
-                if (rs.next()) {
-                    System.out.println("Task successfully added to database. Your task id is: "
-                            + rs.getString(1));
-                }
-            } catch (SQLException e) {
-                for (Throwable t : e) {
-                    t.printStackTrace();
-                }
-            }
+            Item item = new Task(name, desc);
+            tracker.add(item);
+            System.out.println("You have successfully added the task. Your task id is: " + item.getId());
         }
     }
 
@@ -177,36 +170,22 @@ public class MenuTracker {
         /**
          * method for execute editing.
          *
-         * @param input      for enter information.
-         * @param connection to database.
+         * @param input   for enter information.
+         * @param tracker for tasks.
          */
-        public void execute(Input input, Connection connection) {
-            String taskID = input.ask("Enter ID of edit task - ");
-            try {
-                Integer id = Integer.parseInt(taskID);
-                PreparedStatement preparedStatement = connection.
-                        prepareStatement("SELECT task_id FROM tasks WHERE task_id = ?");
-                preparedStatement.setInt(1, id);
-                ResultSet rs = preparedStatement.executeQuery();
-                if (rs.next()) {
-                    String name = input.ask("Change name of task - ");
-                    String desc = input.ask("Change description of task - ");
-                    preparedStatement = connection.
-                            prepareStatement("UPDATE tasks SET name = ?, description = ? WHERE task_id = ?");
-                    preparedStatement.setString(1, name);
-                    preparedStatement.setString(2, desc);
-                    preparedStatement.setInt(3, id);
-                    preparedStatement.executeUpdate();
-                    System.out.println("Task " + id + " updated");
-                } else {
-                    System.out.println("Invalid ID");
-                }
-            } catch (SQLException e) {
-                for (Throwable t : e) {
-                    t.printStackTrace();
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Input Integer number for task ID");
+        public void execute(Input input, Tracker tracker) {
+            String id = input.ask("Enter ID of edit task - ");
+            Item item = new Task();
+            item.setId(id);
+            if (tracker.hasId(item)) {
+                String name = input.ask("Change name of task - ");
+                String desc = input.ask("Change description of task - ");
+                item = new Task(name, desc);
+                item.setId(id);
+                tracker.update(item);
+                System.out.println("Task " + id + " is updated");
+            } else {
+                System.out.println("!!!There is not task with this ID!!!");
             }
         }
     }
@@ -237,28 +216,15 @@ public class MenuTracker {
         /**
          * method for execute showing.
          *
-         * @param input      for enter information.
-         * @param connection to database.
+         * @param input   for enter information.
+         * @param tracker for tasks.
          */
-        public void execute(Input input, Connection connection) {
+        public void execute(Input input, Tracker tracker) {
             System.out.println("The List of tasks: ");
-            try {
-                Statement statement = connection.createStatement();
-                ResultSet rs = statement.executeQuery("SELECT task_id, name FROM tasks ORDER BY task_id");
-                boolean firstRow = true;
-                while (rs.next()) {
-                    if (firstRow) {
-                        System.out.println("Task_ID     | Task_Name");
-                        System.out.println("-------------------------------------");
-                        firstRow = false;
-                    }
-                    int id = rs.getInt(1);
-                    String name = rs.getString(2);
-                    System.out.println(String.format("%-12d| %s", id, name));
-                }
-            } catch (SQLException e) {
-                for (Throwable t : e) {
-                    t.printStackTrace();
+            ArrayList<Item> items = tracker.getAll();
+            for (int i = 0; i < items.size(); i++) {
+                if (items.get(i) != null) {
+                    System.out.println("Task - " + items.get(i).getName() + " with ID - " + items.get(i).getId());
                 }
             }
         }
@@ -289,32 +255,16 @@ public class MenuTracker {
         /**
          * method for execute finding by name.
          *
-         * @param input      for enter information.
-         * @param connection to database.
+         * @param input   for enter information.
+         * @param tracker for tasks.
          */
-        public void execute(Input input, Connection connection) {
+        public void execute(Input input, Tracker tracker) {
             String name = input.ask("Enter name of task to search - ");
-            try {
-                PreparedStatement preparedStatement = connection.
-                        prepareStatement("SELECT task_id, description FROM tasks WHERE name = ? ORDER BY task_id");
-                preparedStatement.setString(1, name);
-                ResultSet rs = preparedStatement.executeQuery();
-                if (rs.isBeforeFirst()) {
-                    System.out.println("All tasks with name " + name + " :");
-                    System.out.println("Task_ID     | Description");
-                    System.out.println("-------------------------------------");
-                    while (rs.next()) {
-                        int id = rs.getInt(1);
-                        String desc = rs.getString(2);
-                        System.out.println(String.format("%-12d| %s", id, desc));
-                    }
-                } else {
-                    System.out.println("This name is not exist at database");
-                }
-            } catch (SQLException e) {
-                for (Throwable t : e) {
-                    t.printStackTrace();
-                }
+            Item item = tracker.findByName(name);
+            if (item != null) {
+                System.out.println("Your task was found. Task ID is: " + item.getId());
+            } else {
+                System.out.println("!!!There is not task with this name!!!");
             }
         }
     }
@@ -344,35 +294,16 @@ public class MenuTracker {
         /**
          * method for execute finding by ID.
          *
-         * @param input      for enter information.
-         * @param connection to database.
+         * @param input   for enter information.
+         * @param tracker for tasks.
          */
-        public void execute(Input input, Connection connection) {
-            String taskID = input.ask("Enter ID of task to search - ");
-            try {
-                int id = Integer.parseInt(taskID);
-                PreparedStatement preparedStatement = connection.
-                        prepareStatement("SELECT name, description FROM tasks WHERE task_id = ?");
-                preparedStatement.setInt(1, id);
-                ResultSet rs = preparedStatement.executeQuery();
-                if (rs.isBeforeFirst()) {
-                    System.out.println("All tasks with ID " + id + " :");
-                    System.out.println("Task_Name           | Description");
-                    System.out.println("-------------------------------------");
-                    while (rs.next()) {
-                        String name = rs.getString(1);
-                        String desc = rs.getString(2);
-                        System.out.println(String.format("%-20s| %s", name, desc));
-                    }
-                } else {
-                    System.out.println("This ID is not exist at database");
-                }
-            } catch (SQLException e) {
-                for (Throwable t : e) {
-                    t.printStackTrace();
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Input Integer number for task ID");
+        public void execute(Input input, Tracker tracker) {
+            String id = input.ask("Enter ID of task to search - ");
+            Item item = tracker.findById(id);
+            if (item != null) {
+                System.out.println("Your task was found. Task name is: " + item.getName());
+            } else {
+                System.out.println("!!!There is not task with this ID!!!");
             }
         }
     }
@@ -402,34 +333,19 @@ public class MenuTracker {
         /**
          * method for execute adding comment.
          *
-         * @param input      for enter information.
-         * @param connection to database.
+         * @param input   for enter information.
+         * @param tracker for tasks.
          */
-        public void execute(Input input, Connection connection) {
-            String taskID = input.ask("Enter id of task to comment - ");
-            try {
-                int id = Integer.parseInt(taskID);
-                PreparedStatement preparedStatement = connection.
-                        prepareStatement("SELECT task_id FROM tasks WHERE task_id = ?");
-                preparedStatement.setInt(1, id);
-                ResultSet rs = preparedStatement.executeQuery();
-                if (rs.next()) {
-                    String comment = input.ask("Enter your comment - ");
-                    preparedStatement = connection.
-                            prepareStatement("INSERT  INTO comments (comment, task_id) VALUES (?, ?)");
-                    preparedStatement.setString(1, comment);
-                    preparedStatement.setInt(2, id);
-                    preparedStatement.executeUpdate();
-                    System.out.println("Comment added to task " + id);
-                } else {
-                    System.out.println("Invalid ID");
-                }
-            } catch (SQLException e) {
-                for (Throwable t : e) {
-                    t.printStackTrace();
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Input Integer number for task ID");
+        public void execute(Input input, Tracker tracker) {
+            String id = input.ask("Enter id of task to comment - ");
+            Item item = new Task();
+            item.setId(id);
+            if (tracker.hasId(item)) {
+                String comment = input.ask("Enter your comment - ");
+                tracker.addComment(item, comment);
+                System.out.println("Comment is added");
+            } else {
+                System.out.println("!!!There is not task with this ID!!!");
             }
         }
     }
@@ -459,41 +375,24 @@ public class MenuTracker {
         /**
          * method for execute showing comments.
          *
-         * @param input      for enter information.
-         * @param connection to database.
+         * @param input   for enter information.
+         * @param tracker for tasks.
          */
-        public void execute(Input input, Connection connection) {
-            String taskID = input.ask("Enter id of task to show comments - ");
-            try {
-                int id = Integer.parseInt(taskID);
-                PreparedStatement preparedStatement = connection.
-                        prepareStatement("SELECT task_id FROM tasks WHERE task_id = ?");
-                preparedStatement.setInt(1, id);
-                ResultSet rs = preparedStatement.executeQuery();
-                if (rs.next()) {
-                    preparedStatement = connection.
-                            prepareStatement("SELECT comment FROM comments WHERE task_id = ?");
-                    preparedStatement.setInt(1, id);
-                    ResultSet resultSet = preparedStatement.executeQuery();
-                    if (resultSet.isBeforeFirst()) {
-                        System.out.println("All comments for Task " + taskID);
-                        System.out.println("-------------------------------------------------------");
-                        while (resultSet.next()) {
-                            System.out.println(resultSet.getString(1));
-                        }
-                        System.out.println("-------------------------------------------------------");
-                    } else {
-                        System.out.println("Task " + id + " has no comments");
+        public void execute(Input input, Tracker tracker) {
+            String id = input.ask("Enter id of task to show comments - ");
+            Item item = new Task();
+            item.setId(id);
+            if (tracker.hasId(item)) {
+                ArrayList<String> comments = tracker.showComments(item);
+                if (comments.size() > 0) {
+                    for (int i = 1; i <= comments.size(); i++) {
+                        System.out.println("Comment #" + i + " - " + comments.get(i - 1));
                     }
                 } else {
-                    System.out.println("Invalid ID");
+                    System.out.println(("This task is not got comments yet"));
                 }
-            } catch (SQLException e) {
-                for (Throwable t : e) {
-                    t.printStackTrace();
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Input Integer number for task ID");
+            } else {
+                System.out.println("!!!There is not task with this ID!!!");
             }
         }
     }
@@ -524,35 +423,18 @@ class DeleteItem extends BaseAction {
     /**
      * method for execute deleting task.
      *
-     * @param input      for enter information.
-     * @param connection to database.
+     * @param input   for enter information.
+     * @param tracker for tasks.
      */
-    public void execute(Input input, Connection connection) {
-        String taskID = input.ask("Enter id of task to delete - ");
-        try {
-            int id = Integer.parseInt(taskID);
-            PreparedStatement preparedStatement = connection.
-                    prepareStatement("SELECT task_id FROM tasks WHERE task_id = ?");
-            preparedStatement.setInt(1, id);
-            ResultSet rs = preparedStatement.executeQuery();
-            if (rs.next()) {
-                preparedStatement = connection.
-                        prepareStatement("DELETE FROM comments WHERE task_id = ?");
-                preparedStatement.setInt(1, id);
-                preparedStatement.executeUpdate();
-                preparedStatement = connection.prepareStatement("DELETE FROM tasks WHERE task_id = ?");
-                preparedStatement.setInt(1, id);
-                preparedStatement.executeUpdate();
-                System.out.println("Task " + taskID + " and all comments to this task are deleted");
-            } else {
-                System.out.println("Invalid ID");
-            }
-        } catch (SQLException e) {
-            for (Throwable t : e) {
-                t.printStackTrace();
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("Input Integer number for task ID");
+    public void execute(Input input, Tracker tracker) {
+        String id = input.ask("Enter id task to delete - ");
+        Item item = new Task();
+        item.setId(id);
+        if (tracker.hasId(item)) {
+            tracker.delete(item);
+            System.out.println("Item " + id + " is deleted.");
+        } else {
+            System.out.println("!!!There is not task with this ID!!!");
         }
     }
 }

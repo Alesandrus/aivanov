@@ -101,21 +101,11 @@ public class XMLCreator {
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             DOMSource source = new DOMSource(document);
 
-            StreamResult streamResult = new StreamResult(createFile());
+            StreamResult streamResult = new StreamResult(new File("./1.xml"));
             transformer.transform(source, streamResult);
             System.out.println("Файл 1.xml создан");
         } catch (ParserConfigurationException | TransformerException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Create File for creating XML-file.
-     * @return File.
-     */
-    public File createFile() {
-        String pack = this.getClass().getPackage().getName();
-        pack = pack.replaceAll("\\.", "\\\\");
-        return new File(".\\chapter_008_SQL_JDBC\\src\\main\\java\\" + pack + "\\1.xml");
     }
 }
