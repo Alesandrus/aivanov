@@ -28,6 +28,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -48,23 +51,6 @@ public class JavaJobHunter implements Runnable {
             lastStart.set(currentYear, 0, 1, 0, 0, 0);
         } else {
             lastStart.setTimeInMillis(getLastStart());
-        }
-    }
-
-    public static void main(String[] args) {
-        JavaJobHunter hunter = new JavaJobHunter();
-        Thread thread = new Thread(hunter);
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            LOGGER.error(e.getMessage(), e);
-        } finally {
-            try {
-                hunter.getConnection().close();
-            } catch (SQLException e) {
-                LOGGER.error(e.getMessage(), e);
-            }
         }
     }
 
@@ -426,5 +412,12 @@ public class JavaJobHunter implements Runnable {
 
     public Connection getConnection() {
         return connection;
+    }
+
+    public long getPeriod() {
+        org.w3c.dom.Element root = resource.getDocumentElement();
+        NodeList list = root.getElementsByTagName("period");
+        org.w3c.dom.Element period = (org.w3c.dom.Element) list.item(0);
+        return Long.parseLong(period.getTextContent());
     }
 }
