@@ -8,7 +8,7 @@ public class Nodes {
      * Show all linked nodes.
      * @param head for start showing.
      */
-    public static void displayAll(Node head) {
+    public void displayAll(Node head) {
         while (head != null) {
             if (head.getNext() != null) {
                 System.out.print(head.getValue() + " -> ");
@@ -24,7 +24,7 @@ public class Nodes {
      * @param head for starting reverse.
      * @return last node and this become first node.
      */
-    public static Node reverse(Node head) {
+    public Node reverse(Node head) {
         Node newHead = head;
         if (head != null) {
             while (head.getNext() != null) {
