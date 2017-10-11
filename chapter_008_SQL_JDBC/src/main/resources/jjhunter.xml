@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <jjhunter>
-	<connect>
-		<database>jjhunter</database>
-		<user>postgres</user>
-		<password>shelby</password>
-	</connect>
+    <connect>
+        <database>jjhunter</database>
+        <user>postgres</user>
+        <password>shelby</password>
+    </connect>
 
-	<create>
-		<users>
-			CREATE TABLE IF NOT EXISTS users
-			(user_id SERIAL PRIMARY KEY,
-			href VARCHAR(200) NOT NULL UNIQUE,
-			name VARCHAR(50) NOT NULL);
-		</users>
-		
-		<vacancies>
-			CREATE TABLE IF NOT EXISTS vacancies
-			(id SERIAL PRIMARY KEY,
-			href VARCHAR(200) NOT NULL UNIQUE,
-			description VARCHAR(200) NOT NULL,
-			topicstarter_id INT NOT NULL REFERENCES users(user_id),
-			lastcomment TIMESTAMP,
-			isclosed BOOLEAN);
-		</vacancies>
-	</create>
+    <create>
+        <users>
+            CREATE TABLE IF NOT EXISTS users
+            (user_id SERIAL PRIMARY KEY,
+            href VARCHAR(200) NOT NULL UNIQUE,
+            name VARCHAR(50) NOT NULL);
+        </users>
 
-	<laststart>1507668604437</laststart>
-	<period>30</period>
+        <vacancies>
+            CREATE TABLE IF NOT EXISTS vacancies
+            (id SERIAL PRIMARY KEY,
+            href VARCHAR(200) NOT NULL UNIQUE,
+            description VARCHAR(200) NOT NULL,
+            topicstarter_id INT NOT NULL REFERENCES users(user_id),
+            lastcomment TIMESTAMP,
+            isclosed BOOLEAN);
+        </vacancies>
+    </create>
+
+    <laststart>1507718033475</laststart>
+    <period>24</period>
 
 </jjhunter>

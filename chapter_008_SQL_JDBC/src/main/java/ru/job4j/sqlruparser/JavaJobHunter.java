@@ -1,6 +1,5 @@
 package ru.job4j.sqlruparser;
 
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jsoup.Jsoup;
@@ -23,24 +22,59 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Класс, который парсит сайт SQL.ru, берет с него вакансии по Java и сохраняет их в базу данных.
+ * Если в базе отсутствуют записи, то парсинг осуществляется с начала текущего года, иначе с момента
+ * последнего запуска.
+ *
+ * @author Alexander Ivanov
+ * @version 1.0
+ * @since 11.10.2017
+ */
 public class JavaJobHunter implements Runnable {
+    /**
+     * Логгер.
+     */
     private static final Logger LOGGER = LogManager.getLogger(JavaJobHunter.class.getName());
+
+    /**
+     * Время последнего запуска.
+     */
     private Calendar lastStart;
+
+    /**
+     * Флаг для остановки парсинга. Переводится в положение True если время последнего комментария
+     * к вакансии позже чем время последнего запуска или начала года в случае если это первый запуск.
+     */
     private boolean stopParse = false;
+
+    /**
+     * XML документ, в котором хранятся все насторойки.
+     */
     private org.w3c.dom.Document resource;
+
+    /**
+     * Соединение с базой данных.
+     */
     private Connection connection;
 
+    /**
+     * Конструктор класса. Устанавливает переменную resource, connection, создает таблицы в базе данных если их там
+     * еще нет. Определяет время последнего запуска, либо его отсутствия.
+     */
     public JavaJobHunter() {
         setResource();
         setConnection();
@@ -54,7 +88,59 @@ public class JavaJobHunter implements Runnable {
         }
     }
 
-    public List<Vacancy> parse(String page) {
+    /**
+     * Геттер для Connection.
+     *
+     * @return объект соединения с базой данных.
+     */
+    public Connection getConnection() {
+        return connection;
+    }
+
+    /**
+     * Считывает из resource значение промежутка времени,
+     * через которое будет производиться последующий парсинг вакансий.
+     * (Решение о том в каких единицах времени будет выражаться данное значение принимается пользователем.)
+     *
+     * @return значение периода между работой потоков по парсингу SQL.ru.
+     */
+    public long getPeriod() {
+        org.w3c.dom.Element root = resource.getDocumentElement();
+        NodeList list = root.getElementsByTagName("period");
+        org.w3c.dom.Element period = (org.w3c.dom.Element) list.item(0);
+        return Long.parseLong(period.getTextContent());
+    }
+
+    /**
+     * Метод для работы в потоке. Парсит все страницы с рубрики Вакансии сайта SQL.ru. Останавливается если флаг
+     * выставлен в True. Затем добавляет все вакансии в базу данных. Устанавливает время работы данного метода, то есть
+     * работы по парсингу сайта и записи данных. Перед завершением сбрасывает флаг stopParse.
+     */
+    @Override
+    public void run() {
+        int lastPage = Integer.parseInt(getLastPage());
+        for (int i = 1; i <= lastPage; i++) {
+            if (stopParse) {
+                break;
+            }
+            addAllVacanciesToDatabase(parse(String.valueOf(i)));
+            LOGGER.info(i + " page is parsed");
+        }
+        setLastStart();
+        stopParse = false;
+    }
+
+    /**
+     * Парсит страницу с сайта вакансий SQL.ru. Сохраняет записи с Java в виде объектов Vacancy.
+     * Выбирает текст вакансии, адрес ссылки вакансии, имя топикстартера, ссылку на его профиль,
+     * дату последнего коментария, статус объявления.
+     * Парсинг останавливается если время последнего комментария окажется раньше последнего запуска
+     * или времени начала текущего года. При этом флаг stopParse выставится в True и дальнейший парсинг прекращается.
+     *
+     * @param page номер страницы в рубрике Вакансии сайта SQL.ru.
+     * @return список всех вакансий Java.
+     */
+    private List<Vacancy> parse(String page) {
         List<Vacancy> vacancies = new ArrayList<>();
         try {
             Document document = Jsoup.connect("http://www.sql.ru/forum/job-offers/" + page)
@@ -96,8 +182,8 @@ public class JavaJobHunter implements Runnable {
                 Calendar timeComment = null;
                 if (!lastComment.isEmpty()) {
                     timeComment = parseDate(lastComment);
-                    if (!hrefVacancy.equals("http://www.sql.ru/forum/485068/soobshheniya-ot-moderatorov-" +
-                            "zdes-vy-mozhete-uznat-prichiny-udaleniya-topikov")
+                    if (!hrefVacancy.equals("http://www.sql.ru/forum/485068/soobshheniya-ot-moderatorov-"
+                            + "zdes-vy-mozhete-uznat-prichiny-udaleniya-topikov")
                             && !hrefVacancy.equals("http://www.sql.ru/forum/1196621/shpargalki")
                             && !hrefVacancy.equals("http://www.sql.ru/forum/484798/pravila-foruma")) {
                         if (timeComment.before(this.lastStart)) {
@@ -119,7 +205,12 @@ public class JavaJobHunter implements Runnable {
         return vacancies;
     }
 
-    public String getLastPage() {
+    /**
+     * Парсит первую страницу рубрики Вакансии сайта SQL.ru и определяет последнюю странцу данной рубрики.
+     *
+     * @return запись с номером последней страницы.
+     */
+    private String getLastPage() {
         String maxPage = "";
         try {
             Document document = Jsoup.connect("http://www.sql.ru/forum/job-offers").userAgent("Mozilla").get();
@@ -140,6 +231,13 @@ public class JavaJobHunter implements Runnable {
         return maxPage;
     }
 
+    /**
+     * Метод для парсинга даты последнего комментария. Парсинг фраз - сегодня, вчера и непосредственно
+     * даты комментария если он был размещен на день раншье текущего времени.
+     *
+     * @param lastComment запись времени последнего комментария.
+     * @return дату.
+     */
     private Calendar parseDate(String lastComment) {
         Calendar date = Calendar.getInstance();
         String[] comment = lastComment.split(" ");
@@ -169,10 +267,10 @@ public class JavaJobHunter implements Runnable {
     }
 
     /**
-     * Jan is 0.
+     * Анализирует строку с названием месяца и передает число для получения объекта Calendar.
      *
-     * @param mon
-     * @return
+     * @param mon обозначение месяца, использующееся на сайте SQL.ru.
+     * @return номер месяца.
      */
     private int getMonth(String mon) {
         int month;
@@ -220,7 +318,16 @@ public class JavaJobHunter implements Runnable {
         return month;
     }
 
-    public void addAllVacanciesToDatabase(List<Vacancy> vacancies) {
+    /**
+     * Принимает список объектов Vacancy и сохраняет информацию о вакансиях и разместивших их пользователях
+     * в две таблицы базу дынных. Информация о пользователях, ваканисии добавляется только если информации
+     * о них еще нет в базе. Записи в базе могут обновляться, если был добавлен комментарий, и соотвественно время
+     * комментария было изменено, также если объявление было закрыто или топикстартер изменил имя(если изменение
+     * возможно). Уникальной записью выступают ссылки на пользователя и на размещенное объявление.
+     *
+     * @param vacancies список объектов Vacancy.
+     */
+    private void addAllVacanciesToDatabase(List<Vacancy> vacancies) {
         try {
             PreparedStatement userExistStatement = this.connection.
                     prepareStatement("SELECT name FROM users WHERE href = ?");
@@ -280,6 +387,9 @@ public class JavaJobHunter implements Runnable {
         }
     }
 
+    /**
+     * Читает XML документ с настройками (jjhunter.xml), производится DOM-документ resource.
+     */
     private void setResource() {
         try {
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
@@ -292,6 +402,9 @@ public class JavaJobHunter implements Runnable {
         }
     }
 
+    /**
+     * Устанавливает соединение к базе данных из resource на основании настроек, размещенных в XML-файле.
+     */
     private void setConnection() {
         String database = "";
         String user = "";
@@ -324,6 +437,9 @@ public class JavaJobHunter implements Runnable {
         LOGGER.info("Getting connection to database");
     }
 
+    /**
+     * Читает из resource команды по созданию таблиц users и vacancies и создает их в базе данных.
+     */
     private void createTables() {
         String users = "";
         String vacancies = "";
@@ -354,19 +470,23 @@ public class JavaJobHunter implements Runnable {
         }
     }
 
-    @Override
-    public void run() {
-        int lastPage = Integer.parseInt(getLastPage());
-        for (int i = 1; i <= lastPage; i++) {
-            if (stopParse) {
-                break;
-            }
-            addAllVacanciesToDatabase(parse(String.valueOf(i)));
-            LOGGER.info(i + " page is parsed");
-        }
-        setLastStart();
+    /**
+     * Считывает из resource значение времени последнего запуска в миллисекундах.
+     *
+     * @return время последнего запуска в миллисекундах.
+     */
+    private long getLastStart() {
+        org.w3c.dom.Element root = resource.getDocumentElement();
+        NodeList list = root.getElementsByTagName("laststart");
+        org.w3c.dom.Element node = (org.w3c.dom.Element) list.item(0);
+        return Long.parseLong(node.getTextContent());
     }
 
+    /**
+     * Определеят факт первого запуска приложения.
+     *
+     * @return True Если строки в базе данных отсутствуют.
+     */
     private boolean isFirstStart() {
         boolean isFirst = true;
         try {
@@ -381,6 +501,10 @@ public class JavaJobHunter implements Runnable {
         return isFirst;
     }
 
+    /**
+     * Сохраняет текущее время в переменную lastStart и записывает его в миллисекундах в DOM-объект resource.
+     * Затем на основании resource перезаписывается файл jjhunter.xml.
+     */
     private void setLastStart() {
         try {
             this.lastStart = Calendar.getInstance();
@@ -401,23 +525,5 @@ public class JavaJobHunter implements Runnable {
         } catch (TransformerException e) {
             LOGGER.error(e.getMessage(), e);
         }
-    }
-
-    public long getLastStart() {
-        org.w3c.dom.Element root = resource.getDocumentElement();
-        NodeList list = root.getElementsByTagName("laststart");
-        org.w3c.dom.Element node = (org.w3c.dom.Element) list.item(0);
-        return Long.parseLong(node.getTextContent());
-    }
-
-    public Connection getConnection() {
-        return connection;
-    }
-
-    public long getPeriod() {
-        org.w3c.dom.Element root = resource.getDocumentElement();
-        NodeList list = root.getElementsByTagName("period");
-        org.w3c.dom.Element period = (org.w3c.dom.Element) list.item(0);
-        return Long.parseLong(period.getTextContent());
     }
 }
