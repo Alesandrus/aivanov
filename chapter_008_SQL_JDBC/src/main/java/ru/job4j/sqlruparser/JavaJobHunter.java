@@ -326,6 +326,8 @@ public class JavaJobHunter implements Runnable {
      * о них еще нет в базе. Записи в базе могут обновляться, если был добавлен комментарий, и соотвественно время
      * комментария было изменено, также если объявление было закрыто или топикстартер изменил имя(если изменение
      * возможно). Уникальной записью выступают ссылки на пользователя и на размещенное объявление.
+     * В случае возникновения SQLException во время обновления таблиц, изменения не будут в них внесены. Произойдет
+     * попытка повторной вставки данных. Вставка разбита на два коммита так как обновляются две таблицы.
      *
      * @param vacancies список объектов Vacancy.
      */
@@ -345,45 +347,60 @@ public class JavaJobHunter implements Runnable {
                             + "(?, ?, (SELECT user_id FROM users u WHERE u.href = ?), ?, ?)");
             PreparedStatement vacancyUpdateStatement = this.connection.
                     prepareStatement("UPDATE vacancies SET lastcomment = ?, isclosed = ? WHERE href = ?");
+
+            connection.setAutoCommit(false);
             for (Vacancy vacancy : vacancies) {
                 userExistStatement.setString(1, vacancy.getHrefTopicStarter());
-                ResultSet userResultSet = userExistStatement.executeQuery();
-                if (userResultSet.next()) {
-                    String name = userResultSet.getString(1);
-                    if (!name.equals(vacancy.getTopicStarter())) {
-                        userUpdateStatement.setString(1, vacancy.getTopicStarter());
-                        userUpdateStatement.setString(2, vacancy.getHrefTopicStarter());
-                        userUpdateStatement.executeUpdate();
+                try (ResultSet userResultSet = userExistStatement.executeQuery()) {
+                    if (userResultSet.next()) {
+                        String name = userResultSet.getString(1);
+                        if (!name.equals(vacancy.getTopicStarter())) {
+                            userUpdateStatement.setString(1, vacancy.getTopicStarter());
+                            userUpdateStatement.setString(2, vacancy.getHrefTopicStarter());
+                            userUpdateStatement.executeUpdate();
+                        }
+                    } else {
+                        userInsertStatement.setString(1, vacancy.getHrefTopicStarter());
+                        userInsertStatement.setString(2, vacancy.getTopicStarter());
+                        userInsertStatement.executeUpdate();
                     }
-                } else {
-                    userInsertStatement.setString(1, vacancy.getHrefTopicStarter());
-                    userInsertStatement.setString(2, vacancy.getTopicStarter());
-                    userInsertStatement.executeUpdate();
+                    connection.commit();
+                } catch (SQLException e) {
+                    LOGGER.error(e.getMessage(), e);
+                    LOGGER.info("Trying to rollback");
+                    connection.rollback();
                 }
 
                 vacancyExistStatement.setString(1, vacancy.getHrefVacancy());
-                ResultSet vacancyResultSet = vacancyExistStatement.executeQuery();
-                if (vacancyResultSet.next()) {
-                    java.sql.Date date = vacancyResultSet.getDate(1);
-                    boolean isclosed = vacancyResultSet.getBoolean(2);
-                    if (date.getTime() != vacancy.getLastComment().getTimeInMillis()
-                            || isclosed != vacancy.isClosed()) {
-                        vacancyUpdateStatement.setTimestamp(1,
+                try (ResultSet vacancyResultSet = vacancyExistStatement.executeQuery()) {
+                    if (vacancyResultSet.next()) {
+                        java.sql.Date date = vacancyResultSet.getDate(1);
+                        boolean isclosed = vacancyResultSet.getBoolean(2);
+                        if (date.getTime() != vacancy.getLastComment().getTimeInMillis()
+                                || isclosed != vacancy.isClosed()) {
+                            vacancyUpdateStatement.setTimestamp(1,
+                                    new Timestamp(vacancy.getLastComment().getTimeInMillis()));
+                            vacancyUpdateStatement.setBoolean(2, vacancy.isClosed());
+                            vacancyUpdateStatement.setString(3, vacancy.getHrefVacancy());
+                            vacancyUpdateStatement.executeUpdate();
+                        }
+                    } else {
+                        vacancyInsertStatement.setString(1, vacancy.getHrefVacancy());
+                        vacancyInsertStatement.setString(2, vacancy.getDescription());
+                        vacancyInsertStatement.setString(3, vacancy.getHrefTopicStarter());
+                        vacancyInsertStatement.setTimestamp(4,
                                 new Timestamp(vacancy.getLastComment().getTimeInMillis()));
-                        vacancyUpdateStatement.setBoolean(2, vacancy.isClosed());
-                        vacancyUpdateStatement.setString(3, vacancy.getHrefVacancy());
-                        vacancyUpdateStatement.executeUpdate();
+                        vacancyInsertStatement.setBoolean(5, vacancy.isClosed());
+                        vacancyInsertStatement.executeUpdate();
                     }
-                } else {
-                    vacancyInsertStatement.setString(1, vacancy.getHrefVacancy());
-                    vacancyInsertStatement.setString(2, vacancy.getDescription());
-                    vacancyInsertStatement.setString(3, vacancy.getHrefTopicStarter());
-                    vacancyInsertStatement.setTimestamp(4,
-                            new Timestamp(vacancy.getLastComment().getTimeInMillis()));
-                    vacancyInsertStatement.setBoolean(5, vacancy.isClosed());
-                    vacancyInsertStatement.executeUpdate();
+                    connection.commit();
+                } catch (SQLException e) {
+                    LOGGER.error(e.getMessage(), e);
+                    LOGGER.info("Trying to rollback");
+                    connection.rollback();
                 }
             }
+            connection.setAutoCommit(true);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage(), e);
         }
