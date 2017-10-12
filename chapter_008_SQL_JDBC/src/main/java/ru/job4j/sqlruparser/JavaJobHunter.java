@@ -332,28 +332,27 @@ public class JavaJobHunter implements Runnable {
      * @param vacancies список объектов Vacancy.
      */
     private void addAllVacanciesToDatabase(List<Vacancy> vacancies) {
-        try {
-            PreparedStatement userExistStatement = this.connection.
-                    prepareStatement("SELECT name FROM users WHERE href = ?");
-            PreparedStatement userInsertStatement = this.connection.
-                    prepareStatement("INSERT INTO users (href, name) VALUES (?, ?)");
-            PreparedStatement userUpdateStatement = this.connection.
-                    prepareStatement("UPDATE users SET name = ? WHERE href = ?");
-            PreparedStatement vacancyExistStatement = this.connection.
-                    prepareStatement("SELECT lastcomment, isclosed FROM vacancies WHERE href = ?");
-            PreparedStatement vacancyInsertStatement = this.connection.
-                    prepareStatement("INSERT INTO vacancies "
-                            + "(href, description, topicstarter_id, lastcomment, isclosed) VALUES "
-                            + "(?, ?, (SELECT user_id FROM users u WHERE u.href = ?), ?, ?)");
-            PreparedStatement vacancyUpdateStatement = this.connection.
-                    prepareStatement("UPDATE vacancies SET lastcomment = ?, isclosed = ? WHERE href = ?");
+        try (PreparedStatement userExistStatement = this.connection.
+                prepareStatement("SELECT name FROM users WHERE href = ?");
+             PreparedStatement userInsertStatement = this.connection.
+                     prepareStatement("INSERT INTO users (href, name) VALUES (?, ?)");
+             PreparedStatement userUpdateStatement = this.connection.
+                     prepareStatement("UPDATE users SET name = ? WHERE href = ?");
+             PreparedStatement vacancyExistStatement = this.connection.
+                     prepareStatement("SELECT lastcomment, isclosed FROM vacancies WHERE href = ?");
+             PreparedStatement vacancyInsertStatement = this.connection.
+                     prepareStatement("INSERT INTO vacancies "
+                             + "(href, description, topicstarter_id, lastcomment, isclosed) VALUES "
+                             + "(?, ?, (SELECT user_id FROM users u WHERE u.href = ?), ?, ?)");
+             PreparedStatement vacancyUpdateStatement = this.connection.
+                     prepareStatement("UPDATE vacancies SET lastcomment = ?, isclosed = ? WHERE href = ?")) {
 
             connection.setAutoCommit(false);
             for (Vacancy vacancy : vacancies) {
                 userExistStatement.setString(1, vacancy.getHrefTopicStarter());
                 try (ResultSet userResultSet = userExistStatement.executeQuery()) {
                     if (userResultSet.next()) {
-                        String name = userResultSet.getString(1);
+                        String name = userResultSet.getString("name");
                         if (!name.equals(vacancy.getTopicStarter())) {
                             userUpdateStatement.setString(1, vacancy.getTopicStarter());
                             userUpdateStatement.setString(2, vacancy.getHrefTopicStarter());
@@ -374,8 +373,8 @@ public class JavaJobHunter implements Runnable {
                 vacancyExistStatement.setString(1, vacancy.getHrefVacancy());
                 try (ResultSet vacancyResultSet = vacancyExistStatement.executeQuery()) {
                     if (vacancyResultSet.next()) {
-                        java.sql.Date date = vacancyResultSet.getDate(1);
-                        boolean isclosed = vacancyResultSet.getBoolean(2);
+                        java.sql.Date date = vacancyResultSet.getDate("lastcomment");
+                        boolean isclosed = vacancyResultSet.getBoolean("isclosed");
                         if (date.getTime() != vacancy.getLastComment().getTimeInMillis()
                                 || isclosed != vacancy.isClosed()) {
                             vacancyUpdateStatement.setTimestamp(1,

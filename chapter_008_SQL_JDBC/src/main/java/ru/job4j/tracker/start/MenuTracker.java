@@ -53,10 +53,10 @@ public class MenuTracker {
      * fill menu of actions.
      */
     public void fillActions() {
-        this.actions.add(this.new AddItem("Add the new item."));
-        this.actions.add(new MenuTracker.EditItem("Edit the item."));
-        this.actions.add(new DeleteItem("Delete the item."));
-        this.actions.add(new ShowItems("Show all items."));
+        this.actions.add(this.new AddItem("Add the new task."));
+        this.actions.add(new MenuTracker.EditItem("Edit the task."));
+        this.actions.add(new DeleteItem("Delete the task."));
+        this.actions.add(new ShowItems("Show all tasks."));
         this.actions.add(new FindItemByName("Find task by name."));
         this.actions.add(new FindItemById("Find task by ID."));
         this.actions.add(new AddComment("Add comment to task."));

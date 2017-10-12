@@ -25,6 +25,7 @@ public class Tracker {
 
     /**
      * Getter to connection.
+     *
      * @return connection.
      */
     public Connection getConnection() {
@@ -33,6 +34,7 @@ public class Tracker {
 
     /**
      * Setter for connection.
+     *
      * @param connection to database.
      */
     public void setConnection(Connection connection) {
@@ -50,15 +52,17 @@ public class Tracker {
         String desc = item.getDescription();
         String id = "";
         try {
-            PreparedStatement statement = connection.
-                    prepareStatement("INSERT INTO tasks (name, description) VALUES (?, ?)");
-            statement.setString(1, taskName);
-            statement.setString(2, desc);
-            statement.executeUpdate();
-            Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT MAX(task_id) FROM tasks");
-            while (rs.next()) {
-                id = rs.getString(1);
+            try (PreparedStatement statement = connection.
+                    prepareStatement("INSERT INTO tasks (name, description) VALUES (?, ?)")) {
+                statement.setString(1, taskName);
+                statement.setString(2, desc);
+                statement.executeUpdate();
+                try (Statement st = connection.createStatement()) {
+                    ResultSet rs = st.executeQuery("SELECT MAX(task_id) FROM tasks");
+                    while (rs.next()) {
+                        id = rs.getString(1);
+                    }
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -77,16 +81,18 @@ public class Tracker {
         Item result = null;
         try {
             int id = Integer.parseInt(taskID);
-            PreparedStatement preparedStatement = connection.
-                    prepareStatement("SELECT name, description FROM tasks WHERE task_id = ?");
-            preparedStatement.setInt(1, id);
-            ResultSet rs = preparedStatement.executeQuery();
-            if (rs.isBeforeFirst()) {
-                while (rs.next()) {
-                    String name = rs.getString(1);
-                    String desc = rs.getString(2);
-                    result = new Task(name, desc);
+            try (PreparedStatement preparedStatement = connection.
+                    prepareStatement("SELECT name, description FROM tasks WHERE task_id = ?")) {
+                preparedStatement.setInt(1, id);
+                ResultSet rs = preparedStatement.executeQuery();
+                if (rs.isBeforeFirst()) {
+                    while (rs.next()) {
+                        String name = rs.getString("name");
+                        String desc = rs.getString("description");
+                        result = new Task(name, desc);
+                    }
                 }
+
             }
         } catch (SQLException | NumberFormatException e) {
             e.printStackTrace();
@@ -102,15 +108,17 @@ public class Tracker {
     public ArrayList<Item> getAll() {
         ArrayList<Item> items = new ArrayList<>();
         try {
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT task_id, name, description FROM tasks ORDER BY task_id");
-            while (rs.next()) {
-                int id = rs.getInt(1);
-                String name = rs.getString(2);
-                String description = rs.getString(3);
-                Item task = new Task(name, description);
-                task.setId(String.valueOf(id));
-                items.add(task);
+            try (Statement statement = connection.createStatement()) {
+                ResultSet rs = statement.executeQuery
+                        ("SELECT task_id, name, description FROM tasks ORDER BY task_id");
+                while (rs.next()) {
+                    int id = rs.getInt("task_id");
+                    String name = rs.getString("name");
+                    String description = rs.getString("description");
+                    Item task = new Task(name, description);
+                    task.setId(String.valueOf(id));
+                    items.add(task);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -128,12 +136,13 @@ public class Tracker {
             String name = item.getName();
             String desc = item.getDescription();
             int id = Integer.parseInt(item.getId());
-            PreparedStatement preparedStatement = connection.
-                    prepareStatement("UPDATE tasks SET name = ?, description = ? WHERE task_id = ?");
-            preparedStatement.setString(1, name);
-            preparedStatement.setString(2, desc);
-            preparedStatement.setInt(3, id);
-            preparedStatement.executeUpdate();
+            try (PreparedStatement preparedStatement = connection.
+                    prepareStatement("UPDATE tasks SET name = ?, description = ? WHERE task_id = ?")) {
+                preparedStatement.setString(1, name);
+                preparedStatement.setString(2, desc);
+                preparedStatement.setInt(3, id);
+                preparedStatement.executeUpdate();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (NumberFormatException e) {
@@ -150,13 +159,16 @@ public class Tracker {
         String taskID = item.getId();
         try {
             int id = Integer.parseInt(taskID);
-            PreparedStatement preparedStatement = connection.
+            try (PreparedStatement preparedStatement = connection.
                     prepareStatement("DELETE FROM comments WHERE task_id = ?");
-            preparedStatement.setInt(1, id);
-            preparedStatement.executeUpdate();
-            preparedStatement = connection.prepareStatement("DELETE FROM tasks WHERE task_id = ?");
-            preparedStatement.setInt(1, id);
-            preparedStatement.executeUpdate();
+                 PreparedStatement preparedStatementTasks = connection.
+                         prepareStatement("DELETE FROM tasks WHERE task_id = ?")) {
+                preparedStatement.setInt(1, id);
+                preparedStatement.executeUpdate();
+
+                preparedStatementTasks.setInt(1, id);
+                preparedStatementTasks.executeUpdate();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -170,15 +182,15 @@ public class Tracker {
      */
     public Item findByName(String key) {
         Item result = null;
-        try {
-            PreparedStatement preparedStatement = connection.
-                    prepareStatement("SELECT task_id, description FROM tasks WHERE name = ?");
+        try (PreparedStatement preparedStatement = connection.
+                prepareStatement("SELECT task_id, description FROM tasks WHERE name = ?")) {
+
             preparedStatement.setString(1, key);
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.isBeforeFirst()) {
                 if (rs.next()) {
-                    int id = rs.getInt(1);
-                    String desc = rs.getString(2);
+                    int id = rs.getInt("task_id");
+                    String desc = rs.getString("description");
                     result = new Task(key, desc);
                     result.setId(String.valueOf(id));
                 }
@@ -199,11 +211,12 @@ public class Tracker {
         String taskID = item.getId();
         try {
             int id = Integer.parseInt(taskID);
-            PreparedStatement preparedStatement = connection.
-                    prepareStatement("INSERT  INTO comments (comment, task_id) VALUES (?, ?)");
-            preparedStatement.setString(1, comment);
-            preparedStatement.setInt(2, id);
-            preparedStatement.executeUpdate();
+            try (PreparedStatement preparedStatement = connection.
+                    prepareStatement("INSERT  INTO comments (comment, task_id) VALUES (?, ?)")) {
+                preparedStatement.setString(1, comment);
+                preparedStatement.setInt(2, id);
+                preparedStatement.executeUpdate();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -218,14 +231,14 @@ public class Tracker {
     public ArrayList<String> showComments(Item item) {
         ArrayList<String> comments = new ArrayList<>();
         String taskID = item.getId();
-        try {
+        try (PreparedStatement preparedStatement = connection.
+                prepareStatement("SELECT comment FROM comments WHERE task_id = ? ORDER BY time_of_creating")) {
             int id = Integer.parseInt(taskID);
-            PreparedStatement preparedStatement = connection.
-                    prepareStatement("SELECT comment FROM comments WHERE task_id = ? ORDER BY time_of_creating");
+
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                comments.add(resultSet.getString(1));
+                comments.add(resultSet.getString("comment"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -241,10 +254,10 @@ public class Tracker {
      */
     public boolean hasId(Item item) {
         boolean trackerHasId = false;
-        try {
+        try (PreparedStatement preparedStatement = connection.
+                prepareStatement("SELECT task_id FROM tasks WHERE task_id = ?")) {
             Integer id = Integer.parseInt(item.getId());
-            PreparedStatement preparedStatement = connection.
-                    prepareStatement("SELECT task_id FROM tasks WHERE task_id = ?");
+
             preparedStatement.setInt(1, id);
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
