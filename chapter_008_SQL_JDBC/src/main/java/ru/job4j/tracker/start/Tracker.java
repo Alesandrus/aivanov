@@ -109,8 +109,8 @@ public class Tracker {
         ArrayList<Item> items = new ArrayList<>();
         try {
             try (Statement statement = connection.createStatement()) {
-                ResultSet rs = statement.executeQuery
-                        ("SELECT task_id, name, description FROM tasks ORDER BY task_id");
+                ResultSet rs = statement.executeQuery(
+                        "SELECT task_id, name, description FROM tasks ORDER BY task_id");
                 while (rs.next()) {
                     int id = rs.getInt("task_id");
                     String name = rs.getString("name");
