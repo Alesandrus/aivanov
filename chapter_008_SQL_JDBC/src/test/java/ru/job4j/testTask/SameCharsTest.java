@@ -60,4 +60,52 @@ public class SameCharsTest {
         boolean result = sameChars.isSameWithMerge(first, second);
         assertThat(result, is(false));
     }
+
+    /**
+     * Тестирование метода isSameWithMap() анаграммы "просветитель - терпеливость".
+     */
+    @Test
+    public void testIsSameWithMap2() {
+        SameChars sameChars = new SameChars();
+        String first = "просветитель";
+        String second = "терпеливость";
+        boolean result = sameChars.isSameWithMap(first, second);
+        assertThat(result, is(true));
+    }
+
+    /**
+     * Тестирование метода isSameWithMerge() анаграммы "просветитель - терпеливость".
+     */
+    @Test
+    public void testIsSameWithMerge2() {
+        SameChars sameChars = new SameChars();
+        String first = "просветитель";
+        String second = "терпеливость";
+        boolean result = sameChars.isSameWithMerge(first, second);
+        assertThat(result, is(true));
+    }
+
+    /**
+     * Тестирование метода isSameWithMap() анаграммы "апельсин - спаниель".
+     */
+    @Test
+    public void testIsSameWithMap3() {
+        SameChars sameChars = new SameChars();
+        String first = "апельсин";
+        String second = "спаниель";
+        boolean result = sameChars.isSameWithMap(first, second);
+        assertThat(result, is(true));
+    }
+
+    /**
+     * Тестирование метода isSameWithMerge() анаграммы "апельсин - спаниель".
+     */
+    @Test
+    public void testIsSameWithMerge3() {
+        SameChars sameChars = new SameChars();
+        String first = "апельсин";
+        String second = "спаниель";
+        boolean result = sameChars.isSameWithMerge(first, second);
+        assertThat(result, is(true));
+    }
 }
