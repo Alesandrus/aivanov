@@ -1,18 +1,20 @@
 <web-app>
+    <!--Фильтр для удаления пробелов введеных в форму HTML данных-->
     <filter>
         <filter-name>Trim</filter-name>
         <filter-class>ru.job4j.http.FilterTrim</filter-class>
     </filter>
-
     <filter-mapping>
         <filter-name>Trim</filter-name>
         <servlet-name>UserServlet</servlet-name>
     </filter-mapping>
 
+    <!--Слушатель контекста для загрузки драйвера базы данных и установления подключения к ней-->
     <listener>
         <listener-class>ru.job4j.http.AppEvent</listener-class>
     </listener>
 
+    <!--Здесь указать параметры подключения к базе данных-->
     <context-param>
         <param-name>database</param-name>
         <param-value>servlet</param-value>

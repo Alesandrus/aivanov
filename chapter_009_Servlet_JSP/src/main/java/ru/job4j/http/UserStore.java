@@ -1,7 +1,8 @@
 package ru.job4j.http;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import net.jcip.annotations.ThreadSafe;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,22 +10,62 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
 
+/**
+ * Класс-синглтон реализующий бизнес-логику приложения.
+ *
+ * @author Alexander Ivanov
+ * @version 1.0
+ * @since 14.11.2017
+ */
+@ThreadSafe
 public class UserStore {
-    private static final UserStore store = new UserStore();
-    private Connection connection;
-    private static final Logger LOGGER = LoggerFactory.getLogger(Logger.class);
+    /**
+     * Логгер.
+     */
+    private static final Logger LOGGER = LogManager.getLogger(Logger.class.getName());
 
+    /**
+     * Объект UserStore.
+     */
+    private static final UserStore STORE = new UserStore();
+
+    /**
+     * Соединение с базой данных.
+     */
+    private Connection connection;
+
+    /**
+     * Приватный конструктор класса-синглтона.
+     */
     private UserStore() {
     }
 
+    /**
+     * Получение объекта класса-синглтона.
+     *
+     * @return STORE (синглтон).
+     */
     public static UserStore getInstance() {
-        return store;
+        return STORE;
     }
 
+    /**
+     * Сеттер для соединения.
+     *
+     * @param connection с установленным соединением к базе данных.
+     */
     public synchronized void setConnection(Connection connection) {
         this.connection = connection;
     }
 
+    /**
+     * Метод для добавления пользователя.
+     *
+     * @param name  имя пользователя.
+     * @param login логин для входа.
+     * @param email адрес электронной почты.
+     * @return true если операция по добавлению пользователя прошла успешно.
+     */
     public synchronized boolean addUser(String name, String login, String email) {
         int addResult = 0;
         try (PreparedStatement statement = connection
@@ -40,10 +81,17 @@ public class UserStore {
     }
 
     /**
-     * Если запись о пользователе не имеется то вернет -1, если есть, но не получилось добавить вернет 0,
-     * если есть и запись добавлена вернет 1, -2 если все ячейки пустые
+     * Метод для редактирования данных о пользователе.
      *
-     * @return
+     * @param login    логин пользователя.
+     * @param newName  имя для замены существующего.
+     * @param newLogin логин для замены существующего.
+     * @param newEmail адрес электронной почты для замены существующей.
+     * @return число равное:
+     * 1 если запись присутствет в базе данных и она успешно отредактирована,
+     * 0 если запись присутствет в базе данных, но отредактировать её не удалось,
+     * -1 если запись о пользователе не имеется в базе данных,
+     * -2 если все аргументы (поля для редактирования) пустые.
      */
     public synchronized int updateUser(String login, String newName, String newLogin, String newEmail) {
         int updateResult = 0;
@@ -97,6 +145,16 @@ public class UserStore {
         return updateResult;
     }
 
+    /**
+     * Метод для удаления записи о пользователе из базы данных.
+     *
+     * @param login логин для входа.
+     * @return число равное:
+     * 1 (или > 1, но так как поле login в базе данных уникальное, то удаляется одна запись) если запись
+     * присутствет в базе данных и она успешно удалена(),
+     * 0 если запись присутствет в базе данных, но удалить её не удалось,
+     * -1 если запись о пользователе не имеется в базе данных.
+     */
     public synchronized int deleteUser(String login) {
         int deleteResult = 0;
         try (PreparedStatement statement = connection
@@ -129,9 +187,11 @@ public class UserStore {
     }
 
     /**
-     * Если пользователя нет в БД, то возвращает user с установленным полем exist в false
+     * Метод для получения данных о пользователе.
+     * Если пользователя нет в БД, то возвращает User с установленным полем exist в false
      *
-     * @return
+     * @param login логин пользователя.
+     * @return данные о пользователе.
      */
     public synchronized User getUser(String login) {
         User user = new User();
@@ -155,6 +215,12 @@ public class UserStore {
         return user;
     }
 
+    /**
+     * Проверка присутствия записи о пользователе в базе данных.
+     *
+     * @param login логин для проверки.
+     * @return true если пользователь есть в базе.
+     */
     private synchronized boolean validateUser(String login) {
         boolean check = false;
         try (PreparedStatement statement = connection

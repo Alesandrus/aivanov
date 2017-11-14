@@ -1,20 +1,54 @@
 package ru.job4j.http;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import javax.servlet.*;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import java.io.IOException;
 
+/**
+ * Класс, отсекающий пробелы в начале и конце полей для ввода данных на web-страницах.
+ * @author Alexander Ivanov
+ * @version 1.0
+ * @since 14.11.2017
+ */
 public class FilterTrim implements Filter {
+    /**
+     * Логгер.
+     */
+    private static final Logger LOGGER = LogManager.getLogger(Logger.class.getName());
+
+    /**
+     * Переменная для сохранения настроек фильтра.
+     */
     private FilterConfig filterConfig;
-    private static final Logger LOGGER = LoggerFactory.getLogger(Logger.class);
+
+    /**
+     * Метод для инициализации фильтра.
+     *
+     * @param filterConfig настройки фильтра.
+     * @throws ServletException .
+     */
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         this.filterConfig = filterConfig;
         LOGGER.info("Фильтр по обрезке пробелов в начале и в конце инициализирован");
     }
 
+    /**
+     * Отсечение пробелов в полях форм, а также усатновка пустых значений строк, если поле не заполнено.
+     *
+     * @param request  запрос.
+     * @param response ответ.
+     * @param chain    переменная для передачи обработки request и response следующему фильтру.
+     * @throws IOException      .
+     * @throws ServletException .
+     */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         String name = request.getParameter("name");
@@ -44,6 +78,9 @@ public class FilterTrim implements Filter {
         chain.doFilter(request, response);
     }
 
+    /**
+     * Запускается при деинициализации фильтра.
+     */
     @Override
     public void destroy() {
         LOGGER.info("Фильтр по обрезке пробелов в начале и в конце деинициализирован");
