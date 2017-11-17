@@ -7,6 +7,7 @@ import java.util.Calendar;
 
 /**
  * Класс с данными о пользователе.
+ *
  * @author Alexander Ivanov
  * @version 1.0
  * @since 14.11.2017

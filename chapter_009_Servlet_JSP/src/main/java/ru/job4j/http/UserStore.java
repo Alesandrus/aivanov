@@ -4,11 +4,11 @@ import net.jcip.annotations.ThreadSafe;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.*;
 import java.util.Calendar;
+import java.util.Properties;
 
 /**
  * Класс-синглтон реализующий бизнес-логику приложения.
@@ -47,15 +47,6 @@ public class UserStore {
      */
     public static UserStore getInstance() {
         return STORE;
-    }
-
-    /**
-     * Сеттер для соединения.
-     *
-     * @param connection с установленным соединением к базе данных.
-     */
-    public synchronized void setConnection(Connection connection) {
-        this.connection = connection;
     }
 
     /**
@@ -234,5 +225,41 @@ public class UserStore {
             LOGGER.error(e.getMessage(), e);
         }
         return check;
+    }
+
+    /**
+     * Соединение с базой данных.
+     */
+    public void connectDB() {
+        try {
+            Properties dataBaseProperties = new Properties();
+            try (InputStream in = getClass().getClassLoader().getResourceAsStream("app.properties")) {
+                dataBaseProperties.load(in);
+            } catch (IOException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
+            String driver = dataBaseProperties.getProperty("driver");
+            Class.forName(driver);
+            String url = dataBaseProperties.getProperty("url");
+            String user = dataBaseProperties.getProperty("user");
+            String password = dataBaseProperties.getProperty("password");
+            connection = DriverManager.getConnection(url, user, password);
+        } catch (ClassNotFoundException | SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Закрытие соединения.
+     */
+    public void disConnectDB() {
+        try {
+            connection.close();
+            if (connection.isClosed()) {
+                LOGGER.info("Соединение с базой данных закрыто");
+            }
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
     }
 }

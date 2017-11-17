@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -38,7 +37,7 @@ public class UsersServlet extends HttpServlet {
      */
     @Override
     public void init() throws ServletException {
-        users.setConnection((Connection) getServletContext().getAttribute("connection"));
+        users.connectDB();
     }
 
     /**
@@ -186,5 +185,13 @@ public class UsersServlet extends HttpServlet {
         out.println("</center>");
         out.println("</body></html>");
         LOGGER.info("Вызван метод DELETE");
+    }
+
+    /**
+     * Закрытие соединения при окончании работы сервера.
+     */
+    @Override
+    public void destroy() {
+        users.disConnectDB();
     }
 }
