@@ -30,7 +30,13 @@
             </table>
             <br>
             <br>
-            <a href=<%=request.getContextPath()%>>К списку пользователей</a>
+            <%
+                String root = "/";
+                if (!request.getContextPath().isEmpty()) {
+                    root = request.getContextPath();
+                }
+            %>
+            <a href=<%=root%>>К списку пользователей</a>
         </div>
     </body>
 </html>
