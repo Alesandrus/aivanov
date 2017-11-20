@@ -1,0 +1,52 @@
+package ru.job4j;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+/**
+ * Сервлет, отвечающий за удаление пользователя.
+ *
+ * @author Alexander Ivanov
+ * @version 1.0
+ * @since 19.11.2017
+ */
+public class DeleteUser extends HttpServlet {
+    /**
+     * Логгер.
+     */
+    private static final Logger LOGGER = LogManager.getLogger(Logger.class.getName());
+
+    /**
+     * Переменная, хранящая объект-синглтон UserStore.
+     */
+    private final UserStore users = UserStore.getInstance();
+
+    /**
+     * Метод для удаления пользователя.
+     *
+     * @param req  запрос.
+     * @param resp ответ.
+     * @throws ServletException .
+     * @throws IOException      .
+     */
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("text/html");
+        String login = req.getParameter("login");
+        int deleteResult = users.deleteUser(login);
+        if (deleteResult > 0) {
+            resp.sendRedirect(req.getContextPath() + "/successdelete.jsp");
+        } else if (deleteResult == 0) {
+            resp.sendRedirect(req.getContextPath() + "/dbcrash.jsp");
+        } else {
+            resp.sendRedirect(req.getContextPath() + "/notfound.jsp");
+        }
+    }
+}
