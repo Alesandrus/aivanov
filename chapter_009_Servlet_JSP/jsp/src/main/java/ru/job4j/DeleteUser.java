@@ -39,7 +39,8 @@ public class DeleteUser extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html");
-        String login = req.getParameter("login");
+        String login = new String(req.getParameter("login")
+                .getBytes("iso-8859-1"), "utf-8");
         int deleteResult = users.deleteUser(login);
         if (deleteResult > 0) {
             resp.sendRedirect(req.getContextPath() + "/successdelete.jsp");

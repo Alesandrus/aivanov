@@ -3,10 +3,13 @@ package ru.job4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -47,11 +50,12 @@ public class CreateUser extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setCharacterEncoding("UTF-8");
-        resp.setContentType("text/html");
-        String name = req.getParameter("name");
-        String login = req.getParameter("login");
-        String email = req.getParameter("email");
+        String name = new String(req.getParameter("name")
+                .getBytes("iso-8859-1"), "utf-8");
+        String login = new String(req.getParameter("login")
+                .getBytes("iso-8859-1"), "utf-8");
+        String email = new String(req.getParameter("email")
+                .getBytes("iso-8859-1"), "utf-8");
         boolean addResult = users.addUser(name, login, email);
         if (addResult) {
             resp.sendRedirect(req.getContextPath() + "/successcreate.jsp");

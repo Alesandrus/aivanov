@@ -39,10 +39,14 @@ public class UpdateUser extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html");
-        String login = req.getParameter("login");
-        String name = req.getParameter("name");
-        String newLogin = req.getParameter("newlogin");
-        String email = req.getParameter("email");
+        String name = new String(req.getParameter("name")
+                .getBytes("iso-8859-1"), "utf-8");
+        String login = new String(req.getParameter("login")
+                .getBytes("iso-8859-1"), "utf-8");
+        String email = new String(req.getParameter("email")
+                .getBytes("iso-8859-1"), "utf-8");
+        String newLogin = new String(req.getParameter("newlogin")
+                .getBytes("iso-8859-1"), "utf-8");
         int updateResult = users.updateUser(login, name, newLogin, email);
         if (updateResult > 0) {
             resp.sendRedirect(req.getContextPath() + "/successupdate.jsp");
