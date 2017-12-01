@@ -9,6 +9,19 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>*.jsp</url-pattern>
+            <scripting-invalid>
+                true
+            </scripting-invalid>
+        </jsp-property-group>
+    </jsp-config>
+
+    <servlet>
+        <servlet-name>Users View Servlet</servlet-name>
+        <servlet-class>ru.job4j.UsersController</servlet-class>
+    </servlet>
     <servlet>
         <servlet-name>Createuser</servlet-name>
         <servlet-class>ru.job4j.CreateUser</servlet-class>
@@ -27,6 +40,10 @@
         <servlet-class>ru.job4j.UpdateUser</servlet-class>
     </servlet>
 
+    <servlet-mapping>
+        <servlet-name>Users View Servlet</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Createuser</servlet-name>
         <url-pattern>/createuser</url-pattern>

@@ -9,13 +9,7 @@
     <h2>Произошел сбой в работе базы данных</h2>
     <br>
     <br>
-    <%
-        String root = "/";
-        if (!request.getContextPath().isEmpty()) {
-            root = request.getContextPath();
-        }
-    %>
-    <a href=<%=root%>>К списку пользователей</a>
+    <jsp:include page="BackToList.jsp" />
 </div>
 </body>
 </html>

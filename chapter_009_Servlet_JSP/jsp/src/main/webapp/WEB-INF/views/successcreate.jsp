@@ -8,13 +8,7 @@
         <div align="center">
             <h2>Пользователь успешно создан</h2>
             <br>
-            <%
-                String root = "/";
-                if (!request.getContextPath().isEmpty()) {
-                    root = request.getContextPath();
-                }
-            %>
-            <a href=<%=root%>>К списку пользователей</a>
+            <jsp:include page="BackToList.jsp" />
         </div>
     </body>
 </html>

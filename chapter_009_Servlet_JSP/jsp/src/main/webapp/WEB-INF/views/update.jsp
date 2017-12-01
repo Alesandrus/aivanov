@@ -6,10 +6,7 @@
     </head>
     <body>
         <div align="center">
-            <%
-                String login = request.getParameter("login");
-            %>
-            <h2>Редактировать пользователя <%= login%></h2>
+            <h2>Редактировать пользователя ${login}</h2>
             <form action="updateuser" method=POST>
                 <table>
                     <caption>Заполните поля, которые необходимо отредактировать</caption>
@@ -31,7 +28,7 @@
                             <input type=text name=email >
                         </td>
                     </tr>
-                    <input type=hidden name=login value=<%= login%>>
+                    <input type=hidden name=login value=${login}>
                     <tr>
                         <td colspan=2 align=center>
                             <input type=submit value=update>

@@ -3,6 +3,7 @@ package ru.job4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -49,13 +50,31 @@ public class UpdateUser extends HttpServlet {
                 .getBytes("iso-8859-1"), "utf-8");
         int updateResult = users.updateUser(login, name, newLogin, email);
         if (updateResult > 0) {
-            resp.sendRedirect(req.getContextPath() + "/successupdate.jsp");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/successupdate.jsp");
+            dispatcher.forward(req, resp);
         } else if (updateResult == 0) {
-            resp.sendRedirect(req.getContextPath() + "/dbcrash.jsp");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/dbcrash.jsp");
+            dispatcher.forward(req, resp);
         } else if (updateResult == -1) {
-            resp.sendRedirect(req.getContextPath() + "/notfound.jsp");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/notfound.jsp");
+            dispatcher.forward(req, resp);
         } else if (updateResult == -2) {
-            resp.sendRedirect(req.getContextPath() + "/emptyfields.jsp");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/emptyfields.jsp");
+            dispatcher.forward(req, resp);
         }
+    }
+
+    /**
+     * Метод для перенаправления запроса на страницу обновления пользователя.
+     *
+     * @param req  запрос.
+     * @param resp ответ.
+     * @throws ServletException .
+     * @throws IOException      .
+     */
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/update.jsp");
+        dispatcher.forward(req, resp);
     }
 }

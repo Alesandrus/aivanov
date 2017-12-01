@@ -3,6 +3,7 @@ package ru.job4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -43,11 +44,14 @@ public class DeleteUser extends HttpServlet {
                 .getBytes("iso-8859-1"), "utf-8");
         int deleteResult = users.deleteUser(login);
         if (deleteResult > 0) {
-            resp.sendRedirect(req.getContextPath() + "/successdelete.jsp");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/successdelete.jsp");
+            dispatcher.forward(req, resp);
         } else if (deleteResult == 0) {
-            resp.sendRedirect(req.getContextPath() + "/dbcrash.jsp");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/dbcrash.jsp");
+            dispatcher.forward(req, resp);
         } else {
-            resp.sendRedirect(req.getContextPath() + "/notfound.jsp");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/notfound.jsp");
+            dispatcher.forward(req, resp);
         }
     }
 }

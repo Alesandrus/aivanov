@@ -3,6 +3,7 @@ package ru.job4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -51,14 +52,15 @@ public class GetUser extends HttpServlet {
             Calendar calendar = user.getCreateDate();
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd/MM/yyyy");
             String date = sdf.format(calendar.getTime());
-            HttpSession session = req.getSession();
-            session.setAttribute("name", name);
-            session.setAttribute("login", login);
-            session.setAttribute("email", email);
-            session.setAttribute("date", date);
-            resp.sendRedirect(req.getContextPath() + "/userinfo.jsp");
+            req.setAttribute("name", name);
+            req.setAttribute("login", login);
+            req.setAttribute("email", email);
+            req.setAttribute("date", date);
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/userinfo.jsp");
+            dispatcher.forward(req, resp);
         } else {
-            resp.sendRedirect(req.getContextPath() + "/notfound.jsp");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/notfound.jsp");
+            dispatcher.forward(req, resp);
         }
     }
 }

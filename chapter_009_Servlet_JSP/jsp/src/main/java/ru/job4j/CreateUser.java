@@ -3,6 +3,7 @@ package ru.job4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -55,10 +56,26 @@ public class CreateUser extends HttpServlet {
                 .getBytes("iso-8859-1"), "utf-8");
         boolean addResult = users.addUser(name, login, email);
         if (addResult) {
-            resp.sendRedirect(req.getContextPath() + "/successcreate.jsp");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/successcreate.jsp");
+            dispatcher.forward(req, resp);
         } else {
-            resp.sendRedirect(req.getContextPath() + "/failcreate.jsp");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/failcreate.jsp");
+            dispatcher.forward(req, resp);
         }
+    }
+
+    /**
+     * Метод для перенаправления запроса на страницу создания пользователя.
+     *
+     * @param req  запрос.
+     * @param resp ответ.
+     * @throws ServletException .
+     * @throws IOException      .
+     */
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/create.jsp");
+        dispatcher.forward(req, resp);
     }
 
     /**
