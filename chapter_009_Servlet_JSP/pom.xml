@@ -18,6 +18,7 @@
 		<module>crud</module>
 		<module>servlet</module>
 		<module>jsp</module>
+		<module>filter</module>
 	</modules>
 
 	<dependencies>
