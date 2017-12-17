@@ -34,6 +34,7 @@ public class AuthenticateFilter implements Filter {
 
     /**
      * Методы, вызывающийся при загрузки сервлета.
+     *
      * @param filterConfig .
      * @throws ServletException .
      */
@@ -44,10 +45,11 @@ public class AuthenticateFilter implements Filter {
 
     /**
      * Метод, определяющий авторизован ли пользователь.
-     * @param request запрос.
+     *
+     * @param request  запрос.
      * @param response ответ.
-     * @param chain цепочка.
-     * @throws IOException .
+     * @param chain    цепочка.
+     * @throws IOException      .
      * @throws ServletException .
      */
     @Override
@@ -56,11 +58,9 @@ public class AuthenticateFilter implements Filter {
         if (!req.getRequestURI().contains("/signin")) {
             HttpSession session = req.getSession();
             HttpServletResponse res = (HttpServletResponse) response;
-            synchronized (session) {
-                if (session.getAttribute("login") == null) {
-                    res.sendRedirect(String.format("%s/signin", req.getContextPath()));
-                    return;
-                }
+            if (session.getAttribute("login") == null) {
+                res.sendRedirect(String.format("%s/signin", req.getContextPath()));
+                return;
             }
         }
         chain.doFilter(request, response);
