@@ -19,6 +19,7 @@
 		<module>servlet</module>
 		<module>jsp</module>
 		<module>filter</module>
+		<module>javascript</module>
 	</modules>
 
 	<dependencies>

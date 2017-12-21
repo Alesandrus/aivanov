@@ -52,6 +52,7 @@ public class CreateUserTest {
         when(request.getParameter("email")).thenReturn("email@test.ru");
         when(request.getParameter("password")).thenReturn("passwordTest");
         when(request.getParameter("roles")).thenReturn("2");
+        when(request.getParameter("cities")).thenReturn("2");
         when(request.getRequestDispatcher("/WEB-INF/views/successcreate.jsp"))
                 .thenReturn(mock(RequestDispatcher.class));
 
@@ -59,12 +60,15 @@ public class CreateUserTest {
 
         User user = UserStore.getInstance().getUser(login);
         assertThat(login, is(user.getLogin()));
+        assertThat(user.getCity(), is("Belgorod"));
+        assertThat(user.getName(), is("nameTest"));
 
         verify(request, atLeastOnce()).getParameter("name");
         verify(request, atLeastOnce()).getParameter("login");
         verify(request, atLeastOnce()).getParameter("email");
         verify(request, atLeastOnce()).getParameter("password");
         verify(request, atLeastOnce()).getParameter("roles");
+        verify(request, atLeastOnce()).getParameter("cities");
         verify(request, atLeastOnce()).getRequestDispatcher("/WEB-INF/views/successcreate.jsp");
 
         UserStore.getInstance().deleteUser(login);
