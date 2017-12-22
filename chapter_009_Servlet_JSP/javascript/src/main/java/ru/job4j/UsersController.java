@@ -26,11 +26,6 @@ public class UsersController extends HttpServlet {
     private static final Logger LOGGER = LogManager.getLogger(Logger.class.getName());
 
     /**
-     * Переменная, хранящая объект-синглтон UserStore.
-     */
-    private final UserStore users = UserStore.getInstance();
-
-    /**
      * Получение списка пользователей.
      *
      * @param req  запрос.
@@ -40,7 +35,7 @@ public class UsersController extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<String> usersList = users.getAll();
+        List<String> usersList = UserStore.getInstance().getAll();
         req.setAttribute("users", usersList);
         HttpSession session = req.getSession();
         String role = (String) session.getAttribute("role");

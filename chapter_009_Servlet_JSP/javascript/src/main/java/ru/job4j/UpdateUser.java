@@ -24,11 +24,6 @@ public class UpdateUser extends HttpServlet {
     private static final Logger LOGGER = LogManager.getLogger(Logger.class.getName());
 
     /**
-     * Переменная, хранящая объект-синглтон UserStore.
-     */
-    private final UserStore users = UserStore.getInstance();
-
-    /**
      * Метод для отображения результата обновления информации о пользователе.
      *
      * @param req  запрос.
@@ -56,7 +51,7 @@ public class UpdateUser extends HttpServlet {
         if (city != null) {
             cityID = Integer.parseInt(city);
         }
-        int updateResult = users.updateUser(login, name, newLogin, email, password, role, cityID);
+        int updateResult = UserStore.getInstance().updateUser(login, name, newLogin, email, password, role, cityID);
         if (updateResult > 0) {
             RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/successupdate.jsp");
             dispatcher.forward(req, resp);

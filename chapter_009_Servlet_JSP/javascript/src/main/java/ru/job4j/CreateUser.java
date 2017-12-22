@@ -24,18 +24,13 @@ public class CreateUser extends HttpServlet {
     private static final Logger LOGGER = LogManager.getLogger(Logger.class.getName());
 
     /**
-     * Переменная, хранящая объект-синглтон UserStore.
-     */
-    private final UserStore users = UserStore.getInstance();
-
-    /**
      * Метод, выполняющийся при инициализации сервлета и устанавливающий в объекте users соединение с базой данных.
      *
      * @throws ServletException .
      */
     @Override
     public void init() throws ServletException {
-        users.connectDB();
+        UserStore.getInstance().connectDB();
     }
 
     /**
@@ -58,7 +53,7 @@ public class CreateUser extends HttpServlet {
                 .getBytes("iso-8859-1"), "utf-8");
         int role = Integer.parseInt(req.getParameter("roles"));
         int cityID = Integer.parseInt(req.getParameter("cities"));
-        boolean addResult = users.addUser(name, login, email, password, role, cityID);
+        boolean addResult = UserStore.getInstance().addUser(name, login, email, password, role, cityID);
         if (addResult) {
             RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/successcreate.jsp");
             dispatcher.forward(req, resp);
@@ -87,6 +82,6 @@ public class CreateUser extends HttpServlet {
      */
     @Override
     public void destroy() {
-        users.disconnectDB();
+        UserStore.getInstance().disconnectDB();
     }
 }

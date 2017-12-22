@@ -24,11 +24,6 @@ public class DeleteUser extends HttpServlet {
     private static final Logger LOGGER = LogManager.getLogger(Logger.class.getName());
 
     /**
-     * Переменная, хранящая объект-синглтон UserStore.
-     */
-    private final UserStore users = UserStore.getInstance();
-
-    /**
      * Метод для удаления пользователя.
      *
      * @param req  запрос.
@@ -42,7 +37,7 @@ public class DeleteUser extends HttpServlet {
         resp.setContentType("text/html");
         String login = new String(req.getParameter("login")
                 .getBytes("iso-8859-1"), "utf-8");
-        int deleteResult = users.deleteUser(login);
+        int deleteResult = UserStore.getInstance().deleteUser(login);
         if (deleteResult > 0) {
             RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/successdelete.jsp");
             dispatcher.forward(req, resp);
