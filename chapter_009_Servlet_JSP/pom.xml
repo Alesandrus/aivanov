@@ -20,6 +20,7 @@
 		<module>jsp</module>
 		<module>filter</module>
 		<module>javascript</module>
+		<module>musicapp</module>
 	</modules>
 
 	<dependencies>
