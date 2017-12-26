@@ -42,17 +42,12 @@ public class CreateUser extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String login = new String(req.getParameter("login")
-                .getBytes("iso-8859-1"), "utf-8");
-        String password = new String(req.getParameter("password")
-                .getBytes("iso-8859-1"), "utf-8");
-        String name = new String(req.getParameter("name")
-                .getBytes("iso-8859-1"), "utf-8");
+        String login = req.getParameter("login");
+        String password = req.getParameter("password");
+        String name = req.getParameter("name");
         String role = req.getParameter("roles");
-        String city = new String(req.getParameter("city")
-                .getBytes("iso-8859-1"), "utf-8");
-        String street = new String(req.getParameter("street")
-                .getBytes("iso-8859-1"), "utf-8");
+        String city = req.getParameter("city");
+        String street = req.getParameter("street");
         int house = Integer.parseInt(req.getParameter("house"));
         String[] musicTypes = req.getParameterValues("musictypes");
 
