@@ -21,6 +21,7 @@
 		<module>filter</module>
 		<module>javascript</module>
 		<module>musicapp</module>
+		<module>musicrepo</module>
 	</modules>
 
 	<dependencies>
