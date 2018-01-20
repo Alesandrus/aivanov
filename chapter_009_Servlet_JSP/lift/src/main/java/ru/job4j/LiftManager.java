@@ -49,6 +49,8 @@ public class LiftManager {
             House house = new House(floors);
             house.setLift(lift);
 
+            lift.start();
+
             Scanner scanner = new Scanner(System.in);
             String command = "";
             while (!command.equals("exit")) {
@@ -57,7 +59,7 @@ public class LiftManager {
                 System.out.println("Для выхода введите exit");
                 command = scanner.nextLine();
                 if (command.equals("exit")) {
-                    continue;
+                    lift.stop();
                 }
 
                 if (command.equals("out")) {
@@ -83,12 +85,12 @@ public class LiftManager {
                         if (level < 1 || level > numberOfFloors) {
                             LOGGER.info("Этаж надо ввести от 1 до " + numberOfFloors);
                         } else {
-                            lift.goToLevel(level);
+                            lift.goTo(level);
                         }
                     } catch (NumberFormatException e) {
                         LOGGER.info("Введите целочисленное значение");
                     }
-                } else {
+                } else if (!command.equals("exit")) {
                     LOGGER.info("Вы куда-то не туда жмете");
                 }
             }

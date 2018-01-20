@@ -3,13 +3,16 @@ package ru.job4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Лифт.
  */
-public class Lift {
+public class Lift implements Runnable {
     /**
      * Логгер.
      */
@@ -41,19 +44,24 @@ public class Lift {
     private final AtomicInteger destinationLevel = new AtomicInteger();
 
     /**
-     * Флаг использования лифта. True если в данный момент времени лифт кем-то используется.
+     * Флаг использования лифта. True если была нажата кнопка внутри лифта.
      */
     private final AtomicBoolean useLift = new AtomicBoolean(false);
 
     /**
-     * Флаг, нажатия кнопки внутри лифта. True если кнопка внутри лифта нажата.
+     * Приоритетная очередь нажатий кнопок внутри лифта. В приоритете нижние этажи.
      */
-    private final AtomicBoolean useButtonInsideLift = new AtomicBoolean(false);
+    private final Queue<Integer> buttonQueue = new PriorityBlockingQueue<>();
 
     /**
-     * Флаг вызова лифта снаружи. True если лифт вызвали.
+     * Очередь нажатий кнопок из подъезда.
      */
-    private final AtomicBoolean useOutSide = new AtomicBoolean(false);
+    private final Queue<Integer> levelQueue = new LinkedBlockingDeque<>();
+
+    /**
+     * Флаг остановки лифта. True - остановка.
+     */
+    private final AtomicBoolean stopLift = new AtomicBoolean(false);
 
     /**
      * Конструктор лифта.
@@ -67,7 +75,7 @@ public class Lift {
     }
 
     /**
-     * Установить массив этажей, по которым будеткурсировать лифт.
+     * Установить массив этажей, по которым будет курсировать лифт.
      *
      * @param floors этажи.
      */
@@ -77,139 +85,133 @@ public class Lift {
     }
 
     /**
-     * Оператор, котрый в отдельном потоке управляет движением лифта по этажам, учитывается,
-     * то что у этажей возможна разная высота.
+     * Метод для запуск лифта в отдельном потоке.
+     * Лифт работает пока не установлен флаг остановки лифта в True. Если флаг использования лифта изнутри установлен
+     * в True, то лифт курсирует по всем этажам установленным в приоритетной очереди вызовов, совершенных внутри лифта.
+     * Как только эта очередь окажется пустой, выставится флаг исаользования внутри лифта в False и лифт будет
+     * просматривать очередь вызовов совершенных снаружи лифта.
      */
-    private class LiftMover implements Runnable {
-        /**
-         * Выбор и запуск метода движения в зависимости от положения лифта.
-         */
-        @Override
-        public void run() {
-            if (destinationLevel.get() > currentLevel.get()) {
-                moveUp();
-            } else if (destinationLevel.get() < currentLevel.get()) {
-                moveDown();
-            }
-        }
-
-        /**
-         * Движение лифта вверх к назначенному этажу.
-         */
-        private void moveUp() {
-            while (currentLevel.get() != destinationLevel.get()) {
-                long floorTime = (long) (1000 * speedMPS * floors[currentLevel.get() - 1].getHeight());
-                try {
-                    Thread.sleep(floorTime);
-                    LOGGER.info("Лифт поднялся на " + currentLevel.incrementAndGet() + " этаж");
-                } catch (InterruptedException e) {
-                    LOGGER.error(e.getMessage(), e);
+    @Override
+    public void run() {
+        while (!stopLift.get()) {
+            if (useLift.get()) {
+                while (!buttonQueue.isEmpty()) {
+                    destinationLevel.set(buttonQueue.poll());
+                    move();
                 }
-            }
-        }
-
-        /**
-         * Движение лифта вниз к назначенному этажу.
-         */
-        private void moveDown() {
-            while (currentLevel.get() != destinationLevel.get()) {
-                long floorTime = (long) (1000 * speedMPS * floors[currentLevel.get() - 1].getHeight());
-                try {
-                    Thread.sleep(floorTime);
-                    LOGGER.info("Лифт спустился на " + currentLevel.decrementAndGet() + " этаж");
-                } catch (InterruptedException e) {
-                    LOGGER.error(e.getMessage(), e);
+                useLift.set(false);
+            } else {
+                if (!levelQueue.isEmpty()) {
+                    destinationLevel.set(levelQueue.poll());
+                    move();
                 }
             }
         }
     }
 
     /**
-     * Вызов лифта снаружи. Если лифт не используется, то вызывается метод move() и лифт приезжает.
+     * Выбоор направления движения с открытием и закрытием дверей.
+     */
+    private void move() {
+        if (destinationLevel.get() > currentLevel.get()) {
+            moveUp();
+        } else if (destinationLevel.get() < currentLevel.get()) {
+            moveDown();
+        }
+        openDoor();
+        closeDoor();
+    }
+
+    /**
+     * Движение лифта вверх к назначенному этажу.
+     */
+    private void moveUp() {
+        while (currentLevel.get() != destinationLevel.get()) {
+            long floorTime = (long) (1000 * speedMPS * floors[currentLevel.get() - 1].getHeight());
+            try {
+                Thread.sleep(floorTime);
+                LOGGER.info("Лифт поднялся на " + currentLevel.incrementAndGet() + " этаж");
+            } catch (InterruptedException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
+        }
+    }
+
+    /**
+     * Движение лифта вниз к назначенному этажу.
+     */
+    private void moveDown() {
+        while (currentLevel.get() != destinationLevel.get()) {
+            long floorTime = (long) (1000 * speedMPS * floors[currentLevel.get() - 1].getHeight());
+            try {
+                Thread.sleep(floorTime);
+                LOGGER.info("Лифт спустился на " + currentLevel.decrementAndGet() + " этаж");
+            } catch (InterruptedException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
+        }
+    }
+
+    /**
+     * Открыть двери.
+     */
+    private void openDoor() {
+        LOGGER.info("Двери открываются");
+    }
+
+    /**
+     * Закрыть двери через время CloseTime.
+     */
+    private void closeDoor() {
+        try {
+            Thread.sleep((long) (1000 * closeTime));
+            LOGGER.info("Двери закрываются");
+            long actionWaiter = 1000L * 2;
+            Thread.sleep(actionWaiter);
+        } catch (InterruptedException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+    }
+
+
+    /**
+     * Вызов лифта из подъезда, т.е. постановка в очередь levelQueue номера этажа при условии,
+     * что такой номер в ней отсутствует.
      *
      * @param destination этаж, на котром совершается вызов лифта.
      */
     public void call(int destination) {
-        if (useLift.compareAndSet(false, true)) {
-            useOutSide.set(true);
-            destinationLevel.set(destination);
-            move(destination);
-        } else {
-            LOGGER.info("Лифт в данный момент используется, подождите");
+        if (!levelQueue.contains(destination)) {
+            levelQueue.offer(destination);
         }
     }
 
     /**
-     * Закрытие дверей производится в отдельном потоке. Поток закрытия ждет когда завершится фаза
-     * открытия дверей.
-     * После того как двери закрываются пауза для ожидания нажатия кнопки внутри лифта, если кто-то в него зашел.
-     * Если после прошествия определеннго времени (здесь 2 секунды) кнопка внутри лифта не нажата,
-     * то флаг использования лифта сбрасывется.
+     * Установка в приоритетную очередь номеров кнопок нажатых внутри лифта. При занесении в очередь кнопки
+     * производится проверка на наличие данной кнопки в очереди.
      *
-     * @param opener поток
+     * @param level номер кнокпки этажа.
      */
-    private void closeDoor(Thread opener) {
-        Thread closer = new Thread(() -> {
-            try {
-                opener.join();
-                Thread.sleep((long) (1000 * closeTime));
-                LOGGER.info("Двери закрываются");
-                useOutSide.compareAndSet(true, false);
+    public void goTo(int level) {
+        if (!buttonQueue.contains(level)) {
+            useLift.set(true);
+            buttonQueue.offer(level);
 
-                long actionWaiter = 1000L * 2;
-                Thread.sleep(actionWaiter);
-                if (!useButtonInsideLift.get()) {
-                    useLift.set(false);
-                }
-            } catch (InterruptedException e) {
-                LOGGER.error(e.getMessage(), e);
-            }
-        });
-        closer.start();
-    }
-
-    /**
-     * Приехать на этаж. Вызывается внутри лифта, если никто не вызвал лифт снаружи. Такое возможно если пользователь,
-     * зашел в лифт не нажал на кнопку в течении 2 с.
-     *
-     * @param destination этаж назначения.
-     */
-    public void goToLevel(int destination) {
-        if (!useOutSide.get()) {
-            useButtonInsideLift.set(true);
-            useLift.compareAndSet(false, true);
-            destinationLevel.set(destination);
-            move(destination);
-            useButtonInsideLift.set(false);
-        } else {
-            LOGGER.info("Пока вы думали на какую кнопку нажимать, лифт кто-то вызвал!");
         }
     }
 
     /**
-     * Движение лифта к этажу назначения.
-     *
-     * @param destination этаж назначения.
+     * Запуск лифта.
      */
-    private void move(int destination) {
-        if (currentLevel.get() != destination) {
-            Thread caller = new Thread(new LiftMover());
-            caller.start();
+    public void start() {
+        Thread t = new Thread(this);
+        t.start();
+    }
 
-            Thread opener = new Thread(() -> {
-                try {
-                    caller.join();
-                    LOGGER.info("Двери открываются");
-                } catch (InterruptedException e) {
-                    LOGGER.error(e.getMessage(), e);
-                }
-            });
-            opener.start();
-            closeDoor(opener);
-        } else {
-            Thread opener = new Thread(() -> LOGGER.info("Двери открываются"));
-            opener.start();
-            closeDoor(opener);
-        }
+    /**
+     * Остановка лифта.
+     */
+    public void stop() {
+        stopLift.set(true);
     }
 }

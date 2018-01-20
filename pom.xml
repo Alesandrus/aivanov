@@ -21,6 +21,7 @@
         <module>chapter_007_Multithreading</module>
 		<module>chapter_008_SQL_JDBC</module>
         <module>chapter_009_Servlet_JSP</module>
+		<module>chapter_010_Hibernate</module>
     </modules>
 
     <dependencies>
