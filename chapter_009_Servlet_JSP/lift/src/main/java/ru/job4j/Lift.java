@@ -110,7 +110,7 @@ public class Lift implements Runnable {
     }
 
     /**
-     * Выбоор направления движения с открытием и закрытием дверей.
+     * Выбор направления движения с открытием и закрытием дверей.
      */
     private void move() {
         if (destinationLevel.get() > currentLevel.get()) {
