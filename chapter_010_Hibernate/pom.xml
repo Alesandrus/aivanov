@@ -8,6 +8,10 @@
 	<version>1.0</version>
 	<packaging>jar</packaging>
 	
+	<modules>
+		<module>todo</module>
+	</modules>
+	
 	<parent>
 		<groupId>ru.job4j</groupId>
 		<artifactId>aivanov</artifactId>

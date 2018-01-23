@@ -21,79 +21,101 @@ public class LiftManager {
      *             3-й аргумент - скорость лифта. 4-й агрумент - время между открытием и закрытием дверей.
      */
     public static void main(String[] args) {
-        LiftManager manager = new LiftManager();
-        manager.start(args);
+        if (args.length == 4) {
+            Floor[] floors = new Floor[Integer.parseInt(args[0])];
+            for (int i = 0; i < floors.length; i++) {
+                floors[i] = new Floor(Double.parseDouble(args[1]));
+            }
+
+            double speedMPS = Double.parseDouble(args[2]);
+            double closeTime = Double.parseDouble(args[3]);
+            Lift lift = new Lift(speedMPS, closeTime);
+
+            House house = new House(floors);
+            house.setLift(lift);
+
+            LiftManager manager = new LiftManager();
+            manager.start(house);
+        }
     }
 
     /**
      * Запуск лифта. Для выхода нужнно ввести "exit". Для вызова снаружи - "out".
      * Для нажатия кнопки внутри лифта - "in".
      *
-     * @param args 1-й аругмент - количество этажей в доме. 2-й аргумент - высота этажа.
-     *             3-й аргумент - скорость лифта. 4-й агрумент - время между открытием и закрытием дверей.
+     * @param house дом с лифтом.
      */
-    private void start(String[] args) {
-        if (args.length == 4) {
-            int numberOfFloors = Integer.parseInt(args[0]);
-            Floor[] floors = new Floor[numberOfFloors];
-            double height = Double.parseDouble(args[1]);
-            for (int i = 0; i < numberOfFloors; i++) {
-                floors[i] = new Floor(height);
+    public void start(House house) {
+        Lift lift = house.getLift();
+        if (lift == null) {
+            LOGGER.error("Лифт в доме не установлен!");
+            return;
+        }
+        lift.start();
+        int numberOfFloors = house.getFloors().length;
+
+        Scanner scanner = new Scanner(System.in);
+        String command = "";
+        while (!command.equals("exit")) {
+            System.out.println("Для нажатия кнопки в подъезде введите out");
+            System.out.println("Для нажатия кнопки внутри лифта введите in");
+            System.out.println("Для выхода введите exit");
+            command = scanner.nextLine();
+            if (command.equals("exit")) {
+                break;
             }
-
-            double speedMPS = Double.parseDouble(args[2]);
-            double closeTime = Double.parseDouble(args[3]);
-            Lift lift = new Lift(speedMPS, closeTime);
-            lift.setFloors(floors);
-
-            House house = new House(floors);
-            house.setLift(lift);
-
-            lift.start();
-
-            Scanner scanner = new Scanner(System.in);
-            String command = "";
-            while (!command.equals("exit")) {
-                System.out.println("Для нажатия кнопки в подъезде введите out");
-                System.out.println("Для нажатия кнопки внутри лифта введите in");
-                System.out.println("Для выхода введите exit");
+            if (command.equals("out")) {
+                System.out.println("На каком этаже вы находитесь? Введите этаж от 1 до " + numberOfFloors);
                 command = scanner.nextLine();
-                if (command.equals("exit")) {
-                    lift.stop();
-                }
-
-                if (command.equals("out")) {
-                    System.out.println("На каком этаже вы находитесь? Введите этаж от 1 до " + numberOfFloors);
-                    System.out.println("Для выхода введите exit");
-                    command = scanner.nextLine();
-                    try {
-                        int level = Integer.parseInt(command);
-                        if (level < 1 || level > numberOfFloors) {
-                            LOGGER.info("Этаж надо ввести от 1 до " + numberOfFloors);
-                        } else {
-                            lift.call(level);
-                        }
-                    } catch (NumberFormatException e) {
-                        LOGGER.info("Введите целочисленное значение");
-                    }
-                } else if (command.equals("in")) {
-                    System.out.println("На какой этаж едем? Введите этаж от 1 до " + numberOfFloors);
-                    System.out.println("Для выхода введите exit");
-                    command = scanner.nextLine();
-                    try {
-                        int level = Integer.parseInt(command);
-                        if (level < 1 || level > numberOfFloors) {
-                            LOGGER.info("Этаж надо ввести от 1 до " + numberOfFloors);
-                        } else {
-                            lift.goTo(level);
-                        }
-                    } catch (NumberFormatException e) {
-                        LOGGER.info("Введите целочисленное значение");
-                    }
-                } else if (!command.equals("exit")) {
-                    LOGGER.info("Вы куда-то не туда жмете");
-                }
+                outCall(lift, command, numberOfFloors);
+            } else if (command.equals("in")) {
+                System.out.println("На какой этаж нужно попасть? Введите этаж от 1 до " + numberOfFloors);
+                command = scanner.nextLine();
+                inCall(lift, command, numberOfFloors);
+            } else if (!command.equals("exit")) {
+                LOGGER.info("Ошибка ввода");
             }
+        }
+        lift.stop();
+    }
+
+    /**
+     * Обработка вызова лифта из подъезда.
+     *
+     * @param lift   лифт.
+     * @param floor  введенный этаж.
+     * @param floors количество этажей в доме.
+     */
+    private void outCall(Lift lift, String floor, int floors) {
+        try {
+            int level = Integer.parseInt(floor);
+            if (level < 1 || level > floors) {
+                LOGGER.info("Этаж надо ввести от 1 до " + floors);
+            } else {
+                lift.call(level);
+            }
+        } catch (NumberFormatException e) {
+            LOGGER.info("Введите целочисленное значение");
+        }
+    }
+
+    /**
+     * Обработка нажатия кнокпи внутри лифта.
+     *
+     * @param lift   лифт.
+     * @param floor  введенный этаж.
+     * @param floors количество этажей в доме.
+     */
+    private void inCall(Lift lift, String floor, int floors) {
+        try {
+            int level = Integer.parseInt(floor);
+            if (level < 1 || level > floors) {
+                LOGGER.info("Этаж надо ввести от 1 до " + floors);
+            } else {
+                lift.goTo(level);
+            }
+        } catch (NumberFormatException e) {
+            LOGGER.info("Введите целочисленное значение");
         }
     }
 }

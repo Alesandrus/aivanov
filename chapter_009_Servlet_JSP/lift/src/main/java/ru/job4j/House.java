@@ -38,14 +38,24 @@ public class House {
      */
     public void setLift(Lift lift) {
         this.lift = lift;
+        lift.setFloors(floors);
     }
 
     /**
-     * Получить ссфлку на лифт.
+     * Получить ссылку на лифт.
      *
      * @return лифт.
      */
     public Lift getLift() {
         return lift;
+    }
+
+    /**
+     * Получить этажи дома.
+     *
+     * @return этажи.
+     */
+    public Floor[] getFloors() {
+        return floors;
     }
 }
