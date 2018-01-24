@@ -1,0 +1,35 @@
+<web-app>
+    <listener>
+        <listener-class>ru.job4j.servlets.listeners.AppContextListener</listener-class>
+    </listener>
+
+    <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>org.apache.catalina.filters.SetCharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-name>GetAndPut</servlet-name>
+        <servlet-class>ru.job4j.servlets.PutTaskAndGetAllTasks</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetAndPut</servlet-name>
+        <url-pattern>/getandput</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>SetDone</servlet-name>
+        <servlet-class>ru.job4j.servlets.SetDoneAndGetUnDone</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SetDone</servlet-name>
+        <url-pattern>/setdone</url-pattern>
+    </servlet-mapping>
+</web-app>

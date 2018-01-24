@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Items</title>
+        <script type='text/javascript' src='scripts/jquery-3.2.1.min.js'></script>
+        <script type='text/javascript' src='scripts/index.js'></script>
+    </head>
+    <body>
+        <div align="center">
+            <p>Add task</p>
+            <form name="createDescription" id="formx" action="javascript:void(null);" onsubmit="call()">
+                Description <input type="text" name="description" id="createTask">
+                <input type="submit" value="Create">
+            </form>
+            <hr>
+            <p>Task list</p>
+            <form>
+                Show all <input type="checkbox" id="showall" name="showall" value="yes" checked>
+            </form>
+            <table id="tasklist"  border="1" cellspacing="0" cellpadding="1">
+                <tr>
+                    <th>ID</th>
+                    <th>Description</th>
+                    <th>Created</th>
+                    <th>Done</th>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>
