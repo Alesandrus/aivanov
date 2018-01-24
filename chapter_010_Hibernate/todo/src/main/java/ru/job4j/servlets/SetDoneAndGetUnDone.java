@@ -57,6 +57,7 @@ public class SetDoneAndGetUnDone extends HttpServlet {
         builder.append("]");
         String json = builder.toString();
         resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
         PrintWriter writer = resp.getWriter();
         writer.print(json);
     }
