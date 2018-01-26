@@ -51,7 +51,9 @@ public class PutTaskAndGetAllTasks extends HttpServlet {
             builder.append(Parser.parseToJson(item));
             builder.append(", ");
         }
-        builder.delete(builder.lastIndexOf(","), builder.length());
+        if (items.size() > 0) {
+            builder.delete(builder.lastIndexOf(","), builder.length());
+        }
         builder.append("]");
         String json = builder.toString();
         resp.setContentType("application/json");

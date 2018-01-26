@@ -53,7 +53,9 @@ public class SetDoneAndGetUnDone extends HttpServlet {
             builder.append(Parser.parseToJson(item));
             builder.append(", ");
         }
-        builder.delete(builder.lastIndexOf(","), builder.length());
+        if (items.size() > 0) {
+            builder.delete(builder.lastIndexOf(","), builder.length());
+        }
         builder.append("]");
         String json = builder.toString();
         resp.setContentType("application/json");
@@ -73,7 +75,6 @@ public class SetDoneAndGetUnDone extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String json = req.getParameter("param");
-        System.out.println(json);
         JsonFactory factory = new JsonFactory();
         JsonParser parser = factory.createParser(json);
         long id = -1;

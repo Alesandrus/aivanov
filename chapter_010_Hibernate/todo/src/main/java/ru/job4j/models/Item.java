@@ -1,13 +1,6 @@
 package ru.job4j.models;
 
-import org.hibernate.annotations.CreationTimestamp;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 /**
@@ -37,8 +30,8 @@ public class Item {
     /**
      * Время создания задания.
      */
-    @Column(name = "creation_time")
-    @CreationTimestamp
+    @Column(name = "creation_time", updatable = false)
+    @org.hibernate.annotations.CreationTimestamp
     private Timestamp created;
 
     /**
