@@ -1,6 +1,7 @@
-package ru.job4j.models;
+package ru.job4j.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -12,7 +13,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "items")
-public class Item {
+public class Item implements Serializable {
     /**
      * Id задания.
      */

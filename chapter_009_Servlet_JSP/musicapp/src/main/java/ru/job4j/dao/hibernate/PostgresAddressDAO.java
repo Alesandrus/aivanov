@@ -1,4 +1,4 @@
-package ru.job4j.dao.daopostgres;
+package ru.job4j.dao.hibernate;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

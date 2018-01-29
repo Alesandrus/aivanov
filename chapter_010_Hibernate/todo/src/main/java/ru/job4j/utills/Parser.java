@@ -1,6 +1,6 @@
 package ru.job4j.utills;
 
-import ru.job4j.models.Item;
+import ru.job4j.model.Item;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;

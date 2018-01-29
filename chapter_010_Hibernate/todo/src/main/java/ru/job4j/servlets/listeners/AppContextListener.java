@@ -2,11 +2,13 @@ package ru.job4j.servlets.listeners;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
+import ru.job4j.dao.daofactory.DAOFactory;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 /**
  * Слушатель контекста приложения.
@@ -22,27 +24,40 @@ public class AppContextListener implements ServletContextListener {
     private static final Logger LOGGER = LogManager.getLogger(Logger.class.getName());
 
     /**
-     * Создание и сохранение SessionFactory в контексте приложения.
+     * Сохранение в контексте приложения атрибута со значением используемой фабрики.
      *
      * @param sce событие.
      */
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        sce.getServletContext()
-                .setAttribute("SessionFactory",
-                        new Configuration().configure().buildSessionFactory());
+        sce.getServletContext().setAttribute("factoryID", getFactoryId());
     }
 
     /**
-     * Закрытие SessionFactory при завершении работы приложения.
+     * Закрытие ресурсов связанных с фабрикой при завершении работы приложения.
      *
      * @param sce событие.
      */
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        SessionFactory factory = (SessionFactory) sce.getServletContext().getAttribute("SessionFactory");
+        DAOFactory factory = DAOFactory.getDAOFactory(getFactoryId());
         if (factory != null) {
-            factory.close();
+            factory.closeFactory();
         }
+    }
+
+    /**
+     * Получение значения используемой фабрики из файла с настройками.
+     *
+     * @return номер фабрики.
+     */
+    private int getFactoryId() {
+        Properties dataBaseProperties = new Properties();
+        try (InputStream in = getClass().getClassLoader().getResourceAsStream("app.properties")) {
+            dataBaseProperties.load(in);
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        return Integer.parseInt(dataBaseProperties.getProperty("factory"));
     }
 }

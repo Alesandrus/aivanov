@@ -27,6 +27,7 @@
     <servlet>
         <servlet-name>SetDone</servlet-name>
         <servlet-class>ru.job4j.servlets.SetDoneAndGetUnDone</servlet-class>
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>SetDone</servlet-name>

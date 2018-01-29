@@ -3,10 +3,10 @@ package ru.job4j.dao.daofactory;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.job4j.dao.daopostgres.PostgresAddressDAO;
-import ru.job4j.dao.daopostgres.PostgresMusicTypeDAO;
-import ru.job4j.dao.daopostgres.PostgresRoleDAO;
-import ru.job4j.dao.daopostgres.PostgresUserDAO;
+import ru.job4j.dao.hibernate.PostgresAddressDAO;
+import ru.job4j.dao.hibernate.PostgresMusicTypeDAO;
+import ru.job4j.dao.hibernate.PostgresRoleDAO;
+import ru.job4j.dao.hibernate.PostgresUserDAO;
 
 import java.io.IOException;
 import java.io.InputStream;

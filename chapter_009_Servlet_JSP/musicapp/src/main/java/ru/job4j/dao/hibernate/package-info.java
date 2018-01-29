@@ -1,6 +1,6 @@
 /**
  * @author Alexander Ivanov
  * @version 1.0
- * @since 23.01.2018
+ * @since 25.12.2017
  */
-package ru.job4j.models;
+package ru.job4j.dao.hibernate;

@@ -1,10 +1,9 @@
-package ru.job4j.dao.daopostgres;
+package ru.job4j.dao.hibernate;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.job4j.dao.MusicTypeDAO;
 import ru.job4j.dao.daofactory.PostgresDAOFactory;
-import ru.job4j.model.Address;
 import ru.job4j.model.MusicType;
 
 import java.sql.Connection;

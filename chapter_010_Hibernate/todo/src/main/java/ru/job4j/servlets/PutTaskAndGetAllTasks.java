@@ -2,9 +2,9 @@ package ru.job4j.servlets;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import ru.job4j.models.Item;
+import ru.job4j.dao.ItemDAO;
+import ru.job4j.dao.daofactory.DAOFactory;
+import ru.job4j.model.Item;
 import ru.job4j.utills.Parser;
 
 import javax.servlet.ServletException;
@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,12 +39,13 @@ public class PutTaskAndGetAllTasks extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        SessionFactory factory = (SessionFactory) getServletContext().getAttribute("SessionFactory");
-        Session session = factory.openSession();
-        session.beginTransaction();
-        List<Item> items = session.createQuery("from Item").list();
-        session.getTransaction().commit();
-        session.close();
+        List<Item> items = new ArrayList<>();
+        int factoryID = (Integer) getServletContext().getAttribute("factoryID");
+        DAOFactory daoFactory = DAOFactory.getDAOFactory(factoryID);
+        if (daoFactory != null) {
+            ItemDAO itemDAO = daoFactory.getItemDAO();
+            items = itemDAO.getAll();
+        }
         StringBuilder builder = new StringBuilder();
         builder.append("[");
         for (Item item : items) {
@@ -72,14 +73,14 @@ public class PutTaskAndGetAllTasks extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        SessionFactory factory = (SessionFactory) getServletContext().getAttribute("SessionFactory");
         String description = req.getParameter("description");
-        Session session = factory.openSession();
-        session.beginTransaction();
         Item item = new Item();
         item.setDescription(description);
-        session.save(item);
-        session.getTransaction().commit();
-        session.close();
+        int factoryID = (Integer) getServletContext().getAttribute("factoryID");
+        DAOFactory daoFactory = DAOFactory.getDAOFactory(factoryID);
+        if (daoFactory != null) {
+            ItemDAO itemDAO = daoFactory.getItemDAO();
+            itemDAO.create(item);
+        }
     }
 }

@@ -1,4 +1,4 @@
-package ru.job4j.dao.daopostgres;
+package ru.job4j.dao.hibernate;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,7 +11,6 @@ import ru.job4j.model.User;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**

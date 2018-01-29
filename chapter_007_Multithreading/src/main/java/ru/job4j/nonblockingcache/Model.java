@@ -9,7 +9,7 @@ package ru.job4j.nonblockingcache;
  */
 public class Model {
     /**
-     * Static ID for all models.
+     * Static ID for all model.
      */
     private static int commonID = 0;
 
@@ -75,7 +75,7 @@ public class Model {
     /**
      * Equals.
      * @param o other object.
-     * @return true if models are same.
+     * @return true if model are same.
      */
     @Override
     public boolean equals(Object o) {
