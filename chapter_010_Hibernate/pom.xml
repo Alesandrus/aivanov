@@ -10,6 +10,7 @@
 	
 	<modules>
 		<module>todo</module>
+		<module>carstore</module>
 	</modules>
 	
 	<parent>

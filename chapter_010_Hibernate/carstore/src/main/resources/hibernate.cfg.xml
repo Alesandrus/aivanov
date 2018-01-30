@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="connection.url">jdbc:postgresql://localhost:5432/cars2</property>
+        <property name="connection.username">postgres</property>
+        <property name="connection.password">shelby</property>
+        <property name="dialect">org.hibernate.dialect.PostgreSQL94Dialect</property>
+        <!-- DB schema will be updated if needed -->
+        <property name="hbm2ddl.auto">update</property>
+        <property name="show_sql">true</property>
+
+        <mapping class="ru.job4j.model.Body"/>
+        <mapping class="ru.job4j.model.BodyType"/>
+        <mapping class="ru.job4j.model.Car"/>
+        <mapping class="ru.job4j.model.Maker"/>
+        <mapping class="ru.job4j.model.Motor"/>
+        <mapping class="ru.job4j.model.MotorType"/>
+        <mapping class="ru.job4j.model.Transmission"/>
+        <mapping class="ru.job4j.model.TransmissionType"/>
+    </session-factory>
+</hibernate-configuration>
