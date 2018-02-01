@@ -117,11 +117,10 @@ public class HibernateItemDAO extends ItemDAO {
         Session session = factory.getSessionFactory().openSession();
         session.beginTransaction();
         Item itemFromDB = session.get(Item.class, item.getId());
-        if (item.isDone() == itemFromDB.isDone()) {
-            return;
+        if (item.isDone() != itemFromDB.isDone()) {
+            itemFromDB.setDone(item.isDone());
+            session.update(itemFromDB);
         }
-        itemFromDB.setDone(item.isDone());
-        session.update(itemFromDB);
         session.getTransaction().commit();
         session.close();
     }
