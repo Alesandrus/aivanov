@@ -25,7 +25,7 @@ function getAllTasks() {
                 var descriptionCell = row.insertCell(1);
                 descriptionCell.innerHTML = tasks[i].description;
                 var createCell = row.insertCell(2);
-                createCell.innerHTML = tasks[i].created;
+                createCell.innerHTML = new Date(tasks[i].created);
                 var doneCell = row.insertCell(3);
                 var form = document.createElement("form");
                 var check = document.createElement("input");
@@ -72,7 +72,7 @@ function getUnDoneTasks() {
                 var descriptionCell = row.insertCell(1);
                 descriptionCell.innerHTML = tasks[i].description;
                 var createCell = row.insertCell(2);
-                createCell.innerHTML = tasks[i].created;
+                createCell.innerHTML = new Date(tasks[i].created);
                 var doneCell = row.insertCell(3);
                 var form = document.createElement("form");
                 var check = document.createElement("input");

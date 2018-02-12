@@ -1,5 +1,6 @@
 package ru.job4j.servlets;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.job4j.dao.ItemDAO;
@@ -46,21 +47,11 @@ public class PutTaskAndGetAllTasks extends HttpServlet {
             ItemDAO itemDAO = daoFactory.getItemDAO();
             items = itemDAO.getAll();
         }
-        StringBuilder builder = new StringBuilder();
-        builder.append("[");
-        for (Item item : items) {
-            builder.append(Parser.parseToJson(item));
-            builder.append(", ");
-        }
-        if (items.size() > 0) {
-            builder.delete(builder.lastIndexOf(","), builder.length());
-        }
-        builder.append("]");
-        String json = builder.toString();
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
         PrintWriter writer = resp.getWriter();
-        writer.print(json);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writeValue(writer, items);
     }
 
     /**
