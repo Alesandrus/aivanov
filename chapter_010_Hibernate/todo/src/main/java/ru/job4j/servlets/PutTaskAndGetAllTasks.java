@@ -6,7 +6,6 @@ import org.apache.logging.log4j.Logger;
 import ru.job4j.dao.ItemDAO;
 import ru.job4j.dao.daofactory.DAOFactory;
 import ru.job4j.model.Item;
-import ru.job4j.utills.Parser;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
