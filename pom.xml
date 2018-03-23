@@ -22,6 +22,7 @@
 		<module>chapter_008_SQL_JDBC</module>
         <module>chapter_009_Servlet_JSP</module>
 		<module>chapter_010_Hibernate</module>
+		<module>chapter_011_Spring</module>
     </modules>
 
     <dependencies>
