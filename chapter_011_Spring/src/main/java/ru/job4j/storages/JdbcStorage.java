@@ -1,24 +1,20 @@
 package ru.job4j.storages;
 
-import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.job4j.interfaces.Storage;
 import ru.job4j.models.User;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * Implementation of storage. Store user into database.
@@ -32,16 +28,24 @@ public class JdbcStorage implements Storage {
     private static final Logger LOGGER = LogManager.getLogger(Logger.class.getName());
 
     /**
-     * DataSource.
+     * Spring Jdbc Template.
      */
-    private BasicDataSource dataSource;
+    private JdbcTemplate jdbcTemplate;
 
     /**
-     * Constructor. Connecting to database.
+     * Constructor.
+     */
+    public JdbcStorage() {
+    }
+
+    /**
+     * Setter for jdbcTemplate.
+     *
+     * @param jdbcTemplate .
      */
     @Autowired
-    public JdbcStorage() {
-        connectDB();
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     /**
@@ -51,35 +55,8 @@ public class JdbcStorage implements Storage {
      */
     @Override
     public void add(User user) {
-        Connection connection = null;
-        try {
-            connection = dataSource.getConnection();
-            connection.setAutoCommit(false);
-            PreparedStatement statement = connection
-                    .prepareStatement("INSERT INTO users (name, surname) VALUES (?, ?)");
-            statement.setString(1, user.getName());
-            statement.setString(2, user.getSurname());
-            statement.execute();
-            connection.commit();
-            connection.setAutoCommit(true);
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage(), e);
-            try {
-                if (connection != null) {
-                    connection.rollback();
-                }
-            } catch (SQLException e1) {
-                LOGGER.error(e.getMessage(), e);
-            }
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                LOGGER.error(e.getMessage(), e);
-            }
-        }
+        jdbcTemplate.update("INSERT INTO users (name, surname) VALUES (?, ?)",
+                user.getName(), user.getSurname());
     }
 
     /**
@@ -89,36 +66,10 @@ public class JdbcStorage implements Storage {
      */
     @Override
     public List<User> getAll() {
-        List<User> users = new ArrayList<>();
-        Connection connection = null;
-        try {
-            connection = dataSource.getConnection();
-            connection.setAutoCommit(false);
-            PreparedStatement statement = connection
-                    .prepareStatement("SELECT * FROM users");
-            ResultSet resultSet = statement.executeQuery();
-            users = getAllFromResultSet(resultSet);
-            connection.commit();
-            connection.setAutoCommit(true);
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage(), e);
-            try {
-                if (connection != null) {
-                    connection.rollback();
-                }
-            } catch (SQLException e1) {
-                LOGGER.error(e.getMessage(), e);
-            }
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                LOGGER.error(e.getMessage(), e);
-            }
-        }
-        return users;
+        return jdbcTemplate.query("SELECT * FROM users",
+                (resultSet, rowNum) ->
+                        new User(resultSet.getString("name"),
+                                resultSet.getString("surname")));
     }
 
     /**
@@ -132,7 +83,7 @@ public class JdbcStorage implements Storage {
         boolean isRemoved = false;
         Connection connection = null;
         try {
-            connection = dataSource.getConnection();
+            connection = jdbcTemplate.getDataSource().getConnection();
             connection.setAutoCommit(false);
             PreparedStatement statement = connection
                     .prepareStatement("SELECT * FROM users WHERE name = ? AND surname = ?",
@@ -165,45 +116,5 @@ public class JdbcStorage implements Storage {
             }
         }
         return isRemoved;
-    }
-
-    /**
-     * Connect to database.
-     */
-    private void connectDB() {
-        Properties dataBaseProperties = new Properties();
-        try (InputStream in = getClass().getClassLoader().getResourceAsStream("app.properties")) {
-            dataBaseProperties.load(in);
-        } catch (IOException e) {
-            LOGGER.error(e.getMessage(), e);
-        }
-        String driver = dataBaseProperties.getProperty("driver");
-        String url = dataBaseProperties.getProperty("url");
-        String user = dataBaseProperties.getProperty("user");
-        String password = dataBaseProperties.getProperty("password");
-        dataSource = new BasicDataSource();
-        dataSource.setDriverClassName(driver);
-        dataSource.setUrl(url);
-        dataSource.setUsername(user);
-        dataSource.setPassword(password);
-        dataSource.setMinIdle(5);
-        dataSource.setMaxIdle(10);
-        dataSource.setMaxOpenPreparedStatements(100);
-    }
-
-    /**
-     * Get all users from resultset.
-     *
-     * @param resultSet .
-     * @return List of users.
-     * @throws SQLException .
-     */
-    private List<User> getAllFromResultSet(ResultSet resultSet) throws SQLException {
-        List<User> users = new ArrayList<>();
-        while (resultSet.next()) {
-            User user = new User(resultSet.getString("name"), resultSet.getString("surname"));
-            users.add(user);
-        }
-        return users;
     }
 }
