@@ -7,6 +7,9 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ru.job4j.interfaces.Storage;
 import ru.job4j.models.User;
 
@@ -54,6 +57,7 @@ public class JdbcStorage implements Storage {
      * @param user .
      */
     @Override
+    @Transactional
     public void add(User user) {
         jdbcTemplate.update("INSERT INTO users (name, surname) VALUES (?, ?)",
                 user.getName(), user.getSurname());
@@ -65,6 +69,7 @@ public class JdbcStorage implements Storage {
      * @return all users.
      */
     @Override
+    @Transactional
     public List<User> getAll() {
         return jdbcTemplate.query("SELECT * FROM users",
                 (resultSet, rowNum) ->
@@ -85,6 +90,7 @@ public class JdbcStorage implements Storage {
         try {
             connection = jdbcTemplate.getDataSource().getConnection();
             connection.setAutoCommit(false);
+            connection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
             PreparedStatement statement = connection
                     .prepareStatement("SELECT * FROM users WHERE name = ? AND surname = ?",
                             ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
