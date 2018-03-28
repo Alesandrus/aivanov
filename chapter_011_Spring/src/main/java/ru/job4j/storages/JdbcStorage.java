@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import ru.job4j.interfaces.Storage;
 import ru.job4j.models.User;
 
@@ -57,7 +58,7 @@ public class JdbcStorage implements Storage {
      * @param user .
      */
     @Override
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED)
     public void add(User user) {
         jdbcTemplate.update("INSERT INTO users (name, surname) VALUES (?, ?)",
                 user.getName(), user.getSurname());
@@ -69,7 +70,7 @@ public class JdbcStorage implements Storage {
      * @return all users.
      */
     @Override
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED)
     public List<User> getAll() {
         return jdbcTemplate.query("SELECT * FROM users",
                 (resultSet, rowNum) ->
