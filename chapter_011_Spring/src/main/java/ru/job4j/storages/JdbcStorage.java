@@ -5,12 +5,10 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionSynchronizationManager;
 import ru.job4j.interfaces.Storage;
 import ru.job4j.models.User;
 
@@ -18,7 +16,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Implementation of storage. Store user into database.
@@ -34,7 +34,7 @@ public class JdbcStorage implements Storage {
     /**
      * Spring Jdbc Template.
      */
-    private JdbcTemplate jdbcTemplate;
+    private NamedParameterJdbcTemplate jdbcTemplate;
 
     /**
      * Constructor.
@@ -48,7 +48,7 @@ public class JdbcStorage implements Storage {
      * @param jdbcTemplate .
      */
     @Autowired
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+    public void setJdbcTemplate(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -60,8 +60,11 @@ public class JdbcStorage implements Storage {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void add(User user) {
-        jdbcTemplate.update("INSERT INTO users (name, surname) VALUES (?, ?)",
-                user.getName(), user.getSurname());
+        String sql = "INSERT INTO users (name, surname) VALUES (:name, :surname)";
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("name", user.getName());
+        parameters.put("surname", user.getSurname());
+        jdbcTemplate.update(sql, parameters);
     }
 
     /**
@@ -89,7 +92,7 @@ public class JdbcStorage implements Storage {
         boolean isRemoved = false;
         Connection connection = null;
         try {
-            connection = jdbcTemplate.getDataSource().getConnection();
+            connection = jdbcTemplate.getJdbcTemplate().getDataSource().getConnection();
             connection.setAutoCommit(false);
             connection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
             PreparedStatement statement = connection

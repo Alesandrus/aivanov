@@ -13,8 +13,8 @@
     <tx:annotation-driven/>
     <context:component-scan base-package="ru.job4j"/>
 
-    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-        <property name="dataSource" ref="datasource"/>
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+        <constructor-arg name="dataSource" ref="datasource"/>
     </bean>
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
